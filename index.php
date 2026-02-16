@@ -202,57 +202,97 @@ $cart_count = count(get_cart_items($pdo));
     </section>
 
     <!-- Pricing Section -->
-    <section class="pricing-section" style="padding: 80px 0; background: #fff;">
+    <!-- Pricing Section -->
+    <section class="pricing-section" style="padding: 100px 0; background: #fff;">
         <div class="container">
             <h2 class="section-title">Transparent Pricing</h2>
             <p class="section-subtitle">Choose the lead category that fits your business goals</p>
 
             <div class="pricing-table-wrapper"
-                style="overflow-x: auto; margin-top: 40px; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1); border-radius: 16px;">
-                <table style="width: 100%; border-collapse: collapse; min-width: 600px; background: white;">
-                    <thead style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: white;">
-                        <tr>
-                            <th style="padding: 20px; text-align: left; font-weight: 600;">Lead Category</th>
-                            <th style="padding: 20px; text-align: left; font-weight: 600;">Client Budget</th>
-                            <th style="padding: 20px; text-align: left; font-weight: 600;">Price (Single Buy)</th>
-                            <th style="padding: 20px; text-align: left; font-weight: 600;">Wallet Price <span
-                                    style="font-size: 0.8em; opacity: 0.8; font-weight: 400;">(Coming Soon)</span></th>
+                style="overflow-x: auto; margin-top: 50px; box-shadow: 0 20px 60px -10px rgba(0,0,0,0.08); border-radius: 24px; border: 1px solid rgba(0,0,0,0.03);">
+                <table
+                    style="width: 100%; border-collapse: separate; border-spacing: 0; min-width: 700px; background: white;">
+                    <thead>
+                        <tr style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+                            <th
+                                style="padding: 25px 30px; text-align: left; font-weight: 600; color: white; border-top-left-radius: 20px; font-size: 0.95rem; letter-spacing: 0.5px; text-transform: uppercase;">
+                                Lead Category</th>
+                            <th
+                                style="padding: 25px 30px; text-align: left; font-weight: 600; color: white; font-size: 0.95rem; letter-spacing: 0.5px; text-transform: uppercase;">
+                                Client Budget</th>
+                            <th
+                                style="padding: 25px 30px; text-align: center; font-weight: 600; color: white; font-size: 0.95rem; letter-spacing: 0.5px; text-transform: uppercase;">
+                                Standard Price</th>
+                            <th
+                                style="padding: 25px 30px; text-align: center; font-weight: 600; color: #4ade80; border-top-right-radius: 20px; font-size: 0.95rem; letter-spacing: 0.5px; text-transform: uppercase;">
+                                Wallet Price <span
+                                    style="display:inline-block; font-size:0.7em; background:rgba(74, 222, 128, 0.2); padding: 2px 6px; border-radius:4px; margin-left: 5px;">SAVE</span>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr style="border-bottom: 1px solid #e2e8f0;">
-                            <td style="padding: 20px; font-weight: 600; color: #1e293b;">
-                                <span
-                                    style="display: inline-block; padding: 4px 12px; border-radius: 20px; background: #e0f2fe; color: #0369a1; font-size: 0.9rem;">Basic</span>
+                        <tr style="transition: background 0.2s;">
+                            <td
+                                style="padding: 25px 30px; font-weight: 600; color: #1e293b; border-bottom: 1px solid #f1f5f9;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span
+                                        style="width: 10px; height: 10px; background: #0ea5e9; border-radius: 50%;"></span>
+                                    <span style="font-size: 1.1rem;">Basic</span>
+                                </div>
                             </td>
-                            <td style="padding: 20px; color: #475569;">₹15,000 - ₹30,000</td>
-                            <td style="padding: 20px; font-weight: 700; color: #0f172a;">₹999</td>
-                            <td style="padding: 20px; color: #059669; font-weight: 600;">₹799</td>
+                            <td
+                                style="padding: 25px 30px; color: #64748b; font-weight: 500; border-bottom: 1px solid #f1f5f9;">
+                                ₹15,000 - ₹30,000</td>
+                            <td
+                                style="padding: 25px 30px; text-align: center; font-weight: 700; color: #334155; font-size: 1.1rem; border-bottom: 1px solid #f1f5f9;">
+                                ₹999</td>
+                            <td
+                                style="padding: 25px 30px; text-align: center; color: #16a34a; font-weight: 700; font-size: 1.2rem; border-bottom: 1px solid #f1f5f9;">
+                                ₹799</td>
                         </tr>
-                        <tr style="border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
-                            <td style="padding: 20px; font-weight: 600; color: #1e293b;">
-                                <span
-                                    style="display: inline-block; padding: 4px 12px; border-radius: 20px; background: #f0fdf4; color: #15803d; font-size: 0.9rem;">Business</span>
+                        <tr style="background: #fafafa; transition: background 0.2s;">
+                            <td
+                                style="padding: 25px 30px; font-weight: 600; color: #1e293b; border-bottom: 1px solid #f1f5f9;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span
+                                        style="width: 10px; height: 10px; background: #10b981; border-radius: 50%;"></span>
+                                    <span style="font-size: 1.1rem;">Business</span>
+                                </div>
                             </td>
-                            <td style="padding: 20px; color: #475569;">₹30,000 - ₹50,000</td>
-                            <td style="padding: 20px; font-weight: 700; color: #0f172a;">₹2,499</td>
-                            <td style="padding: 20px; color: #059669; font-weight: 600;">₹1,999</td>
+                            <td
+                                style="padding: 25px 30px; color: #64748b; font-weight: 500; border-bottom: 1px solid #f1f5f9;">
+                                ₹30,000 - ₹50,000</td>
+                            <td
+                                style="padding: 25px 30px; text-align: center; font-weight: 700; color: #334155; font-size: 1.1rem; border-bottom: 1px solid #f1f5f9;">
+                                ₹2,499</td>
+                            <td
+                                style="padding: 25px 30px; text-align: center; color: #16a34a; font-weight: 700; font-size: 1.2rem; border-bottom: 1px solid #f1f5f9;">
+                                ₹1,999</td>
                         </tr>
-                        <tr>
-                            <td style="padding: 20px; font-weight: 600; color: #1e293b;">
-                                <span
-                                    style="display: inline-block; padding: 4px 12px; border-radius: 20px; background: #fefce8; color: #a16207; font-size: 0.9rem;">Premium</span>
+                        <tr style="transition: background 0.2s;">
+                            <td style="padding: 25px 30px; font-weight: 600; color: #1e293b;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span
+                                        style="width: 10px; height: 10px; background: #eab308; border-radius: 50%;"></span>
+                                    <span style="font-size: 1.1rem;">Premium</span>
+                                </div>
                             </td>
-                            <td style="padding: 20px; color: #475569;">₹50,000 - ₹1,00,000+</td>
-                            <td style="padding: 20px; font-weight: 700; color: #0f172a;">₹4,999</td>
-                            <td style="padding: 20px; color: #059669; font-weight: 600;">₹3,999</td>
+                            <td style="padding: 25px 30px; color: #64748b; font-weight: 500;">₹50,000 - ₹1L+</td>
+                            <td
+                                style="padding: 25px 30px; text-align: center; font-weight: 700; color: #334155; font-size: 1.1rem;">
+                                ₹4,999</td>
+                            <td
+                                style="padding: 25px 30px; text-align: center; color: #16a34a; font-weight: 700; font-size: 1.2rem;">
+                                ₹3,999</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <p style="text-align: center; margin-top: 30px; font-size: 0.9rem; color: #64748b;">
-                * Wallet prices are exclusive to members with active wallet balances. <a href="login.php"
-                    style="color: #2563eb; font-weight: 500;">Login to top up</a>.
+            <p style="text-align: center; margin-top: 30px; font-size: 0.95rem; color: #64748b;">
+                <span style="color: #16a34a; font-weight: 600;">⚡ Pro Tip:</span> Wallet members save up to <span
+                    style="font-weight: 700; color: #1e293b;">20% EXTRA</span> on every purchase. <a href="login.php"
+                    style="color: #2563eb; font-weight: 600; text-decoration: none; border-bottom: 1px dotted #2563eb;">Login
+                    to top up</a>.
             </p>
         </div>
     </section>
