@@ -1,17 +1,11 @@
 <?php
-$host = 'localhost';
-$user = 'root';
-$pass = '';
-$db = 'lead_marketplace';
+require_once 'db.php';
 
 try {
-    // 1. Connect to MySQL without database
-    $pdo = new PDO("mysql:host=$host", $user, $pass);
+    // Database connection is already established in db.php via $pdo
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // 2. Create Database
-    $pdo->exec("CREATE DATABASE IF NOT EXISTS `$db`");
-    echo "Database `$db` created or already exists.<br>";
+    echo "Connected to database `$db`.<br>";
 
     // 3. Connect to the database
     $pdo->exec("USE `$db`");
