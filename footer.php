@@ -42,9 +42,8 @@
         <div class="footer-bottom">
             <p>&copy; 2026 QuickProject. All rights reserved.</p>
             <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Refund Policy</a>
+                <a href="terms.php">Terms & Conditions</a>
+                <a href="terms.php#refund-policy">Refund Policy</a>
             </div>
         </div>
     </div>
