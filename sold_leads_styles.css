@@ -1,0 +1,69 @@
+
+/* ===== SOLD LEADS SECTION ===== */
+.sold-leads-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.sold-lead-card {
+    position: relative;
+    opacity: 0.85;
+    filter: grayscale(20%);
+}
+
+.sold-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    z-index: 10;
+}
+
+.sold-lead-card .lead-header h3 {
+    color: #64748b;
+}
+
+.sold-lead-card .detail-value {
+    color: #64748b;
+}
+
+.sold-lead-card .blurred-text {
+    color: #94a3b8;
+}
+
+.sold-notice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    border-radius: 10px;
+    width: 100%;
+}
+
+.sold-icon {
+    font-size: 1.2rem;
+}
+
+.sold-text {
+    color: #991b1b;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.sold-lead-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Keep sold cards slightly muted but still attractive */
+.sold-lead-card .price-tag {
+    opacity: 0.6;
+}
