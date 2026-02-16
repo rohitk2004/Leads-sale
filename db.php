@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
-$db = 'lead_marketplace';
-$user = 'root';
-$pass = ''; // Default XAMPP password
+$db = 'u891532816_sales';
+$user = 'u891532816_rohit';
+$pass = 'Rohit@@9313##';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
@@ -16,10 +16,11 @@ try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (\PDOException $e) {
     // If database not found (Error 1049), redirect to setup
-    if ($e->getCode() == 1049) {
+    /* if ($e->getCode() == 1049) {
         header("Location: setup.php");
         exit;
-    }
-    throw new \PDOException($e->getMessage(), (int) $e->getCode());
+    } */
+    // throw new \PDOException($e->getMessage(), (int) $e->getCode());
+    die("<h3>Database Connection Failed</h3><p>Please check your configuration.</p>");
 }
 ?>
