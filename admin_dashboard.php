@@ -16,13 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_lead'])) {
     // Calculate lead price based on budget
     $lead_price = 0;
     if ($budget == 15000)
-        $lead_price = 1000;
+        $lead_price = 999;
     elseif ($budget == 30000)
-        $lead_price = 2000;
+        $lead_price = 2499;
     elseif ($budget == 50000)
-        $lead_price = 3000;
+        $lead_price = 4999;
     else
-        $lead_price = 1000; // Fallback
+        $lead_price = 999; // Fallback
 
     try {
         $stmt = $pdo->prepare("INSERT INTO leads (niche, budget, lead_price, description, client_name, client_phone, status) VALUES (?, ?, ?, ?, ?, ?, 'available')");
@@ -277,9 +277,9 @@ $leads = $stmt->fetchAll();
                         <div class="form-group">
                             <label class="form-label">Client Budget</label>
                             <select name="budget" class="form-control">
-                                <option value="15000">₹15,000+ (Small Project)</option>
-                                <option value="30000">₹30,000+ (Medium Project)</option>
-                                <option value="50000">₹50,000+ (Premium Project)</option>
+                                <option value="15000">Basic (Budget: ₹15k - ₹30k) - Price: ₹999</option>
+                                <option value="30000">Business (Budget: ₹30k - ₹50k) - Price: ₹2,499</option>
+                                <option value="50000">Premium (Budget: ₹50k - ₹1L+) - Price: ₹4,999</option>
                             </select>
                         </div>
                     </div>
@@ -338,7 +338,8 @@ $leads = $stmt->fetchAll();
                                     </td>
                                     <td style="max-width: 300px;">
                                         <div style="font-weight: 600; color: #1e293b; margin-bottom: 4px;">
-                                            <?php echo htmlspecialchars($lead['niche']); ?></div>
+                                            <?php echo htmlspecialchars($lead['niche']); ?>
+                                        </div>
                                         <div
                                             style="font-size: 0.85rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                                             <?php echo htmlspecialchars(substr($lead['description'], 0, 50)) . '...'; ?>
