@@ -79,6 +79,13 @@ $wallet_balance = get_user_balance($pdo, $user_id);
                 </button>
             </div>
 
+            <p
+                style="font-size: 0.8rem; color: #64748b; margin-top: 15px; width: 100%; text-align: right; line-height: 1.4;">
+                By adding funds, you agree to the QuickProject.in <a href="terms.php" target="_blank"
+                    style="color: #2563eb;">Terms & Conditions</a> and <a href="terms.php#refund-policy" target="_blank"
+                    style="color: #2563eb;">Refund Policy</a>.
+            </p>
+
             <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
             <script>
                 async function startPayment(btn) {

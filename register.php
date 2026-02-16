@@ -55,6 +55,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="password" name="password" required>
 
             <button type="submit" class="btn btn-green" style="width: 100%; margin-top: 10px;">Register</button>
+
+            <p style="font-size: 0.8rem; color: #64748b; margin-top: 15px; text-align: center; line-height: 1.4;">
+                By clicking 'Register', you agree to the QuickProject.in <a href="terms.php" target="_blank"
+                    style="color: #059669;">Terms & Conditions</a> and <a href="terms.php#refund-policy" target="_blank"
+                    style="color: #059669;">Refund Policy</a>.
+            </p>
         </form>
 
         <p style="text-align: center; margin-top: 20px; font-size: 0.9rem;">

@@ -173,6 +173,11 @@ if (empty($cart_items) && empty($message)) {
                     </form>
                 </div>
 
+                <p style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: #64748b; line-height: 1.4;">
+                    By clicking 'Pay Now', you agree to the QuickProject.in <a href="terms.php" target="_blank"
+                        style="color: #2563eb;">Terms & Conditions</a> and <a href="terms.php#refund-policy" target="_blank"
+                        style="color: #2563eb;">Refund Policy</a>.
+                </p>
                 <p style="text-align: center; margin-top: 20px; font-size: 0.85rem; color: #94a3b8;">
                     <span style="display: inline-flex; align-items: center; gap: 4px;">🔒 100% Secure Transaction via
                         Encrypted Gateway</span>
