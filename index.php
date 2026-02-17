@@ -189,19 +189,22 @@ $cart_count = count(get_cart_items($pdo));
                 <div class="bento-card bento-wide bento-blue">
                     <div class="bento-number">01</div>
                     <div class="bento-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
                     <h3>Verified & Qualified Leads</h3>
-                    <p>Every lead is human-verified with accurate budgets, requirements, and genuine contact details. No bots, no fake inquiries — only real clients ready to invest.</p>
+                    <p>Every lead is human-verified with accurate budgets, requirements, and genuine contact details. No
+                        bots, no fake inquiries — only real clients ready to invest.</p>
                 </div>
 
                 <!-- Feature 2 -->
                 <div class="bento-card bento-amber">
                     <div class="bento-number">02</div>
                     <div class="bento-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <path d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     </div>
@@ -213,7 +216,8 @@ $cart_count = count(get_cart_items($pdo));
                 <div class="bento-card bento-purple">
                     <div class="bento-number">03</div>
                     <div class="bento-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                             <path d="M7 11V7a5 5 0 0110 0v4"></path>
                         </svg>
@@ -223,10 +227,11 @@ $cart_count = count(get_cart_items($pdo));
                 </div>
 
                 <!-- Feature 4 -->
-                <div class="bento-card bento-green">
+                <div class="bento-card bento-wide bento-green">
                     <div class="bento-number">04</div>
                     <div class="bento-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <line x1="12" y1="1" x2="12" y2="23"></line>
                             <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"></path>
                         </svg>
