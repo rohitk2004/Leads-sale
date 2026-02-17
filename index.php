@@ -304,98 +304,114 @@ $cart_count = count(get_cart_items($pdo));
     </section>
 
     <!-- How It Works Section -->
-    <section id="how-it-works" class="how-it-works-section">
+    <section id="how-it-works" class="hiw-section">
         <div class="container">
             <h2 class="section-title">How It Works</h2>
             <p class="section-subtitle">Start earning with leads in 4 simple steps</p>
 
-            <div class="steps-container">
+            <div class="hiw-timeline">
+                <!-- Progress Line -->
+                <div class="hiw-progress-line">
+                    <div class="hiw-progress-fill"></div>
+                </div>
+
                 <!-- Step 1 -->
-                <div class="step-box">
-                    <div class="step-number-badge">01</div>
-                    <div class="step-icon-circle">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <path d="m21 21-4.35-4.35"></path>
-                        </svg>
+                <div class="hiw-step hiw-step-1">
+                    <div class="hiw-step-node">
+                        <div class="hiw-node-ring"></div>
+                        <span>01</span>
                     </div>
-                    <h3>Browse Leads</h3>
-                    <p>Explore our curated marketplace and discover high-quality leads that match your expertise.</p>
-                    <div class="step-connector">
-                        <svg viewBox="0 0 100 10" preserveAspectRatio="none">
-                            <path d="M0 5 Q25 0, 50 5 T100 5" stroke="url(#gradient1)" stroke-width="2" fill="none" />
-                            <defs>
-                                <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
+                    <div class="hiw-step-card">
+                        <div class="hiw-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                        </div>
+                        <div class="hiw-card-content">
+                            <h3>Browse Leads</h3>
+                            <p class="hiw-card-subtitle">Discover opportunities</p>
+                            <p>Explore our curated marketplace and discover high-quality leads that match your expertise
+                                and tech stack.</p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Step 2 -->
-                <div class="step-box">
-                    <div class="step-number-badge">02</div>
-                    <div class="step-icon-circle">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="9" cy="21" r="1"></circle>
-                            <circle cx="20" cy="21" r="1"></circle>
-                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                        </svg>
+                <div class="hiw-step hiw-step-2">
+                    <div class="hiw-step-node">
+                        <div class="hiw-node-ring"></div>
+                        <span>02</span>
                     </div>
-                    <h3>Add to Cart</h3>
-                    <p>Select your desired leads and add them to cart for a seamless checkout experience.</p>
-                    <div class="step-connector">
-                        <svg viewBox="0 0 100 10" preserveAspectRatio="none">
-                            <path d="M0 5 Q25 0, 50 5 T100 5" stroke="url(#gradient2)" stroke-width="2" fill="none" />
-                            <defs>
-                                <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
+                    <div class="hiw-step-card">
+                        <div class="hiw-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="9" cy="21" r="1"></circle>
+                                <circle cx="20" cy="21" r="1"></circle>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                            </svg>
+                        </div>
+                        <div class="hiw-card-content">
+                            <h3>Add to Cart</h3>
+                            <p class="hiw-card-subtitle">Select & save</p>
+                            <p>Select your desired leads and add them to cart for a seamless, one-click checkout
+                                experience.</p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Step 3 -->
-                <div class="step-box">
-                    <div class="step-number-badge">03</div>
-                    <div class="step-icon-circle">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-                            <line x1="1" y1="10" x2="23" y2="10"></line>
-                        </svg>
+                <div class="hiw-step hiw-step-3">
+                    <div class="hiw-step-node">
+                        <div class="hiw-node-ring"></div>
+                        <span>03</span>
                     </div>
-                    <h3>Secure Payment</h3>
-                    <p>Complete payment with instant confirmation and enterprise-grade security protection.</p>
-                    <div class="step-connector">
-                        <svg viewBox="0 0 100 10" preserveAspectRatio="none">
-                            <path d="M0 5 Q25 0, 50 5 T100 5" stroke="url(#gradient3)" stroke-width="2" fill="none" />
-                            <defs>
-                                <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#2d8659;stop-opacity:1" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
+                    <div class="hiw-step-card">
+                        <div class="hiw-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                <line x1="1" y1="10" x2="23" y2="10"></line>
+                            </svg>
+                        </div>
+                        <div class="hiw-card-content">
+                            <h3>Secure Payment</h3>
+                            <p class="hiw-card-subtitle">Instant & safe</p>
+                            <p>Complete payment with instant confirmation, wallet savings, and enterprise-grade security
+                                protection.</p>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Step 4 -->
-                <div class="step-box">
-                    <div class="step-number-badge">04</div>
-                    <div class="step-icon-circle">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path
-                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
-                            </path>
-                        </svg>
+                <div class="hiw-step hiw-step-4">
+                    <div class="hiw-step-node">
+                        <div class="hiw-node-ring"></div>
+                        <span>04</span>
                     </div>
-                    <h3>Close Deals</h3>
-                    <p>Get full client details instantly and start converting leads into profitable projects.</p>
+                    <div class="hiw-step-card">
+                        <div class="hiw-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="hiw-card-content">
+                            <h3>Close Deals</h3>
+                            <p class="hiw-card-subtitle">Start earning</p>
+                            <p>Get full client details instantly and start converting leads into profitable, long-term
+                                projects.</p>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+            <div class="hiw-cta">
+                <a href="#leads" class="btn btn-primary btn-lg">Browse Leads Now →</a>
             </div>
         </div>
     </section>
@@ -403,30 +419,60 @@ $cart_count = count(get_cart_items($pdo));
     <!-- Reviews Section -->
     <section id="reviews" class="reviews-section">
         <div class="container">
-            <h2 class="section-title">Trusted by Professional Developers</h2>
-            <p class="section-subtitle">Join thousands of developers growing their business with LeadMarket</p>
+            <div class="reviews-header">
+                <h2 class="section-title">Trusted by Professional Developers</h2>
+                <p class="section-subtitle">Join thousands of developers growing their business with QuickProject</p>
+                <!-- Trust Stats Bar -->
+                <div class="reviews-trust-bar">
+                    <div class="trust-stat">
+                        <div class="trust-stat-icon">⭐</div>
+                        <div class="trust-stat-info">
+                            <strong>4.9/5</strong>
+                            <span>Average Rating</span>
+                        </div>
+                    </div>
+                    <div class="trust-divider"></div>
+                    <div class="trust-stat">
+                        <div class="trust-stat-icon">👥</div>
+                        <div class="trust-stat-info">
+                            <strong>1,000+</strong>
+                            <span>Happy Developers</span>
+                        </div>
+                    </div>
+                    <div class="trust-divider"></div>
+                    <div class="trust-stat">
+                        <div class="trust-stat-icon">✅</div>
+                        <div class="trust-stat-info">
+                            <strong>₹50L+</strong>
+                            <span>Deals Closed</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Row 1: Scrolls Left -->
             <div class="reviews-carousel-wrapper">
-                <div class="reviews-carousel">
+                <div class="reviews-carousel reviews-row-1">
                     <!-- Review 1 -->
-                    <div class="review-card">
-                        <div class="review-quote-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                            </svg>
+                    <div class="review-card review-accent-blue">
+                        <div class="review-card-top">
+                            <div class="review-stars">
+                                <span class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span>
+                            </div>
+                            <span class="review-verified">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                </svg>
+                                Verified
+                            </span>
                         </div>
-                        <div class="review-stars">
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
-                        </div>
-                        <p class="review-text">"LeadMarket transformed my freelance business. I closed 3 deals worth
+                        <p class="review-text">"QuickProject transformed my freelance business. I closed 3 deals worth
                             ₹2.5L in just one month! The quality of leads is outstanding."</p>
+                        <div class="review-deal-tag">💰 Closed ₹2.5L in deals</div>
                         <div class="reviewer">
-                            <div class="reviewer-avatar">RS</div>
+                            <div class="reviewer-avatar avatar-blue">RS</div>
                             <div class="reviewer-info">
                                 <strong>Rahul Sharma</strong>
                                 <span>Full Stack Developer, Mumbai</span>
@@ -435,24 +481,25 @@ $cart_count = count(get_cart_items($pdo));
                     </div>
 
                     <!-- Review 2 -->
-                    <div class="review-card">
-                        <div class="review-quote-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                            </svg>
-                        </div>
-                        <div class="review-stars">
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
+                    <div class="review-card review-accent-purple">
+                        <div class="review-card-top">
+                            <div class="review-stars">
+                                <span class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span>
+                            </div>
+                            <span class="review-verified">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                </svg>
+                                Verified
+                            </span>
                         </div>
                         <p class="review-text">"The quality of leads is exceptional. Every client I contacted was
                             genuinely interested and had the budget ready. Amazing platform!"</p>
+                        <div class="review-deal-tag">💰 Closed ₹1.8L in deals</div>
                         <div class="reviewer">
-                            <div class="reviewer-avatar">PP</div>
+                            <div class="reviewer-avatar avatar-purple">PP</div>
                             <div class="reviewer-info">
                                 <strong>Priya Patel</strong>
                                 <span>Web Designer, Bangalore</span>
@@ -461,24 +508,25 @@ $cart_count = count(get_cart_items($pdo));
                     </div>
 
                     <!-- Review 3 -->
-                    <div class="review-card">
-                        <div class="review-quote-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                            </svg>
-                        </div>
-                        <div class="review-stars">
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
+                    <div class="review-card review-accent-green">
+                        <div class="review-card-top">
+                            <div class="review-stars">
+                                <span class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span>
+                            </div>
+                            <span class="review-verified">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                </svg>
+                                Verified
+                            </span>
                         </div>
                         <p class="review-text">"Best investment for my agency. The exclusive access means no
-                            competition. Highly recommended to all professional developers!"</p>
+                            competition. We've scaled to 10+ projects per month using QuickProject leads!"</p>
+                        <div class="review-deal-tag">💰 Closed ₹5L+ in deals</div>
                         <div class="reviewer">
-                            <div class="reviewer-avatar">AK</div>
+                            <div class="reviewer-avatar avatar-green">AK</div>
                             <div class="reviewer-info">
                                 <strong>Amit Kumar</strong>
                                 <span>Agency Owner, Delhi</span>
@@ -486,25 +534,53 @@ $cart_count = count(get_cart_items($pdo));
                         </div>
                     </div>
 
-                    <!-- Review 4 (Duplicate for infinite scroll) -->
-                    <div class="review-card">
-                        <div class="review-quote-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                            </svg>
+                    <!-- Review 4 -->
+                    <div class="review-card review-accent-amber">
+                        <div class="review-card-top">
+                            <div class="review-stars">
+                                <span class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span>
+                            </div>
+                            <span class="review-verified">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                </svg>
+                                Verified
+                            </span>
                         </div>
-                        <div class="review-stars">
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
-                        </div>
-                        <p class="review-text">"LeadMarket transformed my freelance business. I closed 3 deals worth
-                            ₹2.5L in just one month! The quality of leads is outstanding."</p>
+                        <p class="review-text">"I was skeptical at first, but QuickProject proved me wrong. Got my first
+                            client within 2 days of purchasing a lead. The ROI is incredible!"</p>
+                        <div class="review-deal-tag">💰 Closed ₹45K in first week</div>
                         <div class="reviewer">
-                            <div class="reviewer-avatar">RS</div>
+                            <div class="reviewer-avatar avatar-amber">SM</div>
+                            <div class="reviewer-info">
+                                <strong>Sneha Mishra</strong>
+                                <span>WordPress Developer, Pune</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Duplicates for seamless scroll -->
+                    <div class="review-card review-accent-blue">
+                        <div class="review-card-top">
+                            <div class="review-stars">
+                                <span class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span>
+                            </div>
+                            <span class="review-verified">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                </svg>
+                                Verified
+                            </span>
+                        </div>
+                        <p class="review-text">"QuickProject transformed my freelance business. I closed 3 deals worth
+                            ₹2.5L in just one month! The quality of leads is outstanding."</p>
+                        <div class="review-deal-tag">💰 Closed ₹2.5L in deals</div>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar avatar-blue">RS</div>
                             <div class="reviewer-info">
                                 <strong>Rahul Sharma</strong>
                                 <span>Full Stack Developer, Mumbai</span>
@@ -512,28 +588,298 @@ $cart_count = count(get_cart_items($pdo));
                         </div>
                     </div>
 
-                    <!-- Review 5 (Duplicate for infinite scroll) -->
-                    <div class="review-card">
-                        <div class="review-quote-icon">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                            </svg>
-                        </div>
-                        <div class="review-stars">
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
-                            <span class="star filled">★</span>
+                    <div class="review-card review-accent-purple">
+                        <div class="review-card-top">
+                            <div class="review-stars">
+                                <span class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span>
+                            </div>
+                            <span class="review-verified">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                </svg>
+                                Verified
+                            </span>
                         </div>
                         <p class="review-text">"The quality of leads is exceptional. Every client I contacted was
                             genuinely interested and had the budget ready. Amazing platform!"</p>
+                        <div class="review-deal-tag">💰 Closed ₹1.8L in deals</div>
                         <div class="reviewer">
-                            <div class="reviewer-avatar">PP</div>
+                            <div class="reviewer-avatar avatar-purple">PP</div>
                             <div class="reviewer-info">
                                 <strong>Priya Patel</strong>
                                 <span>Web Designer, Bangalore</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="review-card review-accent-green">
+                        <div class="review-card-top">
+                            <div class="review-stars">
+                                <span class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span>
+                            </div>
+                            <span class="review-verified">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                </svg>
+                                Verified
+                            </span>
+                        </div>
+                        <p class="review-text">"Best investment for my agency. The exclusive access means no
+                            competition. We've scaled to 10+ projects per month using QuickProject leads!"</p>
+                        <div class="review-deal-tag">💰 Closed ₹5L+ in deals</div>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar avatar-green">AK</div>
+                            <div class="reviewer-info">
+                                <strong>Amit Kumar</strong>
+                                <span>Agency Owner, Delhi</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="review-card review-accent-amber">
+                        <div class="review-card-top">
+                            <div class="review-stars">
+                                <span class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span>
+                            </div>
+                            <span class="review-verified">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                </svg>
+                                Verified
+                            </span>
+                        </div>
+                        <p class="review-text">"I was skeptical at first, but QuickProject proved me wrong. Got my first
+                            client within 2 days of purchasing a lead. The ROI is incredible!"</p>
+                        <div class="review-deal-tag">💰 Closed ₹45K in first week</div>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar avatar-amber">SM</div>
+                            <div class="reviewer-info">
+                                <strong>Sneha Mishra</strong>
+                                <span>WordPress Developer, Pune</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2: Scrolls Right (reverse) -->
+            <div class="reviews-carousel-wrapper">
+                <div class="reviews-carousel reviews-row-2">
+                    <!-- Review 5 -->
+                    <div class="review-card review-accent-teal">
+                        <div class="review-card-top">
+                            <div class="review-stars">
+                                <span class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span>
+                            </div>
+                            <span class="review-verified">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                </svg>
+                                Verified
+                            </span>
+                        </div>
+                        <p class="review-text">"The wallet system is genius — I save 20% on every purchase. Already
+                            bought 15+ leads this month. My pipeline has never been this full!"</p>
+                        <div class="review-deal-tag">💰 15+ leads purchased</div>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar avatar-teal">VR</div>
+                            <div class="reviewer-info">
+                                <strong>Vikram Reddy</strong>
+                                <span>React Developer, Hyderabad</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 6 -->
+                    <div class="review-card review-accent-rose">
+                        <div class="review-card-top">
+                            <div class="review-stars">
+                                <span class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span>
+                            </div>
+                            <span class="review-verified">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                </svg>
+                                Verified
+                            </span>
+                        </div>
+                        <p class="review-text">"As a solo developer, finding clients was my biggest challenge.
+                            QuickProject solved it completely. Every lead comes with clear requirements!"</p>
+                        <div class="review-deal-tag">💰 Closed ₹3.2L in deals</div>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar avatar-rose">ND</div>
+                            <div class="reviewer-info">
+                                <strong>Neha Desai</strong>
+                                <span>UI/UX Designer, Ahmedabad</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 7 -->
+                    <div class="review-card review-accent-indigo">
+                        <div class="review-card-top">
+                            <div class="review-stars">
+                                <span class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span>
+                            </div>
+                            <span class="review-verified">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                </svg>
+                                Verified
+                            </span>
+                        </div>
+                        <p class="review-text">"Switched from cold outreach to QuickProject and it's been a game
+                            changer. Clients already know what they want — conversion rate is 10x better."</p>
+                        <div class="review-deal-tag">💰 10x conversion improvement</div>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar avatar-indigo">KS</div>
+                            <div class="reviewer-info">
+                                <strong>Karan Singh</strong>
+                                <span>Shopify Expert, Jaipur</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Review 8 -->
+                    <div class="review-card review-accent-orange">
+                        <div class="review-card-top">
+                            <div class="review-stars">
+                                <span class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span>
+                            </div>
+                            <span class="review-verified">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                </svg>
+                                Verified
+                            </span>
+                        </div>
+                        <p class="review-text">"Premium leads are worth every rupee. Got a ₹1L project from a single
+                            lead purchase. The support team is also very responsive and helpful!"</p>
+                        <div class="review-deal-tag">💰 ₹1L from single lead</div>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar avatar-orange">DG</div>
+                            <div class="reviewer-info">
+                                <strong>Deepak Gupta</strong>
+                                <span>App Developer, Chennai</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Duplicates for seamless scroll -->
+                    <div class="review-card review-accent-teal">
+                        <div class="review-card-top">
+                            <div class="review-stars">
+                                <span class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span>
+                            </div>
+                            <span class="review-verified">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                </svg>
+                                Verified
+                            </span>
+                        </div>
+                        <p class="review-text">"The wallet system is genius — I save 20% on every purchase. Already
+                            bought 15+ leads this month. My pipeline has never been this full!"</p>
+                        <div class="review-deal-tag">💰 15+ leads purchased</div>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar avatar-teal">VR</div>
+                            <div class="reviewer-info">
+                                <strong>Vikram Reddy</strong>
+                                <span>React Developer, Hyderabad</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="review-card review-accent-rose">
+                        <div class="review-card-top">
+                            <div class="review-stars">
+                                <span class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span>
+                            </div>
+                            <span class="review-verified">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                </svg>
+                                Verified
+                            </span>
+                        </div>
+                        <p class="review-text">"As a solo developer, finding clients was my biggest challenge.
+                            QuickProject solved it completely. Every lead comes with clear requirements!"</p>
+                        <div class="review-deal-tag">💰 Closed ₹3.2L in deals</div>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar avatar-rose">ND</div>
+                            <div class="reviewer-info">
+                                <strong>Neha Desai</strong>
+                                <span>UI/UX Designer, Ahmedabad</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="review-card review-accent-indigo">
+                        <div class="review-card-top">
+                            <div class="review-stars">
+                                <span class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span>
+                            </div>
+                            <span class="review-verified">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                </svg>
+                                Verified
+                            </span>
+                        </div>
+                        <p class="review-text">"Switched from cold outreach to QuickProject and it's been a game
+                            changer. Clients already know what they want — conversion rate is 10x better."</p>
+                        <div class="review-deal-tag">💰 10x conversion improvement</div>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar avatar-indigo">KS</div>
+                            <div class="reviewer-info">
+                                <strong>Karan Singh</strong>
+                                <span>Shopify Expert, Jaipur</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="review-card review-accent-orange">
+                        <div class="review-card-top">
+                            <div class="review-stars">
+                                <span class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span><span class="star filled">★</span><span
+                                    class="star filled">★</span>
+                            </div>
+                            <span class="review-verified">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
+                                </svg>
+                                Verified
+                            </span>
+                        </div>
+                        <p class="review-text">"Premium leads are worth every rupee. Got a ₹1L project from a single
+                            lead purchase. The support team is also very responsive and helpful!"</p>
+                        <div class="review-deal-tag">💰 ₹1L from single lead</div>
+                        <div class="reviewer">
+                            <div class="reviewer-avatar avatar-orange">DG</div>
+                            <div class="reviewer-info">
+                                <strong>Deepak Gupta</strong>
+                                <span>App Developer, Chennai</span>
                             </div>
                         </div>
                     </div>
