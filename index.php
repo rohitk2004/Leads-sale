@@ -31,6 +31,7 @@ $cart_count = count(get_cart_items($pdo));
     <!-- Hero Section -->
     <section class="hero">
         <!-- Decorative Elements -->
+        <div class="hero-noise"></div>
         <div class="hero-grid-bg"></div>
         <div class="hero-glow hero-glow-1"></div>
         <div class="hero-glow hero-glow-2"></div>
@@ -41,16 +42,17 @@ $cart_count = count(get_cart_items($pdo));
                 <div class="hero-badge">
                     <span class="hero-badge-dot"></span>
                     <span>Trusted by 1,000+ developers across India</span>
+                    <span class="hero-badge-shimmer"></span>
                 </div>
 
                 <h1 class="hero-title">
                     Find Clients.<br>
-                    Close <span class="hero-gradient-text">Deals</span>.<br>
+                    Close <span class="hero-gradient-text">Deals<span class="hero-underline"></span></span>.<br>
                     Grow Faster.
                 </h1>
 
-                <p class="hero-subtitle">The premium marketplace where verified business leads meet ambitious
-                    developers. Stop cold calling — start closing.</p>
+                <p class="hero-subtitle">The premium marketplace where verified business leads<br class="hide-mobile">
+                    meet ambitious developers. Stop cold calling — start closing.</p>
 
                 <div class="hero-cta">
                     <a href="#leads" class="btn hero-btn-primary">
@@ -61,26 +63,74 @@ $cart_count = count(get_cart_items($pdo));
                             <polyline points="12 5 19 12 12 19" />
                         </svg>
                     </a>
-                    <a href="#how-it-works" class="btn hero-btn-ghost">How It Works</a>
+                    <a href="#how-it-works" class="btn hero-btn-ghost">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <polygon points="10 8 16 12 10 16 10 8" />
+                        </svg>
+                        <span>How It Works</span>
+                    </a>
                 </div>
 
                 <div class="hero-stats">
                     <div class="hero-stat">
-                        <div class="hero-stat-value">500+</div>
+                        <div class="hero-stat-value" data-count="500">0+</div>
                         <div class="hero-stat-label">Active Leads</div>
                     </div>
                     <div class="hero-stat-divider"></div>
                     <div class="hero-stat">
-                        <div class="hero-stat-value">1,000+</div>
+                        <div class="hero-stat-value" data-count="1000" data-format="comma">0+</div>
                         <div class="hero-stat-label">Happy Developers</div>
                     </div>
                     <div class="hero-stat-divider"></div>
                     <div class="hero-stat">
-                        <div class="hero-stat-value">₹50L+</div>
+                        <div class="hero-stat-value" data-prefix="₹" data-count="50" data-suffix="L+">₹0L+</div>
                         <div class="hero-stat-label">Deals Closed</div>
                     </div>
                 </div>
+
+                <!-- Trusted By Strip -->
+                <div class="hero-trusted">
+                    <span class="hero-trusted-label">Trusted by freelancers from</span>
+                    <div class="hero-trusted-logos">
+                        <span class="hero-trusted-item">Upwork</span>
+                        <span class="hero-trusted-item">Fiverr</span>
+                        <span class="hero-trusted-item">Toptal</span>
+                        <span class="hero-trusted-item">Freelancer</span>
+                        <span class="hero-trusted-item">LinkedIn</span>
+                    </div>
+                </div>
             </div>
+
+            <!-- Floating Lead Preview Card -->
+            <div class="hero-preview-card">
+                <div class="hero-preview-header">
+                    <span class="hero-preview-badge">Premium Lead</span>
+                    <span class="hero-preview-price">₹499</span>
+                </div>
+                <div class="hero-preview-body">
+                    <h4>E-Commerce Website Development</h4>
+                    <p class="hero-preview-company">TechStart Solutions Pvt. Ltd.</p>
+                    <div class="hero-preview-details">
+                        <span>📍 Mumbai</span>
+                        <span>💰 ₹2L - ₹5L</span>
+                        <span>⏰ 2 weeks</span>
+                    </div>
+                </div>
+                <div class="hero-preview-footer">
+                    <div class="hero-preview-blur">
+                        <div class="blur-line"></div>
+                        <div class="blur-line short"></div>
+                    </div>
+                    <span class="hero-preview-unlock">🔓 Buy to unlock contact</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="hero-scroll">
+            <div class="hero-scroll-line"></div>
         </div>
     </section>
 
@@ -940,6 +990,42 @@ $cart_count = count(get_cart_items($pdo));
     </section>
 
     <?php include 'footer.php'; ?>
+
+    <!-- Hero Counter Animation -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const counters = document.querySelectorAll('.hero-stat-value[data-count]');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.count);
+                    const prefix = el.dataset.prefix || '';
+                    const suffix = el.dataset.suffix || '+';
+                    const useComma = el.dataset.format === 'comma';
+                    const duration = 2000;
+                    const start = performance.now();
+
+                    function animate(now) {
+                        const elapsed = now - start;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const eased = 1 - Math.pow(1 - progress, 3);
+                        let current = Math.floor(eased * target);
+                        if (useComma) {
+                            el.textContent = prefix + current.toLocaleString() + suffix;
+                        } else {
+                            el.textContent = prefix + current + suffix;
+                        }
+                        if (progress < 1) requestAnimationFrame(animate);
+                    }
+                    requestAnimationFrame(animate);
+                    observer.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+        counters.forEach(c => observer.observe(c));
+    });
+    </script>
 </body>
 
 </html>
