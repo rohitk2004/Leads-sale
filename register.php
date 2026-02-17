@@ -37,33 +37,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+<body class="auth-page">
 
-    <div class="card" style="width: 100%; max-width: 400px;">
-        <h1 style="text-align: center; color: var(--success-color);">Join Quick Project</h1>
-        <h2 style="text-align: center; color: var(--text-muted); font-size: 1.2rem; margin-bottom: 30px;">Create Account
-        </h2>
+    <div class="auth-card">
+        <div class="auth-logo">
+            <h1>💼 Quick<span style="-webkit-text-fill-color: #059669;">Project</span></h1>
+        </div>
+        <p class="auth-subtitle">Create your account</p>
 
-        <?php if (isset($error))
-            echo "<p style='color: var(--accent-color); text-align:center;'>$error</p>"; ?>
+        <?php if (isset($error)): ?>
+            <div class="auth-message-error">❌ <?php echo $error; ?></div>
+        <?php endif; ?>
 
         <form method="POST">
-            <label class="text-muted">Username</label>
-            <input type="text" name="username" required>
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Choose a username" required>
 
-            <label class="text-muted">Password</label>
-            <input type="password" name="password" required>
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Create a strong password" required>
 
-            <button type="submit" class="btn btn-green" style="width: 100%; margin-top: 10px;">Register</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Create Account</button>
 
-            <p style="font-size: 0.8rem; color: #64748b; margin-top: 15px; text-align: center; line-height: 1.4;">
-                By clicking 'Register', you agree to the QuickProject.in <a href="terms.php" target="_blank"
-                    style="color: #059669;">Terms & Conditions</a> and <a href="terms.php#refund-policy" target="_blank"
-                    style="color: #059669;">Refund Policy</a>.
+            <p class="auth-terms">
+                By clicking 'Create Account', you agree to the QuickProject.in <a href="terms.php" target="_blank">Terms
+                    &
+                    Conditions</a> and <a href="terms.php#refund-policy" target="_blank">Refund Policy</a>.
             </p>
         </form>
 
-        <p style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
+        <p class="auth-footer">
             Already have an account? <a href="login.php">Login here</a>
         </p>
     </div>

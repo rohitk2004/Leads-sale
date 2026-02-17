@@ -46,29 +46,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+<body class="auth-page">
 
-    <div class="card" style="width: 100%; max-width: 400px;">
-        <h1 style="text-align: center; color: var(--success-color);">Quick Project</h1>
-        <h2 style="text-align: center; color: var(--text-muted); font-size: 1.2rem; margin-bottom: 30px;">Login to
-            Account</h2>
+    <div class="auth-card">
+        <div class="auth-logo">
+            <h1>💼 Quick<span style="-webkit-text-fill-color: #059669;">Project</span></h1>
+        </div>
+        <p class="auth-subtitle">Login to your account</p>
 
-        <?php if (isset($_GET['registered']))
-            echo "<p style='color: var(--success-color); text-align:center;'>Registration successful! Please login.</p>"; ?>
-        <?php if (isset($error))
-            echo "<p style='color: var(--accent-color); text-align:center;'>$error</p>"; ?>
+        <?php if (isset($_GET['registered'])): ?>
+            <div class="auth-message-success">✅ Registration successful! Please login.</div>
+        <?php endif; ?>
+        <?php if (isset($error)): ?>
+            <div class="auth-message-error">❌ <?php echo $error; ?></div>
+        <?php endif; ?>
 
         <form method="POST">
-            <label class="text-muted">Username</label>
-            <input type="text" name="username" required>
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Enter your username" required>
 
-            <label class="text-muted">Password</label>
-            <input type="password" name="password" required>
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter your password" required>
 
-            <button type="submit" class="btn btn-green" style="width: 100%; margin-top: 10px;">Login</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Login</button>
         </form>
 
-        <p style="text-align: center; margin-top: 20px; font-size: 0.9rem;">
+        <p class="auth-footer">
             No account? <a href="register.php">Register here</a>
         </p>
     </div>

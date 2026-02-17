@@ -66,11 +66,10 @@ require_once 'functions.php';
 <body>
     <?php include 'header.php'; ?>
 
-    <section class="page-header"
-        style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 80px 0;">
+    <section class="page-header">
         <div class="container">
-            <h1 style="color: white; margin-bottom: 10px;">Terms and Conditions</h1>
-            <p style="color: rgba(255,255,255,0.8);">Please read our terms carefully before using our services.</p>
+            <h1 class="page-title">Terms and Conditions</h1>
+            <p class="page-subtitle">Please read our terms carefully before using our services.</p>
         </div>
     </section>
 
