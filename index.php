@@ -30,27 +30,54 @@ $cart_count = count(get_cart_items($pdo));
 
     <!-- Hero Section -->
     <section class="hero">
+        <!-- Decorative Elements -->
+        <div class="hero-grid-bg"></div>
+        <div class="hero-glow hero-glow-1"></div>
+        <div class="hero-glow hero-glow-2"></div>
+        <div class="hero-glow hero-glow-3"></div>
+
         <div class="container">
             <div class="hero-content">
-                <h1 class="hero-title animate-fade-in">Unlock Premium Business Leads</h1>
-                <p class="hero-subtitle animate-fade-in-delay">Connect with clients ready to invest. Get verified
-                    contact details instantly.</p>
-                <div class="hero-cta animate-fade-in-delay-2">
-                    <a href="#leads" class="btn btn-primary btn-lg">Browse Leads</a>
-                    <a href="#how-it-works" class="btn btn-outline btn-lg">Learn More</a>
+                <div class="hero-badge">
+                    <span class="hero-badge-dot"></span>
+                    <span>Trusted by 1,000+ developers across India</span>
                 </div>
-                <div class="hero-stats animate-fade-in-delay-3">
-                    <div class="stat-item">
-                        <div class="stat-number">500+</div>
-                        <div class="stat-label">Active Leads</div>
+
+                <h1 class="hero-title">
+                    Find Clients.<br>
+                    Close <span class="hero-gradient-text">Deals</span>.<br>
+                    Grow Faster.
+                </h1>
+
+                <p class="hero-subtitle">The premium marketplace where verified business leads meet ambitious
+                    developers. Stop cold calling — start closing.</p>
+
+                <div class="hero-cta">
+                    <a href="#leads" class="btn hero-btn-primary">
+                        <span>Get Started Free</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                    </a>
+                    <a href="#how-it-works" class="btn hero-btn-ghost">How It Works</a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">500+</div>
+                        <div class="hero-stat-label">Active Leads</div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-number">1000+</div>
-                        <div class="stat-label">Happy Developers</div>
+                    <div class="hero-stat-divider"></div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">1,000+</div>
+                        <div class="hero-stat-label">Happy Developers</div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-number">₹50L+</div>
-                        <div class="stat-label">Deals Closed</div>
+                    <div class="hero-stat-divider"></div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">₹50L+</div>
+                        <div class="hero-stat-label">Deals Closed</div>
                     </div>
                 </div>
             </div>
@@ -152,50 +179,60 @@ $cart_count = count(get_cart_items($pdo));
     <!-- Features Section -->
     <section class="features-section">
         <div class="container">
-            <h2 class="section-title">Why Choose LeadMarket?</h2>
-            <p class="section-subtitle">Professional lead marketplace built for serious developers</p>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon-wrapper feature-icon-verified">
-                        <svg class="feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
+            <div class="features-header">
+                <span class="features-label">Why QuickProject</span>
+                <h2 class="features-title">Everything you need to <br><span>close more deals</span></h2>
+            </div>
+
+            <div class="features-bento">
+                <!-- Feature 1 - Wide -->
+                <div class="bento-card bento-wide bento-blue">
+                    <div class="bento-number">01</div>
+                    <div class="bento-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
-                    <h3>Verified Leads</h3>
-                    <p>Every lead is verified and comes with accurate budget and project requirements.</p>
+                    <h3>Verified & Qualified Leads</h3>
+                    <p>Every lead is human-verified with accurate budgets, requirements, and genuine contact details. No bots, no fake inquiries — only real clients ready to invest.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon-wrapper feature-icon-instant">
-                        <svg class="feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
+
+                <!-- Feature 2 -->
+                <div class="bento-card bento-amber">
+                    <div class="bento-number">02</div>
+                    <div class="bento-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     </div>
                     <h3>Instant Access</h3>
-                    <p>Get client contact details immediately after purchase. No waiting period.</p>
+                    <p>Get full client contact details the moment you purchase. Zero waiting period.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon-wrapper feature-icon-exclusive">
-                        <svg class="feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
+
+                <!-- Feature 3 -->
+                <div class="bento-card bento-purple">
+                    <div class="bento-number">03</div>
+                    <div class="bento-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                             <path d="M7 11V7a5 5 0 0110 0v4"></path>
                         </svg>
                     </div>
                     <h3>Exclusive Rights</h3>
-                    <p>Once you buy a lead, it's yours exclusively. No competition from other developers.</p>
+                    <p>Once purchased, the lead is exclusively yours. No competition from other developers.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon-wrapper feature-icon-pricing">
-                        <svg class="feature-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
+
+                <!-- Feature 4 -->
+                <div class="bento-card bento-green">
+                    <div class="bento-number">04</div>
+                    <div class="bento-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="12" y1="1" x2="12" y2="23"></line>
                             <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"></path>
                         </svg>
                     </div>
                     <h3>Affordable Pricing</h3>
-                    <p>Pay only for what you need. Transparent pricing based on project budget.</p>
+                    <p>Transparent pricing based on project budget. Pay only for what you need — no subscriptions.</p>
                 </div>
             </div>
         </div>
