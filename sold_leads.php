@@ -41,7 +41,140 @@ $total_sold = count($sold_leads);
         </div>
     </section>
 
-    <!-- Sold Leads Section -->
+    <!-- Scrolling Sold Leads Ticker -->
+    <div class="sold-ticker">
+        <div class="sold-ticker-label">
+            <span class="sold-ticker-dot"></span>
+            Live Sales
+        </div>
+        <div class="sold-ticker-track">
+            <div class="sold-ticker-scroll">
+                <!-- Set 1 -->
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">E-Commerce Website</span>
+                    <span class="ticker-meta">Mumbai</span>
+                    <span class="ticker-time">2 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">Mobile App Development</span>
+                    <span class="ticker-meta">Bangalore</span>
+                    <span class="ticker-time">5 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">SEO Services</span>
+                    <span class="ticker-meta">Delhi</span>
+                    <span class="ticker-time">8 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">WordPress Redesign</span>
+                    <span class="ticker-meta">Pune</span>
+                    <span class="ticker-time">12 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">CRM Software</span>
+                    <span class="ticker-meta">Hyderabad</span>
+                    <span class="ticker-time">15 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">Logo & Branding</span>
+                    <span class="ticker-meta">Chennai</span>
+                    <span class="ticker-time">18 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">React Dashboard</span>
+                    <span class="ticker-meta">Ahmedabad</span>
+                    <span class="ticker-time">22 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">Shopify Store</span>
+                    <span class="ticker-meta">Jaipur</span>
+                    <span class="ticker-time">25 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">API Integration</span>
+                    <span class="ticker-meta">Kolkata</span>
+                    <span class="ticker-time">30 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">Cloud Migration</span>
+                    <span class="ticker-meta">Noida</span>
+                    <span class="ticker-time">35 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <!-- Set 2 (duplicate for seamless loop) -->
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">E-Commerce Website</span>
+                    <span class="ticker-meta">Mumbai</span>
+                    <span class="ticker-time">2 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">Mobile App Development</span>
+                    <span class="ticker-meta">Bangalore</span>
+                    <span class="ticker-time">5 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">SEO Services</span>
+                    <span class="ticker-meta">Delhi</span>
+                    <span class="ticker-time">8 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">WordPress Redesign</span>
+                    <span class="ticker-meta">Pune</span>
+                    <span class="ticker-time">12 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">CRM Software</span>
+                    <span class="ticker-meta">Hyderabad</span>
+                    <span class="ticker-time">15 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">Logo & Branding</span>
+                    <span class="ticker-meta">Chennai</span>
+                    <span class="ticker-time">18 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">React Dashboard</span>
+                    <span class="ticker-meta">Ahmedabad</span>
+                    <span class="ticker-time">22 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">Shopify Store</span>
+                    <span class="ticker-meta">Jaipur</span>
+                    <span class="ticker-time">25 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">API Integration</span>
+                    <span class="ticker-meta">Kolkata</span>
+                    <span class="ticker-time">30 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+                <div class="sold-ticker-item">
+                    <span class="ticker-niche">Cloud Migration</span>
+                    <span class="ticker-meta">Noida</span>
+                    <span class="ticker-time">35 mins ago</span>
+                    <span class="ticker-sold">SOLD</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <section class="pg-body">
         <div class="container">
             <?php if (empty($sold_leads)): ?>
