@@ -1,10 +1,7 @@
 <?php
 require_once 'functions.php';
-// ENABLE ERROR REPORTING FOR DEBUGGING
 ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
 require_login('admin');
 
 $message = "";
@@ -43,481 +40,976 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_lead'])) {
     }
 }
 
-// ===== ANALYTICS QUERIES =====
-// Total leads
-$stmt = $pdo->query("SELECT COUNT(*) FROM leads");
-$total_leads = $stmt->fetchColumn();
-
-// Available vs Sold
-$stmt = $pdo->query("SELECT COUNT(*) FROM leads WHERE status = 'available'");
-$available_leads_count = $stmt->fetchColumn();
-
-$stmt = $pdo->query("SELECT COUNT(*) FROM leads WHERE status = 'sold'");
-$sold_leads_count = $stmt->fetchColumn();
-
-// Total Revenue
-$stmt = $pdo->query("SELECT COALESCE(SUM(purchase_price), 0) FROM purchased_leads");
-$total_revenue = $stmt->fetchColumn();
-
-// Total Users
-$stmt = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'developer'");
-$total_users = $stmt->fetchColumn();
-
-// Conversion Rate
+// ===== ANALYTICS =====
+$total_leads = $pdo->query("SELECT COUNT(*) FROM leads")->fetchColumn();
+$available_leads_count = $pdo->query("SELECT COUNT(*) FROM leads WHERE status = 'available'")->fetchColumn();
+$sold_leads_count = $pdo->query("SELECT COUNT(*) FROM leads WHERE status = 'sold'")->fetchColumn();
+$total_revenue = $pdo->query("SELECT COALESCE(SUM(purchase_price), 0) FROM purchased_leads")->fetchColumn();
+$total_users = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'developer'")->fetchColumn();
 $conversion_rate = $total_leads > 0 ? round(($sold_leads_count / $total_leads) * 100, 1) : 0;
 
-// Monthly Revenue for Chart (last 6 months)
+// Monthly data (last 6 months)
 $monthly_revenue = [];
 $monthly_labels = [];
-for ($i = 5; $i >= 0; $i--) {
-    $month_start = date('Y-m-01', strtotime("-$i months"));
-    $month_end = date('Y-m-t', strtotime("-$i months"));
-    $month_label = date('M Y', strtotime("-$i months"));
-    
-    $stmt = $pdo->prepare("SELECT COALESCE(SUM(purchase_price), 0) FROM purchased_leads WHERE purchased_at BETWEEN ? AND ?");
-    $stmt->execute([$month_start, $month_end . ' 23:59:59']);
-    $rev = $stmt->fetchColumn();
-    
-    $monthly_revenue[] = (float)$rev;
-    $monthly_labels[] = $month_label;
-}
-
-// Monthly Leads Sold for Chart
 $monthly_sold = [];
 for ($i = 5; $i >= 0; $i--) {
-    $month_start = date('Y-m-01', strtotime("-$i months"));
-    $month_end = date('Y-m-t', strtotime("-$i months"));
-    
+    $ms = date('Y-m-01', strtotime("-$i months"));
+    $me = date('Y-m-t', strtotime("-$i months"));
+    $monthly_labels[] = date('M Y', strtotime("-$i months"));
+
+    $stmt = $pdo->prepare("SELECT COALESCE(SUM(purchase_price), 0) FROM purchased_leads WHERE purchased_at BETWEEN ? AND ?");
+    $stmt->execute([$ms, "$me 23:59:59"]);
+    $monthly_revenue[] = (float) $stmt->fetchColumn();
+
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM purchased_leads WHERE purchased_at BETWEEN ? AND ?");
-    $stmt->execute([$month_start, $month_end . ' 23:59:59']);
-    $monthly_sold[] = (int)$stmt->fetchColumn();
+    $stmt->execute([$ms, "$me 23:59:59"]);
+    $monthly_sold[] = (int) $stmt->fetchColumn();
 }
 
 // Recent Users
-// Recent Users
-$stmt = $pdo->query("SELECT u.id, u.username, u.role, u.wallet_balance, u.created_at, 
-    (SELECT COUNT(*) FROM purchased_leads WHERE user_id = u.id) as total_purchases 
-    FROM users u WHERE role = 'developer' ORDER BY created_at DESC LIMIT 10");
-$recent_users = $stmt->fetchAll();
+$recent_users = $pdo->query("SELECT u.id, u.username, u.role, u.wallet_balance, u.created_at,
+    (SELECT COUNT(*) FROM purchased_leads WHERE user_id = u.id) as total_purchases
+    FROM users u WHERE u.role = 'developer' ORDER BY u.created_at DESC LIMIT 10")->fetchAll();
 
-
-
-// Niche distribution
-$stmt = $pdo->query("SELECT niche, COUNT(*) as cnt FROM leads GROUP BY niche ORDER BY cnt DESC LIMIT 5");
-$top_niches = $stmt->fetchAll();
+// Top Niches
+$top_niches = $pdo->query("SELECT niche, COUNT(*) as cnt FROM leads GROUP BY niche ORDER BY cnt DESC LIMIT 5")->fetchAll();
 
 // Recent Transactions
-$stmt = $pdo->query("SELECT t.*, u.username FROM transactions t JOIN users u ON t.user_id = u.id ORDER BY t.created_at DESC LIMIT 8");
-$recent_transactions = $stmt->fetchAll();
+$recent_transactions = $pdo->query("SELECT t.*, u.username FROM transactions t JOIN users u ON t.user_id = u.id ORDER BY t.created_at DESC LIMIT 8")->fetchAll();
 
-// Fetch all leads
-$stmt = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC");
-$leads = $stmt->fetchAll();
+// All Leads
+$leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Quick Project</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Admin Dashboard - QuickProject</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
-        /* ===== ADMIN DASHBOARD PREMIUM ===== */
-        .adm-body { background: #0f172a; min-height: 100vh; font-family: 'Inter', sans-serif; }
-
-        /* Header */
-        .adm-header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            padding: 48px 0 32px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-        .adm-header-inner {
-            display: flex; justify-content: space-between; align-items: flex-start;
-        }
-        .adm-header h1 {
-            font-size: 2rem; font-weight: 800; color: #f1f5f9; margin: 0 0 8px;
-            letter-spacing: -0.5px;
-        }
-        .adm-header p { color: #64748b; font-size: 0.95rem; margin: 0; }
-        .adm-header-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2);
-            color: #60a5fa; padding: 8px 16px; border-radius: 100px;
-            font-size: 0.82rem; font-weight: 600;
-        }
-        .adm-header-dot {
-            width: 8px; height: 8px; border-radius: 50%; background: #22c55e;
-            animation: dotPulse 2s ease-in-out infinite;
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* Stat Cards */
-        .adm-stats {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
-            margin: -40px 0 32px;
-            position: relative; z-index: 2;
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #f0f4f8;
+            color: #1e293b;
+            -webkit-font-smoothing: antialiased;
         }
-        .adm-stat {
-            background: #1e293b; border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 20px; padding: 28px 24px;
-            position: relative; overflow: hidden;
-            transition: all 0.3s ease;
+
+        /* ─── Layout ─── */
+        .dash-wrap {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
-        .adm-stat:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.1); }
-        .adm-stat-glow {
-            position: absolute; top: 0; left: 0; right: 0; height: 3px;
-            border-radius: 20px 20px 0 0;
+
+        /* ─── Top Bar ─── */
+        .dash-topbar {
+            background: #fff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
         }
-        .adm-stat-icon {
-            width: 48px; height: 48px; border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.3rem; margin-bottom: 16px;
+
+        .dash-topbar-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .adm-stat-value {
-            font-size: 2rem; font-weight: 800; color: #f1f5f9;
-            letter-spacing: -1px; margin-bottom: 4px;
+
+        .dash-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0f172a;
+            text-decoration: none;
         }
-        .adm-stat-label {
-            font-size: 0.82rem; color: #64748b; font-weight: 500;
-            text-transform: uppercase; letter-spacing: 1px;
+
+        .dash-logo-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1rem;
         }
-        .adm-stat-change {
-            position: absolute; top: 24px; right: 24px;
-            font-size: 0.78rem; font-weight: 700; padding: 4px 10px;
+
+        .dash-topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .dash-badge-online {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #16a34a;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 6px 14px;
             border-radius: 100px;
         }
-        .change-up { background: rgba(34,197,94,0.1); color: #22c55e; }
-        .change-neutral { background: rgba(59,130,246,0.1); color: #60a5fa; }
 
-        /* Color variants */
-        .stat-blue .adm-stat-glow { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
-        .stat-blue .adm-stat-icon { background: rgba(59,130,246,0.12); color: #60a5fa; }
-        .stat-green .adm-stat-glow { background: linear-gradient(90deg, #10b981, #34d399); }
-        .stat-green .adm-stat-icon { background: rgba(16,185,129,0.12); color: #34d399; }
-        .stat-purple .adm-stat-glow { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
-        .stat-purple .adm-stat-icon { background: rgba(139,92,246,0.12); color: #a78bfa; }
-        .stat-amber .adm-stat-glow { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
-        .stat-amber .adm-stat-icon { background: rgba(245,158,11,0.12); color: #fbbf24; }
-
-        /* Dashboard Grid */
-        .adm-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 32px; }
-        .adm-grid-equal { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
-
-        /* Card */
-        .adm-card {
-            background: #1e293b; border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 20px; padding: 28px;
-            transition: all 0.3s ease;
-        }
-        .adm-card-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 24px;
-        }
-        .adm-card-title {
-            font-size: 1.1rem; font-weight: 700; color: #f1f5f9;
-            display: flex; align-items: center; gap: 10px;
-        }
-        .adm-card-title .bar {
-            width: 4px; height: 20px; border-radius: 4px; background: #3b82f6;
+        .dash-badge-online::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse-dot 2s infinite;
         }
 
-        /* Chart */
-        .chart-wrapper { position: relative; height: 280px; }
-
-        /* Niche Pills */
-        .niche-list { display: flex; flex-direction: column; gap: 12px; }
-        .niche-row {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 14px 16px; background: rgba(255,255,255,0.03);
-            border-radius: 12px; border: 1px solid rgba(255,255,255,0.04);
-        }
-        .niche-name { color: #e2e8f0; font-weight: 600; font-size: 0.92rem; }
-        .niche-count {
-            background: rgba(59,130,246,0.1); color: #60a5fa; padding: 4px 12px;
-            border-radius: 100px; font-size: 0.78rem; font-weight: 700;
-        }
-        .niche-bar {
-            flex: 1; height: 6px; background: rgba(255,255,255,0.06);
-            border-radius: 6px; margin: 0 16px; overflow: hidden;
-        }
-        .niche-bar-fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg, #3b82f6, #60a5fa); }
-
-        /* Users Table */
-        .adm-table-wrap { overflow-x: auto; border-radius: 16px; }
-        .adm-tbl {
-            width: 100%; border-collapse: collapse; min-width: 600px;
-        }
-        .adm-tbl th {
-            text-align: left; padding: 14px 18px;
-            background: rgba(255,255,255,0.03);
-            color: #64748b; font-weight: 600; font-size: 0.78rem;
-            text-transform: uppercase; letter-spacing: 1px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-        .adm-tbl td {
-            padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.04);
-            color: #e2e8f0; font-size: 0.9rem; vertical-align: middle;
-        }
-        .adm-tbl tr:hover td { background: rgba(255,255,255,0.02); }
-        .adm-tbl .user-avatar {
-            width: 36px; height: 36px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 0.78rem; color: #fff;
-        }
-        .adm-tbl .user-cell { display: flex; align-items: center; gap: 12px; }
-        .adm-tbl .user-name { font-weight: 600; color: #f1f5f9; }
-        .adm-tbl .user-email { font-size: 0.8rem; color: #64748b; }
-        .adm-tbl .wallet-val { font-weight: 700; color: #34d399; }
-        .adm-tbl .purchase-count {
-            background: rgba(139,92,246,0.1); color: #a78bfa; padding: 4px 10px;
-            border-radius: 100px; font-size: 0.75rem; font-weight: 700;
+        .dash-user-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px 6px 6px;
+            border-radius: 100px;
+            background: #f1f5f9;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #334155;
         }
 
-        /* Transactions */
-        .txn-item {
-            display: flex; align-items: center; gap: 14px;
-            padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
-        }
-        .txn-item:last-child { border-bottom: none; }
-        .txn-icon {
-            width: 40px; height: 40px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1rem; flex-shrink: 0;
-        }
-        .txn-credit .txn-icon { background: rgba(34,197,94,0.1); color: #22c55e; }
-        .txn-debit .txn-icon { background: rgba(239,68,68,0.1); color: #ef4444; }
-        .txn-info { flex: 1; }
-        .txn-desc { font-weight: 600; color: #e2e8f0; font-size: 0.9rem; }
-        .txn-user { font-size: 0.78rem; color: #64748b; margin-top: 2px; }
-        .txn-amount { font-weight: 700; font-size: 0.95rem; }
-        .txn-credit .txn-amount { color: #22c55e; }
-        .txn-debit .txn-amount { color: #ef4444; }
-
-        /* Filter Bar */
-        .adm-filter {
-            display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
-        }
-        .adm-filter-input {
-            padding: 10px 16px; background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;
-            color: #e2e8f0; font-size: 0.88rem; font-family: inherit;
-            transition: all 0.3s ease; min-width: 200px;
-        }
-        .adm-filter-input:focus {
-            outline: none; border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
-        }
-        .adm-filter-input::placeholder { color: #475569; }
-        .adm-filter select.adm-filter-input { cursor: pointer; }
-        .adm-filter select.adm-filter-input option { background: #1e293b; color: #e2e8f0; }
-        .adm-filter-count {
-            margin-left: auto; font-size: 0.82rem; color: #64748b; font-weight: 500;
+        .dash-user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
         }
 
-        /* Leads Table */
-        .leads-tbl { width: 100%; border-collapse: collapse; min-width: 900px; }
-        .leads-tbl th {
-            text-align: left; padding: 16px 20px;
-            background: rgba(255,255,255,0.03);
-            color: #64748b; font-weight: 600; font-size: 0.78rem;
-            text-transform: uppercase; letter-spacing: 1px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-        .leads-tbl td {
-            padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.04);
-            color: #e2e8f0; font-size: 0.9rem; vertical-align: middle;
-        }
-        .leads-tbl tr:hover td { background: rgba(255,255,255,0.02); }
-        .lead-id { font-weight: 700; color: #475569; }
-        .lead-niche { font-weight: 700; color: #f1f5f9; }
-        .lead-desc { font-size: 0.82rem; color: #64748b; margin-top: 4px; }
-        .lead-budget { font-weight: 600; color: #94a3b8; }
-        .lead-price {
-            font-weight: 700; color: #34d399; background: rgba(16,185,129,0.1);
-            padding: 4px 12px; border-radius: 8px; display: inline-block;
-        }
-        .lead-client-name { font-weight: 600; color: #f1f5f9; }
-        .lead-client-phone { font-size: 0.82rem; color: #64748b; }
-        .lead-status {
-            padding: 5px 14px; border-radius: 100px; font-size: 0.75rem;
-            font-weight: 700; display: inline-flex; align-items: center; gap: 6px;
-        }
-        .lead-status-dot {
-            width: 6px; height: 6px; border-radius: 50%; background: currentColor;
-        }
-        .lead-avail { background: rgba(34,197,94,0.1); color: #22c55e; border: 1px solid rgba(34,197,94,0.2); }
-        .lead-sold { background: rgba(245,158,11,0.1); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
+        @keyframes pulse-dot {
 
-        /* Add Lead Form */
-        .adm-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .adm-form-group { margin-bottom: 20px; }
-        .adm-form-label {
-            display: block; margin-bottom: 8px; color: #94a3b8;
-            font-weight: 500; font-size: 0.88rem;
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
         }
-        .adm-form-control {
-            width: 100%; padding: 12px 16px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px; color: #f1f5f9;
-            font-family: inherit; font-size: 0.95rem;
-            transition: all 0.3s ease;
+
+        /* ─── Page Header ─── */
+        .dash-page-header {
+            padding: 36px 0 28px;
         }
-        .adm-form-control:focus {
-            outline: none; border-color: #3b82f6;
-            background: rgba(255,255,255,0.06);
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.15);
+
+        .dash-page-header h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
         }
-        .adm-form-control::placeholder { color: #475569; }
-        .adm-btn-submit {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white; border: none; padding: 14px 32px;
-            border-radius: 12px; font-weight: 700; font-size: 1rem;
-            cursor: pointer; transition: all 0.3s; width: 100%;
-            display: flex; justify-content: center; align-items: center; gap: 10px;
-            box-shadow: 0 4px 16px rgba(16,185,129,0.25);
+
+        .dash-page-header p {
+            color: #64748b;
+            font-size: 0.92rem;
         }
-        .adm-btn-submit:hover {
+
+        /* ─── Stat Cards ─── */
+        .dash-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .dash-stat {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dash-stat::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .dash-stat:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(16,185,129,0.35);
         }
 
-        /* Alert */
-        .adm-alert {
-            display: flex; align-items: center; gap: 16px;
-            padding: 18px 24px; border-radius: 16px; margin-bottom: 24px;
-            border: 1px solid rgba(255,255,255,0.06);
+        .dash-stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
         }
-        .adm-alert-success { background: rgba(34,197,94,0.08); border-left: 4px solid #22c55e; }
-        .adm-alert-error { background: rgba(239,68,68,0.08); border-left: 4px solid #ef4444; }
-        .adm-alert-icon { font-size: 1.5rem; }
-        .adm-alert-title { font-weight: 700; color: #f1f5f9; font-size: 1rem; }
-        .adm-alert-text { color: #94a3b8; font-size: 0.9rem; margin-top: 2px; }
 
-        /* Responsive */
+        .dash-stat-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+            line-height: 1;
+        }
+
+        .dash-stat-label {
+            font-size: 0.78rem;
+            color: #64748b;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 6px;
+        }
+
+        .dash-stat-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 100px;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .s-blue::before {
+            background: #3b82f6;
+        }
+
+        .s-blue .dash-stat-icon {
+            background: #eff6ff;
+            color: #3b82f6;
+        }
+
+        .s-blue .dash-stat-tag {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .s-green::before {
+            background: #10b981;
+        }
+
+        .s-green .dash-stat-icon {
+            background: #ecfdf5;
+            color: #10b981;
+        }
+
+        .s-green .dash-stat-tag {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .s-purple::before {
+            background: #8b5cf6;
+        }
+
+        .s-purple .dash-stat-icon {
+            background: #f5f3ff;
+            color: #8b5cf6;
+        }
+
+        .s-purple .dash-stat-tag {
+            background: #f5f3ff;
+            color: #7c3aed;
+        }
+
+        .s-amber::before {
+            background: #f59e0b;
+        }
+
+        .s-amber .dash-stat-icon {
+            background: #fffbeb;
+            color: #f59e0b;
+        }
+
+        .s-amber .dash-stat-tag {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        /* ─── Cards ─── */
+        .dash-grid {
+            display: grid;
+            grid-template-columns: 5fr 3fr;
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+
+        .dash-grid-half {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+
+        .dash-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .dash-card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .dash-card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dash-card-title .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .dash-card-count {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        /* ─── Chart ─── */
+        .chart-box {
+            height: 280px;
+            position: relative;
+        }
+
+        /* ─── Niches ─── */
+        .niche-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .niche-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .niche-name {
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: #334155;
+            white-space: nowrap;
+        }
+
+        .niche-bar-wrap {
+            flex: 1;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .niche-bar-fill {
+            height: 100%;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #3b82f6, #6366f1);
+            transition: width 0.6s ease;
+        }
+
+        .niche-count {
+            background: #eff6ff;
+            color: #2563eb;
+            padding: 3px 10px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        /* ─── Tables ─── */
+        .d-table-wrap {
+            overflow-x: auto;
+        }
+
+        .d-tbl {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .d-tbl th {
+            text-align: left;
+            padding: 12px 16px;
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .d-tbl td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.88rem;
+            vertical-align: middle;
+            color: #334155;
+        }
+
+        .d-tbl tr:hover td {
+            background: #fafbfc;
+        }
+
+        .d-user-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .d-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.72rem;
+            color: #fff;
+        }
+
+        .d-user-name {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .d-user-sub {
+            font-size: 0.78rem;
+            color: #94a3b8;
+        }
+
+        .d-wallet {
+            font-weight: 700;
+            color: #059669;
+        }
+
+        .d-purchase-tag {
+            background: #f5f3ff;
+            color: #7c3aed;
+            padding: 3px 10px;
+            border-radius: 100px;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        /* ─── Transactions ─── */
+        .txn-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .txn-item:last-child {
+            border-bottom: none;
+        }
+
+        .txn-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .txn-credit .txn-icon {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .txn-debit .txn-icon {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .txn-info {
+            flex: 1;
+        }
+
+        .txn-desc {
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: #1e293b;
+        }
+
+        .txn-meta {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .txn-amt {
+            font-weight: 700;
+            font-size: 0.92rem;
+        }
+
+        .txn-credit .txn-amt {
+            color: #059669;
+        }
+
+        .txn-debit .txn-amt {
+            color: #dc2626;
+        }
+
+        /* ─── Filter Bar ─── */
+        .dash-filter {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .dash-filter-input {
+            padding: 9px 14px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            color: #334155;
+            font-size: 0.85rem;
+            font-family: inherit;
+            transition: all 0.2s;
+            min-width: 180px;
+        }
+
+        .dash-filter-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            background: #fff;
+        }
+
+        .dash-filter-input::placeholder {
+            color: #94a3b8;
+        }
+
+        .dash-filter select {
+            cursor: pointer;
+        }
+
+        .dash-filter select option {
+            background: #fff;
+        }
+
+        .dash-filter-count {
+            margin-left: auto;
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* ─── Lead Table ─── */
+        .lead-id {
+            font-weight: 700;
+            color: #94a3b8;
+            font-size: 0.82rem;
+        }
+
+        .lead-niche {
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .lead-desc {
+            font-size: 0.78rem;
+            color: #94a3b8;
+            margin-top: 3px;
+        }
+
+        .lead-budget {
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .lead-price {
+            font-weight: 700;
+            color: #059669;
+            background: #ecfdf5;
+            padding: 3px 10px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .lead-client-name {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .lead-client-phone {
+            font-size: 0.78rem;
+            color: #94a3b8;
+        }
+
+        .lead-status {
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .lead-status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .lead-avail {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .lead-sold {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        /* ─── Form ─── */
+        .dash-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .dash-form-group {
+            margin-bottom: 16px;
+        }
+
+        .dash-form-label {
+            display: block;
+            margin-bottom: 6px;
+            color: #475569;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .dash-form-control {
+            width: 100%;
+            padding: 10px 14px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            color: #1e293b;
+            font-family: inherit;
+            font-size: 0.92rem;
+            transition: all 0.2s;
+        }
+
+        .dash-form-control:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .dash-form-control::placeholder {
+            color: #94a3b8;
+        }
+
+        .dash-btn-submit {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+        }
+
+        .dash-btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        /* ─── Alert ─── */
+        .dash-alert {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .dash-alert-ok {
+            background: #ecfdf5;
+            border: 1px solid #bbf7d0;
+        }
+
+        .dash-alert-err {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+        }
+
+        .dash-alert-icon {
+            font-size: 1.3rem;
+        }
+
+        .dash-alert-title {
+            font-weight: 700;
+            font-size: 0.92rem;
+        }
+
+        .dash-alert-ok .dash-alert-title {
+            color: #15803d;
+        }
+
+        .dash-alert-err .dash-alert-title {
+            color: #b91c1c;
+        }
+
+        .dash-alert-text {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        /* ─── Empty State ─── */
+        .empty-state {
+            text-align: center;
+            padding: 48px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        .empty-state a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* ─── Responsive ─── */
         @media (max-width: 1024px) {
-            .adm-stats { grid-template-columns: repeat(2, 1fr); }
-            .adm-grid { grid-template-columns: 1fr; }
-            .adm-grid-equal { grid-template-columns: 1fr; }
+            .dash-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dash-grid,
+            .dash-grid-half {
+                grid-template-columns: 1fr;
+            }
         }
-        @media (max-width: 768px) {
-            .adm-stats { grid-template-columns: 1fr; margin: -20px 0 24px; }
-            .adm-header-inner { flex-direction: column; gap: 16px; }
-            .adm-form-grid { grid-template-columns: 1fr; }
-            .adm-filter { flex-direction: column; }
-            .adm-filter-input { min-width: 100%; }
+
+        @media (max-width: 640px) {
+            .dash-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .dash-form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dash-topbar-right .dash-badge-online {
+                display: none;
+            }
+
+            .dash-page-header h1 {
+                font-size: 1.4rem;
+            }
         }
     </style>
 </head>
 
-<body class="adm-body">
-    <?php include 'header.php'; ?>
+<body>
 
-    <!-- Admin Header -->
-    <section class="adm-header">
-        <div class="container">
-            <div class="adm-header-inner">
-                <div>
-                    <h1>Admin Dashboard</h1>
-                    <p>Manage leads, track revenue, and oversee marketplace operations.</p>
-                </div>
-                <div class="adm-header-badge">
-                    <span class="adm-header-dot"></span>
-                    System Online
+    <!-- Top Bar -->
+    <header class="dash-topbar">
+        <div class="dash-wrap">
+            <div class="dash-topbar-inner">
+                <a href="index.php" class="dash-logo">
+                    <span class="dash-logo-icon">💼</span>
+                    QuickProject
+                </a>
+                <div class="dash-topbar-right">
+                    <span class="dash-badge-online">System Online</span>
+                    <div class="dash-user-pill">
+                        <span class="dash-user-avatar">A</span>
+                        Admin
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </header>
 
-    <div class="container" style="padding-bottom: 60px;">
+    <main class="dash-wrap" style="padding-bottom: 60px;">
+
+        <!-- Page Header -->
+        <div class="dash-page-header">
+            <h1>Dashboard Overview</h1>
+            <p>Manage leads, track revenue, and oversee marketplace operations.</p>
+        </div>
+
         <!-- Alert -->
         <?php if (!empty($message)): ?>
-            <div class="adm-alert <?php echo $msg_type == 'success' ? 'adm-alert-success' : 'adm-alert-error'; ?>">
-                <div class="adm-alert-icon"><?php echo $msg_type == 'success' ? '🎉' : '⚠️'; ?></div>
+            <div class="dash-alert <?php echo $msg_type == 'success' ? 'dash-alert-ok' : 'dash-alert-err'; ?>">
+                <span class="dash-alert-icon"><?php echo $msg_type == 'success' ? '✅' : '⚠️'; ?></span>
                 <div>
-                    <div class="adm-alert-title"><?php echo $msg_type == 'success' ? 'Success' : 'Error'; ?></div>
-                    <div class="adm-alert-text"><?php echo htmlspecialchars($message); ?></div>
+                    <div class="dash-alert-title"><?php echo $msg_type == 'success' ? 'Success' : 'Error'; ?></div>
+                    <div class="dash-alert-text"><?php echo htmlspecialchars($message); ?></div>
                 </div>
             </div>
         <?php endif; ?>
 
-        <!-- Stat Cards -->
-        <div class="adm-stats">
-            <div class="adm-stat stat-blue">
-                <div class="adm-stat-glow"></div>
-                <div class="adm-stat-icon">📊</div>
-                <div class="adm-stat-value"><?php echo number_format($total_leads); ?></div>
-                <div class="adm-stat-label">Total Leads</div>
-                <div class="adm-stat-change change-neutral"><?php echo $available_leads_count; ?> active</div>
+        <!-- Stats -->
+        <div class="dash-stats">
+            <div class="dash-stat s-blue">
+                <div class="dash-stat-icon">📊</div>
+                <div>
+                    <div class="dash-stat-value"><?php echo number_format($total_leads); ?></div>
+                    <div class="dash-stat-label">Total Leads</div>
+                    <span class="dash-stat-tag"><?php echo $available_leads_count; ?> active</span>
+                </div>
             </div>
-            <div class="adm-stat stat-green">
-                <div class="adm-stat-glow"></div>
-                <div class="adm-stat-icon">💰</div>
-                <div class="adm-stat-value">₹<?php echo number_format($total_revenue); ?></div>
-                <div class="adm-stat-label">Total Revenue</div>
-                <div class="adm-stat-change change-up">↑ Revenue</div>
+            <div class="dash-stat s-green">
+                <div class="dash-stat-icon">💰</div>
+                <div>
+                    <div class="dash-stat-value">₹<?php echo number_format($total_revenue); ?></div>
+                    <div class="dash-stat-label">Total Revenue</div>
+                    <span class="dash-stat-tag">All time</span>
+                </div>
             </div>
-            <div class="adm-stat stat-purple">
-                <div class="adm-stat-glow"></div>
-                <div class="adm-stat-icon">👥</div>
-                <div class="adm-stat-value"><?php echo number_format($total_users); ?></div>
-                <div class="adm-stat-label">Developers</div>
-                <div class="adm-stat-change change-neutral">Registered</div>
+            <div class="dash-stat s-purple">
+                <div class="dash-stat-icon">👥</div>
+                <div>
+                    <div class="dash-stat-value"><?php echo number_format($total_users); ?></div>
+                    <div class="dash-stat-label">Developers</div>
+                    <span class="dash-stat-tag">Registered</span>
+                </div>
             </div>
-            <div class="adm-stat stat-amber">
-                <div class="adm-stat-glow"></div>
-                <div class="adm-stat-icon">📈</div>
-                <div class="adm-stat-value"><?php echo $conversion_rate; ?>%</div>
-                <div class="adm-stat-label">Conversion Rate</div>
-                <div class="adm-stat-change change-up"><?php echo $sold_leads_count; ?> sold</div>
+            <div class="dash-stat s-amber">
+                <div class="dash-stat-icon">📈</div>
+                <div>
+                    <div class="dash-stat-value"><?php echo $conversion_rate; ?>%</div>
+                    <div class="dash-stat-label">Conversion</div>
+                    <span class="dash-stat-tag"><?php echo $sold_leads_count; ?> sold</span>
+                </div>
             </div>
         </div>
 
-        <!-- Sales Chart + Top Niches -->
-        <div class="adm-grid">
-            <div class="adm-card">
-                <div class="adm-card-header">
-                    <div class="adm-card-title"><span class="bar"></span> Revenue & Sales Overview</div>
+        <!-- Chart + Niches -->
+        <div class="dash-grid">
+            <div class="dash-card">
+                <div class="dash-card-head">
+                    <div class="dash-card-title"><span class="dot" style="background:#3b82f6;"></span> Revenue & Sales
+                    </div>
                 </div>
-                <div class="chart-wrapper">
-                    <canvas id="salesChart"></canvas>
-                </div>
+                <div class="chart-box"><canvas id="salesChart"></canvas></div>
             </div>
-            <div class="adm-card">
-                <div class="adm-card-header">
-                    <div class="adm-card-title"><span class="bar" style="background: #8b5cf6;"></span> Top Niches</div>
+            <div class="dash-card">
+                <div class="dash-card-head">
+                    <div class="dash-card-title"><span class="dot" style="background:#8b5cf6;"></span> Top Niches</div>
                 </div>
                 <div class="niche-list">
                     <?php
-                    $max_niche = !empty($top_niches) ? max(array_column($top_niches, 'cnt')) : 1;
-                    foreach ($top_niches as $niche):
-                        $pct = round(($niche['cnt'] / $max_niche) * 100);
-                    ?>
+                    $max_n = !empty($top_niches) ? max(array_column($top_niches, 'cnt')) : 1;
+                    foreach ($top_niches as $n):
+                        $pct = round(($n['cnt'] / $max_n) * 100);
+                        ?>
                         <div class="niche-row">
-                            <span class="niche-name"><?php echo htmlspecialchars($niche['niche']); ?></span>
-                            <div class="niche-bar"><div class="niche-bar-fill" style="width: <?php echo $pct; ?>%"></div></div>
-                            <span class="niche-count"><?php echo $niche['cnt']; ?></span>
+                            <span class="niche-name"><?php echo htmlspecialchars($n['niche']); ?></span>
+                            <div class="niche-bar-wrap">
+                                <div class="niche-bar-fill" style="width:<?php echo $pct; ?>%"></div>
+                            </div>
+                            <span class="niche-count"><?php echo $n['cnt']; ?></span>
                         </div>
                     <?php endforeach; ?>
                     <?php if (empty($top_niches)): ?>
-                        <div style="text-align: center; color: #475569; padding: 40px 0;">No niches yet</div>
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📁</div>No niches yet
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
         </div>
 
-        <!-- Users + Recent Transactions -->
-        <div class="adm-grid-equal">
-            <div class="adm-card">
-                <div class="adm-card-header">
-                    <div class="adm-card-title"><span class="bar" style="background: #a78bfa;"></span> Recent Users</div>
-                    <span style="font-size: 0.82rem; color: #64748b; font-weight: 500;"><?php echo $total_users; ?> total</span>
+        <!-- Users + Transactions -->
+        <div class="dash-grid-half">
+            <div class="dash-card">
+                <div class="dash-card-head">
+                    <div class="dash-card-title"><span class="dot" style="background:#6366f1;"></span> Recent Users
+                    </div>
+                    <span class="dash-card-count"><?php echo $total_users; ?> total</span>
                 </div>
-                <div class="adm-table-wrap">
-                    <table class="adm-tbl">
+                <div class="d-table-wrap">
+                    <table class="d-tbl">
                         <thead>
                             <tr>
                                 <th>User</th>
@@ -529,126 +1021,142 @@ $leads = $stmt->fetchAll();
                         <tbody>
                             <?php
                             $colors = ['#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4', '#ec4899'];
-                            foreach ($recent_users as $i => $user):
-                                $color = $colors[$i % count($colors)];
-                                $initials = strtoupper(substr($user['username'], 0, 2));
-                            ?>
+                            foreach ($recent_users as $i => $u):
+                                $c = $colors[$i % count($colors)];
+                                $init = strtoupper(substr($u['username'], 0, 2));
+                                ?>
                                 <tr>
                                     <td>
-                                        <div class="user-cell">
-                                            <div class="user-avatar" style="background: <?php echo $color; ?>20; color: <?php echo $color; ?>;"><?php echo $initials; ?></div>
+                                        <div class="d-user-cell">
+                                            <div class="d-avatar" style="background:<?php echo $c; ?>"><?php echo $init; ?>
+                                            </div>
                                             <div>
-                                                <div class="user-name"><?php echo htmlspecialchars($user['username']); ?></div>
-                                                <div class="user-email">User #<?php echo $user['id']; ?></div>
+                                                <div class="d-user-name"><?php echo htmlspecialchars($u['username']); ?>
+                                                </div>
+                                                <div class="d-user-sub">ID #<?php echo $u['id']; ?></div>
                                             </div>
                                         </div>
                                     </td>
-                                    <td><span class="wallet-val">₹<?php echo number_format($user['wallet_balance']); ?></span></td>
-                                    <td><span class="purchase-count"><?php echo $user['total_purchases']; ?> leads</span></td>
-                                    <td style="color: #64748b; font-size: 0.82rem;"><?php echo date('d M Y', strtotime($user['created_at'])); ?></td>
+                                    <td><span class="d-wallet">₹<?php echo number_format($u['wallet_balance']); ?></span>
+                                    </td>
+                                    <td><span class="d-purchase-tag"><?php echo $u['total_purchases']; ?> leads</span></td>
+                                    <td style="color:#94a3b8; font-size:0.8rem;">
+                                        <?php echo date('d M Y', strtotime($u['created_at'])); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                             <?php if (empty($recent_users)): ?>
-                                <tr><td colspan="4" style="text-align: center; color: #475569; padding: 40px 0;">No users yet</td></tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="empty-state">
+                                            <div class="empty-state-icon">👤</div>No users yet
+                                        </div>
+                                    </td>
+                                </tr>
                             <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <div class="adm-card">
-                <div class="adm-card-header">
-                    <div class="adm-card-title"><span class="bar" style="background: #10b981;"></span> Recent Transactions</div>
+            <div class="dash-card">
+                <div class="dash-card-head">
+                    <div class="dash-card-title"><span class="dot" style="background:#10b981;"></span> Recent
+                        Transactions</div>
                 </div>
-                <?php foreach ($recent_transactions as $txn):
-                    $is_credit = $txn['type'] === 'credit';
-                ?>
-                    <div class="txn-item <?php echo $is_credit ? 'txn-credit' : 'txn-debit'; ?>">
-                        <div class="txn-icon"><?php echo $is_credit ? '↓' : '↑'; ?></div>
+                <?php foreach ($recent_transactions as $t):
+                    $cr = $t['type'] === 'credit';
+                    ?>
+                    <div class="txn-item <?php echo $cr ? 'txn-credit' : 'txn-debit'; ?>">
+                        <div class="txn-icon"><?php echo $cr ? '↓' : '↑'; ?></div>
                         <div class="txn-info">
-                            <div class="txn-desc"><?php echo htmlspecialchars($txn['description']); ?></div>
-                            <div class="txn-user">@<?php echo htmlspecialchars($txn['username']); ?> · <?php echo date('d M, H:i', strtotime($txn['created_at'])); ?></div>
+                            <div class="txn-desc"><?php echo htmlspecialchars($t['description']); ?></div>
+                            <div class="txn-meta">@<?php echo htmlspecialchars($t['username']); ?> ·
+                                <?php echo date('d M, H:i', strtotime($t['created_at'])); ?></div>
                         </div>
-                        <div class="txn-amount"><?php echo $is_credit ? '+' : '-'; ?>₹<?php echo number_format($txn['amount']); ?></div>
+                        <div class="txn-amt"><?php echo $cr ? '+' : '-'; ?>₹<?php echo number_format($t['amount']); ?></div>
                     </div>
                 <?php endforeach; ?>
                 <?php if (empty($recent_transactions)): ?>
-                    <div style="text-align: center; color: #475569; padding: 40px 0;">No transactions yet</div>
+                    <div class="empty-state">
+                        <div class="empty-state-icon">💳</div>No transactions yet
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
 
         <!-- Add Lead Form -->
-        <div class="adm-card" style="margin-bottom: 32px;">
-            <div class="adm-card-header">
-                <div class="adm-card-title"><span class="bar" style="background: #22c55e;"></span> Add New Lead</div>
+        <div class="dash-card" style="margin-bottom: 28px;">
+            <div class="dash-card-head">
+                <div class="dash-card-title"><span class="dot" style="background:#10b981;"></span> Add New Lead</div>
             </div>
             <form method="POST">
                 <input type="hidden" name="add_lead" value="1">
-                <div class="adm-form-grid">
-                    <div class="adm-form-group">
-                        <label class="adm-form-label">Niche Category</label>
-                        <input type="text" name="niche" class="adm-form-control" required placeholder="e.g. E-commerce Website, Real Estate App">
+                <div class="dash-form-grid">
+                    <div class="dash-form-group">
+                        <label class="dash-form-label">Niche Category</label>
+                        <input type="text" name="niche" class="dash-form-control" required
+                            placeholder="e.g. E-commerce Website, Real Estate App">
                     </div>
-                    <div class="adm-form-group">
-                        <label class="adm-form-label">Client Budget</label>
-                        <select name="budget" class="adm-form-control">
-                            <option value="15000">Basic (Budget: ₹15k - ₹30k) - Price: ₹999</option>
-                            <option value="30000">Business (Budget: ₹30k - ₹50k) - Price: ₹2,499</option>
-                            <option value="50000">Premium (Budget: ₹50k - ₹1L+) - Price: ₹4,999</option>
+                    <div class="dash-form-group">
+                        <label class="dash-form-label">Client Budget</label>
+                        <select name="budget" class="dash-form-control">
+                            <option value="15000">Basic (₹15k–₹30k) — ₹999</option>
+                            <option value="30000">Business (₹30k–₹50k) — ₹2,499</option>
+                            <option value="50000">Premium (₹50k–₹1L+) — ₹4,999</option>
                         </select>
                     </div>
                 </div>
-                <div class="adm-form-group">
-                    <label class="adm-form-label">Project Description</label>
-                    <textarea name="description" class="adm-form-control" required rows="3" placeholder="Enter detailed project requirements..."></textarea>
+                <div class="dash-form-group">
+                    <label class="dash-form-label">Project Description</label>
+                    <textarea name="description" class="dash-form-control" required rows="3"
+                        placeholder="Enter detailed project requirements..."></textarea>
                 </div>
-                <div class="adm-form-grid">
-                    <div class="adm-form-group">
-                        <label class="adm-form-label">Client Name</label>
-                        <input type="text" name="client_name" class="adm-form-control" required placeholder="Start typing name...">
+                <div class="dash-form-grid">
+                    <div class="dash-form-group">
+                        <label class="dash-form-label">Client Name</label>
+                        <input type="text" name="client_name" class="dash-form-control" required
+                            placeholder="Full name">
                     </div>
-                    <div class="adm-form-group">
-                        <label class="adm-form-label">Client Phone Number</label>
-                        <input type="text" name="client_phone" class="adm-form-control" required placeholder="+91 98765 43210">
+                    <div class="dash-form-group">
+                        <label class="dash-form-label">Client Phone</label>
+                        <input type="text" name="client_phone" class="dash-form-control" required
+                            placeholder="+91 98765 43210">
                     </div>
                 </div>
-                <button type="submit" class="adm-btn-submit">🚀 Publish Lead to Marketplace</button>
+                <button type="submit" class="dash-btn-submit">🚀 Publish Lead to Marketplace</button>
             </form>
         </div>
 
-        <!-- Leads Table with Filters -->
-        <div class="adm-card">
-            <div class="adm-card-header">
-                <div class="adm-card-title"><span class="bar"></span> All Leads Database</div>
-                <span style="background: rgba(59,130,246,0.1); color: #60a5fa; padding: 6px 14px; border-radius: 100px; font-weight: 700; font-size: 0.82rem;">
-                    <?php echo count($leads); ?> Total
-                </span>
+        <!-- Leads Table -->
+        <div class="dash-card">
+            <div class="dash-card-head">
+                <div class="dash-card-title"><span class="dot" style="background:#3b82f6;"></span> All Leads</div>
+                <span class="dash-card-count"><?php echo count($leads); ?> total</span>
             </div>
 
-            <!-- Filters -->
-            <div class="adm-filter" style="margin-bottom: 20px;">
-                <input type="text" id="leadSearch" class="adm-filter-input" placeholder="🔍 Search niche, client..." oninput="filterLeads()">
-                <select id="leadStatus" class="adm-filter-input" style="min-width: 140px;" onchange="filterLeads()">
+            <div class="dash-filter">
+                <input type="text" id="leadSearch" class="dash-filter-input" placeholder="🔍 Search niche or client..."
+                    oninput="filterLeads()">
+                <select id="leadStatus" class="dash-filter-input" style="min-width:130px;" onchange="filterLeads()">
                     <option value="all">All Status</option>
                     <option value="available">Available</option>
                     <option value="sold">Sold</option>
                 </select>
-                <select id="leadBudget" class="adm-filter-input" style="min-width: 160px;" onchange="filterLeads()">
+                <select id="leadBudget" class="dash-filter-input" style="min-width:150px;" onchange="filterLeads()">
                     <option value="all">All Budgets</option>
                     <option value="15000">Basic (₹15k)</option>
                     <option value="30000">Business (₹30k)</option>
                     <option value="50000">Premium (₹50k+)</option>
                 </select>
-                <span class="adm-filter-count" id="filterCount"><?php echo count($leads); ?> results</span>
+                <span class="dash-filter-count" id="filterCount"><?php echo count($leads); ?> results</span>
             </div>
 
-            <div class="adm-table-wrap">
-                <table class="leads-tbl" id="leadsTable">
+            <div class="d-table-wrap">
+                <table class="d-tbl" id="leadsTable">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Niche & Requirements</th>
+                            <th>Niche</th>
                             <th>Budget</th>
                             <th>Price</th>
                             <th>Client</th>
@@ -657,40 +1165,42 @@ $leads = $stmt->fetchAll();
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($leads as $lead): ?>
-                            <tr data-niche="<?php echo htmlspecialchars(strtolower($lead['niche'])); ?>"
-                                data-client="<?php echo htmlspecialchars(strtolower($lead['client_name'])); ?>"
-                                data-status="<?php echo $lead['status']; ?>"
-                                data-budget="<?php echo $lead['budget']; ?>">
-                                <td><span class="lead-id">#<?php echo $lead['id']; ?></span></td>
-                                <td style="max-width: 280px;">
-                                    <div class="lead-niche"><?php echo htmlspecialchars($lead['niche']); ?></div>
-                                    <div class="lead-desc"><?php echo htmlspecialchars(substr($lead['description'], 0, 60)) . '...'; ?></div>
+                        <?php foreach ($leads as $l): ?>
+                            <tr data-niche="<?php echo htmlspecialchars(strtolower($l['niche'])); ?>"
+                                data-client="<?php echo htmlspecialchars(strtolower($l['client_name'])); ?>"
+                                data-status="<?php echo $l['status']; ?>" data-budget="<?php echo $l['budget']; ?>">
+                                <td><span class="lead-id">#<?php echo $l['id']; ?></span></td>
+                                <td style="max-width:260px;">
+                                    <div class="lead-niche"><?php echo htmlspecialchars($l['niche']); ?></div>
+                                    <div class="lead-desc">
+                                        <?php echo htmlspecialchars(substr($l['description'], 0, 55)) . '...'; ?></div>
                                 </td>
-                                <td><span class="lead-budget">₹<?php echo number_format($lead['budget']); ?>+</span></td>
-                                <td><span class="lead-price">₹<?php echo number_format($lead['lead_price']); ?></span></td>
+                                <td><span class="lead-budget">₹<?php echo number_format($l['budget']); ?>+</span></td>
+                                <td><span class="lead-price">₹<?php echo number_format($l['lead_price']); ?></span></td>
                                 <td>
-                                    <div class="lead-client-name"><?php echo htmlspecialchars($lead['client_name']); ?></div>
-                                    <div class="lead-client-phone"><?php echo htmlspecialchars($lead['client_phone']); ?></div>
+                                    <div class="lead-client-name"><?php echo htmlspecialchars($l['client_name']); ?></div>
+                                    <div class="lead-client-phone"><?php echo htmlspecialchars($l['client_phone']); ?></div>
                                 </td>
                                 <td>
-                                    <?php if ($lead['status'] == 'available'): ?>
-                                        <span class="lead-status lead-avail"><span class="lead-status-dot"></span> Available</span>
+                                    <?php if ($l['status'] == 'available'): ?>
+                                        <span class="lead-status lead-avail"><span class="lead-status-dot"></span>
+                                            Available</span>
                                     <?php else: ?>
                                         <span class="lead-status lead-sold"><span class="lead-status-dot"></span> Sold</span>
                                     <?php endif; ?>
                                 </td>
-                                <td style="color: #64748b; font-size: 0.82rem; white-space: nowrap;">
-                                    <?php echo date('d M Y', strtotime($lead['created_at'])); ?>
-                                </td>
+                                <td style="color:#94a3b8; font-size:0.8rem; white-space:nowrap;">
+                                    <?php echo date('d M Y', strtotime($l['created_at'])); ?></td>
                             </tr>
                         <?php endforeach; ?>
                         <?php if (empty($leads)): ?>
                             <tr>
-                                <td colspan="7" style="text-align: center; padding: 40px; color: #64748b;">
-                                    <div style="font-size: 3rem; margin-bottom: 10px;">📭</div>
-                                    <div>No leads found in the database.</div>
-                                    <div style="margin-top: 10px;"><a href="seed.php" style="color: #3b82f6; text-decoration: none; font-weight: 600;">Click here to Add Demo Data</a></div>
+                                <td colspan="7">
+                                    <div class="empty-state">
+                                        <div class="empty-state-icon">📭</div>
+                                        <div>No leads found.</div>
+                                        <div style="margin-top:8px;"><a href="seed.php">Add Demo Data</a></div>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endif; ?>
@@ -698,122 +1208,112 @@ $leads = $stmt->fetchAll();
                 </table>
             </div>
         </div>
-    </div>
+    </main>
 
-    <?php include 'footer.php'; ?>
-
-    <!-- Chart.js Initialization -->
     <script>
-        // Sales Chart
-        const ctx = document.getElementById('salesChart');
-        if (ctx) {
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: <?php echo json_encode($monthly_labels); ?>,
-                    datasets: [
-                        {
-                            label: 'Revenue (₹)',
-                            data: <?php echo json_encode($monthly_revenue); ?>,
-                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                            borderColor: '#3b82f6',
-                            borderWidth: 2,
-                            borderRadius: 8,
-                            borderSkipped: false,
-                            yAxisID: 'y',
-                        },
-                        {
-                            label: 'Leads Sold',
-                            data: <?php echo json_encode($monthly_sold); ?>,
-                            type: 'line',
-                            borderColor: '#a78bfa',
-                            backgroundColor: 'rgba(167, 139, 250, 0.1)',
-                            borderWidth: 3,
-                            pointBackgroundColor: '#a78bfa',
-                            pointBorderColor: '#1e293b',
-                            pointBorderWidth: 3,
-                            pointRadius: 5,
-                            tension: 0.4,
-                            fill: true,
-                            yAxisID: 'y1',
-                        }
-                    ]
+// ─── Chart ───
+const ctx = document.getElementById('salesChart');
+if (ctx) {
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: <?php echo json_encode($monthly_labels); ?>,
+            datasets: [
+                {
+                    label: 'Revenue (₹)',
+                    data: <?php echo json_encode($monthly_revenue); ?>,
+                    backgroundColor: 'rgba(59,130,246,0.12)',
+                    borderColor: '#3b82f6',
+                    borderWidth: 2,
+                    borderRadius: 6,
+                    borderSkipped: false,
+                    yAxisID: 'y',
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: { intersect: false, mode: 'index' },
-                    plugins: {
-                        legend: {
-                            labels: { color: '#94a3b8', font: { size: 12, weight: 500 }, usePointStyle: true, padding: 20 }
-                        },
-                        tooltip: {
-                            backgroundColor: '#1e293b',
-                            titleColor: '#f1f5f9',
-                            bodyColor: '#94a3b8',
-                            borderColor: 'rgba(255,255,255,0.08)',
-                            borderWidth: 1,
-                            padding: 12,
-                            cornerRadius: 12,
-                            displayColors: true,
-                            callbacks: {
-                                label: function(context) {
-                                    if (context.datasetIndex === 0) return ' Revenue: ₹' + context.parsed.y.toLocaleString();
-                                    return ' Leads Sold: ' + context.parsed.y;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: { color: 'rgba(255,255,255,0.04)', drawBorder: false },
-                            ticks: { color: '#64748b', font: { size: 11 } }
-                        },
-                        y: {
-                            position: 'left',
-                            grid: { color: 'rgba(255,255,255,0.04)', drawBorder: false },
-                            ticks: {
-                                color: '#64748b', font: { size: 11 },
-                                callback: function(val) { return '₹' + val.toLocaleString(); }
-                            }
-                        },
-                        y1: {
-                            position: 'right',
-                            grid: { display: false },
-                            ticks: { color: '#a78bfa', font: { size: 11 } }
+                {
+                    label: 'Leads Sold',
+                    data: <?php echo json_encode($monthly_sold); ?>,
+                    type: 'line',
+                    borderColor: '#8b5cf6',
+                    backgroundColor: 'rgba(139,92,246,0.06)',
+                    borderWidth: 2.5,
+                    pointBackgroundColor: '#8b5cf6',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    tension: 0.4,
+                    fill: true,
+                    yAxisID: 'y1',
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { intersect: false, mode: 'index' },
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#64748b', font: { size: 12, weight: 500 },
+                        usePointStyle: true, padding: 20
+                    }
+                },
+                tooltip: {
+                    backgroundColor: '#fff',
+                    titleColor: '#0f172a',
+                    bodyColor: '#475569',
+                    borderColor: '#e2e8f0',
+                    borderWidth: 1,
+                    padding: 12,
+                    cornerRadius: 10,
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+                    callbacks: {
+                        label: function(c) {
+                            return c.datasetIndex === 0
+                                ? ' Revenue: ₹' + c.parsed.y.toLocaleString()
+                                : ' Leads Sold: ' + c.parsed.y;
                         }
                     }
                 }
-            });
-        }
-
-        // Lead Table Filter
-        function filterLeads() {
-            const search = document.getElementById('leadSearch').value.toLowerCase();
-            const status = document.getElementById('leadStatus').value;
-            const budget = document.getElementById('leadBudget').value;
-            const rows = document.querySelectorAll('#leadsTable tbody tr');
-            let visible = 0;
-
-            rows.forEach(row => {
-                const niche = row.dataset.niche || '';
-                const client = row.dataset.client || '';
-                const rStatus = row.dataset.status || '';
-                const rBudget = row.dataset.budget || '';
-
-                const matchSearch = !search || niche.includes(search) || client.includes(search);
-                const matchStatus = status === 'all' || rStatus === status;
-                const matchBudget = budget === 'all' || rBudget === budget;
-
-                if (matchSearch && matchStatus && matchBudget) {
-                    row.style.display = '';
-                    visible++;
-                } else {
-                    row.style.display = 'none';
+            },
+             scales: {
+                x: {
+                    grid: { display: false },
+                    ticks: { color: '#94a3b8', font: { size: 11 } }
+                },
+                y: {
+                    position: 'left',
+                    grid: { color: '#f1f5f9' },
+                    ticks: {
+                        color: '#94a3b8', font: { size: 11 },
+                        callback: v => '₹' + v.toLocaleString()
+                    }
+                },
+                y1: {
+                    position: 'right',
+                    grid: { display: false },
+                    ticks: { color: '#a78bfa', font: { size: 11 } }
                 }
-            });
-            document.getElementById('filterCount').textContent = visible + ' result' + (visible !== 1 ? 's' : '');
+            }
         }
+    });
+}
+
+// ─── Filter ───
+function filterLeads() {
+    const s = document.getElementById('leadSearch').value.toLowerCase();
+    const st = document.getElementById('leadStatus').value;
+    const b = document.getElem entById('leadBudget').value;
+    let v = 0;
+    document.querySelectorAll('#leadsTable tbody tr').forEach(r => {
+        const ok =
+            (!s || (r.dataset.niche||'').includes(s) || (r.dataset.client||'').includes(s)) &&
+            (st === 'all' || r.dataset.status === st) &&
+            (b === 'all' || r.dataset.budget === b);
+        r.style.display = ok ? '' : 'none';
+        if (ok) v++;
+    });
+    document.getElementById('filterCount').textContent = v + ' result' + (v !== 1 ? 's' : '');
+}
     </script>
 </body>
 
