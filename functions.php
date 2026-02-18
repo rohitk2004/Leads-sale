@@ -260,4 +260,3 @@ function get_sold_leads($pdo)
     $stmt = $pdo->query("SELECT * FROM leads WHERE status = 'sold' ORDER BY created_at DESC");
     return $stmt->fetchAll();
 }
-?>
