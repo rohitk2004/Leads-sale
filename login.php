@@ -169,6 +169,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </div>
                     </div>
 
+                    <div style="text-align: right; margin-bottom: 8px;">
+                        <a href="forgot_password.php"
+                            style="font-size: 0.82rem; color: #3b82f6; text-decoration: none; font-weight: 500; transition: color 0.2s;">Forgot
+                            Password?</a>
+                    </div>
+
                     <button type="submit" class="auth-submit-btn" id="submitBtn">
                         <span class="btn-text">Sign In</span>
                         <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none"

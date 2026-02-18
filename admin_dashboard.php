@@ -994,7 +994,9 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
                 <a href="#" class="nav-tab act">Overview</a>
                 <a href="#leads-sec" class="nav-tab">Leads</a>
                 <a href="#add-sec" class="nav-tab">Add Lead</a>
+                <a href="change_password.php" class="nav-tab">🔐 Password</a>
                 <a href="index.php" class="nav-tab">View Site</a>
+                <a href="logout.php" class="nav-tab" style="color:#dc2626;">Logout</a>
             </div>
             <div class="nav-right">
                 <span class="nav-live">Live</span>
@@ -1127,7 +1129,8 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
                                     <td><span class="uw">₹<?php echo number_format($u['wallet_balance']); ?></span></td>
                                     <td><span class="up"><?php echo $u['purchases']; ?></span></td>
                                     <td style="color:var(--t4);font-size:.76rem;">
-                                        <?php echo date('d M Y', strtotime($u['created_at'])); ?></td>
+                                        <?php echo date('d M Y', strtotime($u['created_at'])); ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                             <?php if (empty($users)): ?>
@@ -1153,7 +1156,8 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
                         <div style="flex:1">
                             <div class="tx-d"><?php echo htmlspecialchars($t['description']); ?></div>
                             <div class="tx-m">@<?php echo htmlspecialchars($t['username']); ?> ·
-                                <?php echo date('d M, H:i', strtotime($t['created_at'])); ?></div>
+                                <?php echo date('d M, H:i', strtotime($t['created_at'])); ?>
+                            </div>
                         </div>
                         <div class="tx-a"><?php echo $cr ? '+' : '-'; ?>₹<?php echo number_format($t['amount']); ?></div>
                     </div>
@@ -1235,7 +1239,8 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
                                 <td><span class="li">#<?php echo $l['id']; ?></span></td>
                                 <td style="max-width:220px;">
                                     <div class="ln"><?php echo htmlspecialchars($l['niche']); ?></div>
-                                    <div class="ld"><?php echo htmlspecialchars(substr($l['description'], 0, 50)); ?>...</div>
+                                    <div class="ld"><?php echo htmlspecialchars(substr($l['description'], 0, 50)); ?>...
+                                    </div>
                                 </td>
                                 <td><span class="lb">₹<?php echo number_format($l['budget']); ?>+</span></td>
                                 <td><span class="lp">₹<?php echo number_format($l['lead_price']); ?></span></td>
@@ -1247,7 +1252,8 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
                                             class="ls ls-a"><b></b>Available</span><?php else: ?><span
                                             class="ls ls-s"><b></b>Sold</span><?php endif; ?></td>
                                 <td style="color:var(--t4);font-size:.76rem;white-space:nowrap;">
-                                    <?php echo date('d M Y', strtotime($l['created_at'])); ?></td>
+                                    <?php echo date('d M Y', strtotime($l['created_at'])); ?>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                         <?php if (empty($leads)): ?>
@@ -1269,42 +1275,44 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <script>
-document.addEventListener('DOMContentLoaded',function(){
-    var el=document.getElementById('mainChart');
-    if(!el||typeof Chart==='undefined')return;
-    new Chart(el,{
-        type:'bar',
-        data:{
-            labels:<?php echo json_encode($clbl); ?>,
-            datasets:[
-                {label:'Revenue (₹)',data:<?php echo json_encode($crev); ?>,backgroundColor:'rgba(37,99,235,.12)',borderColor:'#2563eb',borderWidth:2,borderRadius:8,borderSkipped:false,yAxisID:'y'},
-                {label:'Leads Sold',data:<?php echo json_encode($csold); ?>,type:'line',borderColor:'#7c3aed',backgroundColor:'rgba(124,58,237,.04)',borderWidth:2.5,pointBackgroundColor:'#7c3aed',pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:5,tension:.4,fill:true,yAxisID:'y1'}
-            ]
-        },
-        options:{
-            responsive:true,maintainAspectRatio:false,
-            interaction:{intersect:false,mode:'index'},
-            plugins:{
-                legend:{labels:{color:'#6b7280',font:{size:11,weight:'500'},usePointStyle:true,padding:16}},
-                tooltip:{backgroundColor:'#fff',titleColor:'#111827',bodyColor:'#374151',borderColor:'#e5e7eb',borderWidth:1,padding:12,cornerRadius:10,
-                    callbacks:{label:function(c){return c.datasetIndex===0?' ₹'+c.parsed.y.toLocaleString():' '+c.parsed.y+' leads';}}}
-            },
-            scales:{
-                x:{grid:{display:false},ticks:{color:'#9ca3af',font:{size:11}}},
-                y:{position:'left',grid:{color:'#f3f4f6'},ticks:{color:'#9ca3af',font:{size:11},callback:function(v){return '₹'+v.toLocaleString();}}},
-                y1:{position:'right',grid:{display:false},ticks:{color:'#a78bfa',font:{size:11}}}
-            }
+        document.addEventListener('DOMContentLoaded', function () {
+            var el = document.getElementById('mainChart');
+            if (!el || typeof Chart === 'undefined') return;
+            new Chart(el, {
+                type: 'bar',
+                data: {
+                    labels: <?php echo json_encode($clbl); ?>,
+                    datasets: [
+                        { label: 'Revenue (₹)', data: <?php echo json_encode($crev); ?>, backgroundColor: 'rgba(37,99,235,.12)', borderColor: '#2563eb', borderWidth: 2, borderRadius: 8, borderSkipped: false, yAxisID: 'y' },
+                        { label: 'Leads Sold', data: <?php echo json_encode($csold); ?>, type: 'line', borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,.04)', borderWidth: 2.5, pointBackgroundColor: '#7c3aed', pointBorderColor: '#fff', pointBorderWidth: 2, pointRadius: 5, tension: .4, fill: true, yAxisID: 'y1' }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    interaction: { intersect: false, mode: 'index' },
+                    plugins: {
+                        legend: { labels: { color: '#6b7280', font: { size: 11, weight: '500' }, usePointStyle: true, padding: 16 } },
+                        tooltip: {
+                            backgroundColor: '#fff', titleColor: '#111827', bodyColor: '#374151', borderColor: '#e5e7eb', borderWidth: 1, padding: 12, cornerRadius: 10,
+                            callbacks: { label: function (c) { return c.datasetIndex === 0 ? ' ₹' + c.parsed.y.toLocaleString() : ' ' + c.parsed.y + ' leads'; } }
+                        }
+                    },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: '#9ca3af', font: { size: 11 } } },
+                        y: { position: 'left', grid: { color: '#f3f4f6' }, ticks: { color: '#9ca3af', font: { size: 11 }, callback: function (v) { return '₹' + v.toLocaleString(); } } },
+                        y1: { position: 'right', grid: { display: false }, ticks: { color: '#a78bfa', font: { size: 11 } } }
+                    }
+                }
+            });
+        });
+        function fl() {
+            var s = document.getElementById('qs').value.toLowerCase(), st = document.getElementById('qst').value, b = document.getElementById('qb').value, v = 0;
+            document.querySelectorAll('#ltbl tbody tr').forEach(function (r) {
+                var ok = (!s || (r.dataset.n || '').includes(s) || (r.dataset.c || '').includes(s)) && (st === 'all' || r.dataset.s === st) && (b === 'all' || r.dataset.b === b);
+                r.style.display = ok ? '' : 'none'; if (ok) v++;
+            });
+            document.getElementById('rcnt').textContent = v + ' result' + (v !== 1 ? 's' : '');
         }
-    });
-});
-function fl(){
-    var s=document.getElementById('qs').value.toLowerCase(),st=document.getElementById('qst').value,b=document.getElementById('qb').value,v=0;
-    document.querySelectorAll('#ltbl tbody tr').forEach(function(r){
-        var ok=(!s||(r.dataset.n||'').includes(s)||(r.dataset.c||'').includes(s))&&(st==='all'||r.dataset.s===st)&&(b==='all'||r.dataset.b===b);
-        r.style.display=ok?'':'none';if(ok)v++;
-    });
-    document.getElementById('rcnt').textContent=v+' result'+(v!==1?'s':'');
-}
     </script>
 </body>
 
