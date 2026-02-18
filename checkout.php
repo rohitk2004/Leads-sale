@@ -4,8 +4,8 @@ require_once 'config.php';
 
 // Require login for checkout
 if (!isset($_SESSION['user_id'])) {
-    $_SESSION['redirect_after_login'] = 'checkout.php';
-    header("Location: login.php");
+    $_SESSION['redirect_after_login'] = 'checkout';
+    header("Location: login");
     exit;
 }
 
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['complete_payment'])) {
 
     if ($result['success']) {
         // Redirect to dashboard after 2 seconds
-        header("refresh:2;url=developer_dashboard.php");
+        header("refresh:2;url=developer_dashboard");
     }
 }
 
@@ -33,7 +33,7 @@ $current_balance = isset($_SESSION['user_id']) ? get_user_balance($pdo, $_SESSIO
 $can_afford = $current_balance >= $total;
 
 if (empty($cart_items) && empty($message)) {
-    header("Location: cart.php");
+    header("Location: cart");
     exit;
 }
 ?>
@@ -148,7 +148,7 @@ if (empty($cart_items) && empty($message)) {
                                 <span class="option-desc">Balance: ₹<?php echo number_format($current_balance, 2); ?></span>
                             </div>
                             <?php if (!$can_afford): ?>
-                                <a href="developer_dashboard.php#add-funds-container" class="btn btn-secondary btn-sm"
+                                <a href="developer_dashboard#add-funds-container" class="btn btn-secondary btn-sm"
                                     style="font-size: 0.8rem; padding: 4px 10px; margin-left: auto;">Top Up</a>
                             <?php else: ?>
                                 <div class="selection-status">&#10003;</div>
@@ -174,8 +174,8 @@ if (empty($cart_items) && empty($message)) {
                 </div>
 
                 <p style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: #64748b; line-height: 1.4;">
-                    By clicking 'Pay Now', you agree to the QuickProject.in <a href="terms.php" target="_blank"
-                        style="color: #2563eb;">Terms & Conditions</a> and <a href="terms.php#refund-policy" target="_blank"
+                    By clicking 'Pay Now', you agree to the QuickProject.in <a href="terms" target="_blank"
+                        style="color: #2563eb;">Terms & Conditions</a> and <a href="terms#refund-policy" target="_blank"
                         style="color: #2563eb;">Refund Policy</a>.
                 </p>
                 <p style="text-align: center; margin-top: 20px; font-size: 0.85rem; color: #94a3b8;">
@@ -323,7 +323,7 @@ if (empty($cart_items) && empty($message)) {
 
                     try {
                         // Create Order
-                        const response = await fetch('razorpay_checkout_order.php', { method: 'POST' });
+                        const response = await fetch('razorpay_checkout_order', { method: 'POST' });
                         const order = await response.json();
 
                         if (order.error) {
@@ -341,7 +341,7 @@ if (empty($cart_items) && empty($message)) {
                             "description": "Lead Purchase",
                             "order_id": order.id,
                             "handler": async function (response) {
-                                const verifyRes = await fetch('razorpay_checkout_verify.php', {
+                                const verifyRes = await fetch('razorpay_checkout_verify', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
@@ -354,7 +354,7 @@ if (empty($cart_items) && empty($message)) {
                                 const result = await verifyRes.json();
                                 if (result.success) {
                                     // Redirect to dashboard or sold leads
-                                    window.location.href = 'sold_leads.php?purchase_success=1';
+                                    window.location.href = 'sold_leads?purchase_success=1';
                                 } else {
                                     alert(result.error);
                                     btn.innerHTML = originalContent;

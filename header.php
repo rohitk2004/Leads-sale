@@ -34,12 +34,12 @@ if (isset($pdo)) {
                         </svg>
                         <?php echo htmlspecialchars($_SESSION['username']); ?>
                     </span>
-                    <a href="<?php echo $_SESSION['role'] == 'admin' ? 'admin_dashboard.php' : 'developer_dashboard.php'; ?>"
+                    <a href="<?php echo $_SESSION['role'] == 'admin' ? 'admin_dashboard' : 'developer_dashboard'; ?>"
                         class="top-header-btn">Dashboard</a>
-                    <a href="logout.php" class="top-header-link">Logout</a>
+                    <a href="logout" class="top-header-link">Logout</a>
                 <?php else: ?>
-                    <a href="login.php" class="top-header-btn">Login</a>
-                    <a href="register.php" class="top-header-btn top-header-btn-primary">Register</a>
+                    <a href="login" class="top-header-btn">Login</a>
+                    <a href="register" class="top-header-btn top-header-btn-primary">Register</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -50,17 +50,17 @@ if (isset($pdo)) {
 <header class="main-header">
     <div class="container">
         <div class="logo">
-            <a href="index.php" style="text-decoration: none;">
+            <a href="index" style="text-decoration: none;">
                 <h1>💼 Quick<span style="color: var(--success-color);">Project</span></h1>
             </a>
         </div>
         <nav>
-            <a href="index.php" class="nav-link">Home</a>
+            <a href="index" class="nav-link">Home</a>
             <a href="#about" class="nav-link">About Us</a>
-            <a href="available_leads.php" class="nav-link">Available Leads</a>
-            <a href="sold_leads.php" class="nav-link">Sold Leads</a>
-            <a href="contact.php" class="nav-link">Contact Us</a>
-            <a href="cart.php" class="cart-link">
+            <a href="available_leads" class="nav-link">Available Leads</a>
+            <a href="sold_leads" class="nav-link">Sold Leads</a>
+            <a href="contact" class="nav-link">Contact Us</a>
+            <a href="cart" class="cart-link">
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />

@@ -46,7 +46,7 @@ foreach ($purchased_leads as $l) {
                     </div>
                     <p class="dash-subtitle">Manage your leads, track purchases, and grow your business.</p>
                 </div>
-                <a href="change_password.php" class="dash-header-btn"
+                <a href="change_password" class="dash-header-btn"
                     style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
@@ -54,7 +54,7 @@ foreach ($purchased_leads as $l) {
                     </svg>
                     <span>Change Password</span>
                 </a>
-                <a href="available_leads.php" class="dash-header-btn">
+                <a href="available_leads" class="dash-header-btn">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="11" cy="11" r="8" />
                         <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -196,8 +196,8 @@ foreach ($purchased_leads as $l) {
                 </button>
                 <p class="dash-wallet-terms">
                     By adding funds, you agree to the
-                    <a href="terms.php" target="_blank">Terms & Conditions</a> and
-                    <a href="terms.php#refund-policy" target="_blank">Refund Policy</a>.
+                    <a href="terms" target="_blank">Terms & Conditions</a> and
+                    <a href="terms#refund-policy" target="_blank">Refund Policy</a>.
                 </p>
             </div>
 
@@ -252,7 +252,7 @@ foreach ($purchased_leads as $l) {
 
                                 const result = await verifyRes.json();
                                 if (result.success) {
-                                    window.location.href = 'developer_dashboard.php?fund_success=1';
+                                    window.location.href = 'developer_dashboard?fund_success=1';
                                 } else {
                                     alert(result.error);
                                     btn.innerHTML = originalHTML;
@@ -297,7 +297,7 @@ foreach ($purchased_leads as $l) {
                         lead<?php echo $total_leads !== 1 ? 's' : ''; ?> purchased</p>
                 </div>
                 <?php if ($total_leads > 0): ?>
-                    <a href="available_leads.php" class="dash-section-link">
+                    <a href="available_leads" class="dash-section-link">
                         <span>Browse More</span>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="5" y1="12" x2="19" y2="12" />
@@ -312,7 +312,7 @@ foreach ($purchased_leads as $l) {
                     <div class="dash-empty-icon">📂</div>
                     <h3>No leads purchased yet</h3>
                     <p>Browse our marketplace to find verified clients and grow your business.</p>
-                    <a href="available_leads.php" class="dash-empty-btn">
+                    <a href="available_leads" class="dash-empty-btn">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="11" cy="11" r="8" />
                             <line x1="21" y1="21" x2="16.65" y2="16.65" />

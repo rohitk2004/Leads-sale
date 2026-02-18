@@ -5,14 +5,14 @@ require_once 'functions.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove_item'])) {
     $cart_id = $_POST['cart_id'];
     remove_from_cart($pdo, $cart_id);
-    header("Location: cart.php");
+    header("Location: cart");
     exit;
 }
 
 // Handle Clear Cart
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['clear_cart'])) {
     clear_cart($pdo);
-    header("Location: cart.php");
+    header("Location: cart");
     exit;
 }
 
@@ -234,7 +234,7 @@ if (isset($_SESSION['user_id'])) {
                         <div class="empty-icon">🛒</div>
                         <h2>Your cart is empty</h2>
                         <p style="margin-bottom: 30px; color: #64748b;">Looks like you haven't added any leads yet.</p>
-                        <a href="available_leads.php" class="btn btn-primary">Browse Available Leads</a>
+                        <a href="available_leads" class="btn btn-primary">Browse Available Leads</a>
                     </div>
                 </div>
             <?php else: ?>
@@ -314,7 +314,7 @@ if (isset($_SESSION['user_id'])) {
                             </div>
                         <?php endif; ?>
 
-                        <a href="checkout.php" class="btn btn-primary btn-checkout" style="text-decoration: none;">
+                        <a href="checkout" class="btn btn-primary btn-checkout" style="text-decoration: none;">
                             Proceed to Checkout
                         </a>
 
@@ -329,4 +329,6 @@ if (isset($_SESSION['user_id'])) {
 
     <?php include 'footer.php'; ?>
 
-</body></html>
+</body>
+
+</html>

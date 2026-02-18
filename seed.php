@@ -53,7 +53,7 @@ try {
         }
     }
 
-    echo "<h3>Done! <a href='admin_dashboard.php'>Go to Dashboard</a></h3>";
+    echo "<h3>Done! <a href='admin_dashboard'>Go to Dashboard</a></h3>";
 
 } catch (PDOException $e) {
     die("Error: " . $e->getMessage());

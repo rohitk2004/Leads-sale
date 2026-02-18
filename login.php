@@ -22,9 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             unset($_SESSION['redirect_after_login']);
             header("Location: $redirect");
         } elseif ($user['role'] == 'admin') {
-            header("Location: admin_dashboard.php");
+            header("Location: admin_dashboard");
         } else {
-            header("Location: developer_dashboard.php");
+            header("Location: developer_dashboard");
         }
         exit;
     } else {
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="auth-brand-grid"></div>
 
             <div class="auth-brand-content">
-                <a href="index.php" class="auth-brand-logo">
+                <a href="index" class="auth-brand-logo">
                     <span class="auth-logo-icon">💼</span>
                     <span class="auth-logo-text">QuickProject</span>
                 </a>
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="auth-form-panel">
             <div class="auth-form-wrapper">
                 <!-- Mobile Logo -->
-                <a href="index.php" class="auth-mobile-logo">
+                <a href="index" class="auth-mobile-logo">
                     <span>💼</span>
                     <span>QuickProject</span>
                 </a>
@@ -170,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
 
                     <div style="text-align: right; margin-bottom: 8px;">
-                        <a href="forgot_password.php"
+                        <a href="forgot_password"
                             style="font-size: 0.82rem; color: #3b82f6; text-decoration: none; font-weight: 500; transition: color 0.2s;">Forgot
                             Password?</a>
                     </div>
@@ -186,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </form>
 
                 <div class="auth-form-footer">
-                    <p>Don't have an account? <a href="register.php">Create one free</a></p>
+                    <p>Don't have an account? <a href="register">Create one free</a></p>
                 </div>
             </div>
         </div>

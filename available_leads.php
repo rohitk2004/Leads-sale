@@ -5,7 +5,7 @@ require_once 'functions.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_cart'])) {
     $lead_id = $_POST['lead_id'];
     add_to_cart($pdo, $lead_id);
-    header("Location: cart.php");
+    header("Location: cart");
     exit;
 }
 

@@ -5,7 +5,7 @@ require_once 'functions.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_cart'])) {
     $lead_id = $_POST['lead_id'];
     add_to_cart($pdo, $lead_id);
-    header("Location: cart.php");
+    header("Location: cart");
     exit;
 }
 
@@ -250,7 +250,7 @@ $cart_count = count(get_cart_items($pdo));
                     <?php endforeach; ?>
                 </div>
                 <div class="view-all-container" style="text-align: center; margin-top: 40px;">
-                    <a href="available_leads.php" class="btn btn-outline btn-lg">View All Available Leads</a>
+                    <a href="available_leads" class="btn btn-outline btn-lg">View All Available Leads</a>
                 </div>
             <?php endif; ?>
         </div>
@@ -396,7 +396,7 @@ $cart_count = count(get_cart_items($pdo));
                             <span class="pricing-price-amount pricing-wallet-amount">₹799</span>
                         </div>
                     </div>
-                    <a href="available_leads.php" class="btn btn-outline pricing-btn">Browse Basic Leads</a>
+                    <a href="available_leads" class="btn btn-outline pricing-btn">Browse Basic Leads</a>
                 </div>
 
                 <!-- Business Plan - Popular -->
@@ -429,7 +429,7 @@ $cart_count = count(get_cart_items($pdo));
                             <span class="pricing-price-amount pricing-wallet-amount">₹1,999</span>
                         </div>
                     </div>
-                    <a href="available_leads.php" class="btn btn-primary pricing-btn">Browse Business Leads</a>
+                    <a href="available_leads" class="btn btn-primary pricing-btn">Browse Business Leads</a>
                 </div>
 
                 <!-- Premium Plan -->
@@ -455,14 +455,14 @@ $cart_count = count(get_cart_items($pdo));
                             <span class="pricing-price-amount pricing-wallet-amount">₹3,999</span>
                         </div>
                     </div>
-                    <a href="available_leads.php" class="btn btn-outline pricing-btn">Browse Premium Leads</a>
+                    <a href="available_leads" class="btn btn-outline pricing-btn">Browse Premium Leads</a>
                 </div>
             </div>
 
             <div class="pricing-footer-tip">
                 <div class="pricing-tip-icon">-</div>
                 <p><span class="pricing-tip-highlight">Pro Tip:</span> Wallet members save up to <strong>20%
-                        EXTRA</strong> on every purchase. <a href="login.php" class="pricing-tip-link">Login to top up
+                        EXTRA</strong> on every purchase. <a href="login" class="pricing-tip-link">Login to top up
                         →</a></p>
             </div>
         </div>

@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $pdo->prepare("INSERT INTO users (username, password, role, wallet_balance) VALUES (?, ?, ?, ?)");
         if ($stmt->execute([$username, $hashed_password, $role, $wallet_balance])) {
-            header("Location: login.php?registered=1");
+            header("Location: login?registered=1");
             exit;
         } else {
             $error = "Registration failed.";
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="auth-brand-grid"></div>
 
             <div class="auth-brand-content">
-                <a href="index.php" class="auth-brand-logo">
+                <a href="index" class="auth-brand-logo">
                     <span class="auth-logo-icon">💼</span>
                     <span class="auth-logo-text">QuickProject</span>
                 </a>
@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="auth-form-panel">
             <div class="auth-form-wrapper">
                 <!-- Mobile Logo -->
-                <a href="index.php" class="auth-mobile-logo">
+                <a href="index" class="auth-mobile-logo">
                     <span>💼</span>
                     <span>QuickProject</span>
                 </a>
@@ -177,13 +177,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     <p class="auth-terms">
                         By clicking 'Create Account', you agree to the QuickProject
-                        <a href="terms.php" target="_blank">Terms & Conditions</a> and
-                        <a href="terms.php#refund-policy" target="_blank">Refund Policy</a>.
+                        <a href="terms" target="_blank">Terms & Conditions</a> and
+                        <a href="terms#refund-policy" target="_blank">Refund Policy</a>.
                     </p>
                 </form>
 
                 <div class="auth-form-footer">
-                    <p>Already have an account? <a href="login.php">Sign in</a></p>
+                    <p>Already have an account? <a href="login">Sign in</a></p>
                 </div>
             </div>
         </div>

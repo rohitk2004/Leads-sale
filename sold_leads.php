@@ -182,12 +182,12 @@ $total_sold = count($sold_leads);
                     <div class="dash-empty-icon">✅</div>
                     <h3>No sold leads yet</h3>
                     <p>Sold leads will appear here once purchased by developers.</p>
-                    <a href="available_leads.php" class="dash-empty-btn">Browse Available Leads</a>
+                    <a href="available_leads" class="dash-empty-btn">Browse Available Leads</a>
                 </div>
             <?php else: ?>
                 <div class="filter-results">
                     <span>Showing <strong><?php echo $total_sold; ?></strong> sold leads</span>
-                    <a href="available_leads.php" class="dash-section-link">
+                    <a href="available_leads" class="dash-section-link">
                         <span>View Available Leads</span>
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="5" y1="12" x2="19" y2="12" />

@@ -22,7 +22,7 @@ try {
         echo "<p><strong>Username:</strong> admin</p>";
         echo "<p><strong>Password:</strong> admin123</p>";
         echo "<br>";
-        echo "<a href='login.php' style='display: inline-block; padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px;'>Go to Login</a>";
+        echo "<a href='login' style='display: inline-block; padding: 10px 20px; background-color: #3498db; color: white; text-decoration: none; border-radius: 5px;'>Go to Login</a>";
         echo "</div>";
     } else {
         echo "Error: Could not insert admin user.";

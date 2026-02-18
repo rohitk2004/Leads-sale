@@ -989,14 +989,14 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
 
     <nav class="nav">
         <div class="nav-inner">
-            <a href="index.php" class="nav-brand"><span class="nav-brand-ic">💼</span>QuickProject</a>
+            <a href="index" class="nav-brand"><span class="nav-brand-ic">💼</span>QuickProject</a>
             <div class="nav-tabs">
                 <a href="#" class="nav-tab act">Overview</a>
                 <a href="#leads-sec" class="nav-tab">Leads</a>
                 <a href="#add-sec" class="nav-tab">Add Lead</a>
-                <a href="change_password.php" class="nav-tab">🔐 Password</a>
-                <a href="index.php" class="nav-tab">View Site</a>
-                <a href="logout.php" class="nav-tab" style="color:#dc2626;">Logout</a>
+                <a href="change_password" class="nav-tab">🔐 Password</a>
+                <a href="index" class="nav-tab">View Site</a>
+                <a href="logout" class="nav-tab" style="color:#dc2626;">Logout</a>
             </div>
             <div class="nav-right">
                 <span class="nav-live">Live</span>
@@ -1262,7 +1262,7 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
                                     <div class="emp">
                                         <div class="emp-ic">📭</div>
                                         <div>No leads found</div>
-                                        <div style="margin-top:6px;"><a href="seed.php">Add Demo Data</a></div>
+                                        <div style="margin-top:6px;"><a href="seed">Add Demo Data</a></div>
                                     </div>
                                 </td>
                             </tr><?php endif; ?>

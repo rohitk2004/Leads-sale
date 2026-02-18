@@ -9,7 +9,7 @@
         <div class="footer-top">
             <!-- Brand Column -->
             <div class="footer-col footer-brand-col">
-                <a href="index.php" class="footer-logo">
+                <a href="index" class="footer-logo">
                     <span class="footer-logo-icon">💼</span>
                     <span class="footer-logo-text">QuickProject</span>
                 </a>
@@ -48,10 +48,10 @@
             <div class="footer-col">
                 <h4 class="footer-heading">Marketplace</h4>
                 <ul class="footer-links">
-                    <li><a href="available_leads.php">Browse Leads</a></li>
-                    <li><a href="index.php#how-it-works">How It Works</a></li>
-                    <li><a href="index.php#pricing">Pricing</a></li>
-                    <li><a href="index.php#reviews">Wall of Love</a></li>
+                    <li><a href="available_leads">Browse Leads</a></li>
+                    <li><a href="index#how-it-works">How It Works</a></li>
+                    <li><a href="index#pricing">Pricing</a></li>
+                    <li><a href="index#reviews">Wall of Love</a></li>
                 </ul>
             </div>
 
@@ -61,13 +61,13 @@
                 <ul class="footer-links">
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <li><a
-                                href="<?php echo $_SESSION['role'] == 'admin' ? 'admin_dashboard.php' : 'developer_dashboard.php'; ?>">Dashboard</a>
+                                href="<?php echo $_SESSION['role'] == 'admin' ? 'admin_dashboard' : 'developer_dashboard'; ?>">Dashboard</a>
                         </li>
-                        <li><a href="cart.php">My Cart</a></li>
-                        <li><a href="logout.php" class="text-danger">Logout</a></li>
+                        <li><a href="cart">My Cart</a></li>
+                        <li><a href="logout" class="text-danger">Logout</a></li>
                     <?php else: ?>
-                        <li><a href="login.php">Login</a></li>
-                        <li><a href="register.php">Create Account</a></li>
+                        <li><a href="login">Login</a></li>
+                        <li><a href="register">Create Account</a></li>
                     <?php endif; ?>
                 </ul>
             </div>
@@ -116,9 +116,9 @@
         <div class="footer-bottom">
             <p>&copy; <?php echo date('Y'); ?> QuickProject. All rights reserved.</p>
             <div class="footer-legal">
-                <a href="terms.php">Terms & Conditions</a>
-                <a href="terms.php#refund-policy">Refund Policy</a>
-                <a href="privacy.php">Privacy</a>
+                <a href="terms">Terms & Conditions</a>
+                <a href="terms#refund-policy">Refund Policy</a>
+                <a href="privacy">Privacy</a>
             </div>
         </div>
     </div>

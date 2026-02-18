@@ -4,7 +4,7 @@ require_once 'config.php';
 require_login('developer');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header("Location: checkout.php");
+    header("Location: checkout");
     exit;
 }
 

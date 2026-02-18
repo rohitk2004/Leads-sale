@@ -11,11 +11,11 @@ if (session_status() === PHP_SESSION_NONE) {
 function require_login($role = null)
 {
     if (!isset($_SESSION['user_id'])) {
-        header("Location: login.php");
+        header("Location: login");
         exit;
     }
     if ($role && $_SESSION['role'] !== $role) {
-        header("Location: login.php");
+        header("Location: login");
         exit;
     }
 }

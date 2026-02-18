@@ -29,7 +29,7 @@ try {
         echo "Admin user already exists.<br>";
     }
 
-    echo "<h3 style='color:green'>Setup complete!</h3> <a href='login.php'>Go to Login</a>";
+    echo "<h3 style='color:green'>Setup complete!</h3> <a href='login'>Go to Login</a>";
 
 } catch (PDOException $e) {
     die("DB ERROR: " . $e->getMessage());
