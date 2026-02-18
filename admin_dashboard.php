@@ -685,6 +685,15 @@ $leads = $stmt->fetchAll();
                                 </td>
                             </tr>
                         <?php endforeach; ?>
+                        <?php if (empty($leads)): ?>
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 40px; color: #64748b;">
+                                    <div style="font-size: 3rem; margin-bottom: 10px;">📭</div>
+                                    <div>No leads found in the database.</div>
+                                    <div style="margin-top: 10px;"><a href="seed.php" style="color: #3b82f6; text-decoration: none; font-weight: 600;">Click here to Add Demo Data</a></div>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
