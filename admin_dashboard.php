@@ -89,10 +89,12 @@ for ($i = 5; $i >= 0; $i--) {
 }
 
 // Recent Users
-$stmt = $pdo->query("SELECT u.id, u.username, u.email, u.role, u.wallet_balance, u.created_at, 
+$stmt = $pdo->query("SELECT u.id, u.username, u.role, u.wallet_balance, u.created_at, 
     (SELECT COUNT(*) FROM purchased_leads WHERE user_id = u.id) as total_purchases 
     FROM users WHERE role = 'developer' ORDER BY created_at DESC LIMIT 10");
 $recent_users = $stmt->fetchAll();
+
+
 
 // Niche distribution
 $stmt = $pdo->query("SELECT niche, COUNT(*) as cnt FROM leads GROUP BY niche ORDER BY cnt DESC LIMIT 5");
@@ -531,7 +533,7 @@ $leads = $stmt->fetchAll();
                                             <div class="user-avatar" style="background: <?php echo $color; ?>20; color: <?php echo $color; ?>;"><?php echo $initials; ?></div>
                                             <div>
                                                 <div class="user-name"><?php echo htmlspecialchars($user['username']); ?></div>
-                                                <div class="user-email"><?php echo htmlspecialchars($user['email']); ?></div>
+                                                <div class="user-email">User #<?php echo $user['id']; ?></div>
                                             </div>
                                         </div>
                                     </td>
