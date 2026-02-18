@@ -94,9 +94,10 @@ for ($i = 5; $i >= 0; $i--) {
 }
 
 // Recent Users
+// Recent Users
 $stmt = $pdo->query("SELECT u.id, u.username, u.role, u.wallet_balance, u.created_at, 
     (SELECT COUNT(*) FROM purchased_leads WHERE user_id = u.id) as total_purchases 
-    FROM users WHERE role = 'developer' ORDER BY created_at DESC LIMIT 10");
+    FROM users u WHERE role = 'developer' ORDER BY created_at DESC LIMIT 10");
 $recent_users = $stmt->fetchAll();
 
 
