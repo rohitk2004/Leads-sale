@@ -7,7 +7,6 @@ require_login('admin');
 $message = "";
 $msg_type = "";
 
-// Add Lead
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_lead'])) {
     $niche = trim($_POST['niche']);
     $budget = (float) $_POST['budget'];
@@ -15,10 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_lead'])) {
     $name = trim($_POST['client_name']);
     $phone = trim($_POST['client_phone']);
     $lead_price = ($budget == 50000) ? 4999 : (($budget == 30000) ? 2499 : 999);
-
     try {
-        $stmt = $pdo->prepare("INSERT INTO leads (niche, budget, lead_price, description, client_name, client_phone, status) VALUES (?, ?, ?, ?, ?, ?, 'available')");
-        $stmt->execute([$niche, $budget, $lead_price, $desc, $name, $phone]);
+        $pdo->prepare("INSERT INTO leads (niche, budget, lead_price, description, client_name, client_phone, status) VALUES (?,?,?,?,?,?,'available')")
+            ->execute([$niche, $budget, $lead_price, $desc, $name, $phone]);
         $message = "Lead published successfully!";
         $msg_type = "success";
     } catch (PDOException $e) {
@@ -27,45 +25,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_lead'])) {
     }
 }
 
-// Analytics
 $total_leads = $pdo->query("SELECT COUNT(*) FROM leads")->fetchColumn();
-$available_count = $pdo->query("SELECT COUNT(*) FROM leads WHERE status = 'available'")->fetchColumn();
-$sold_count = $pdo->query("SELECT COUNT(*) FROM leads WHERE status = 'sold'")->fetchColumn();
-$total_revenue = $pdo->query("SELECT COALESCE(SUM(purchase_price), 0) FROM purchased_leads")->fetchColumn();
-$total_users = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'developer'")->fetchColumn();
-$conversion = $total_leads > 0 ? round(($sold_count / $total_leads) * 100, 1) : 0;
+$available = $pdo->query("SELECT COUNT(*) FROM leads WHERE status='available'")->fetchColumn();
+$sold = $pdo->query("SELECT COUNT(*) FROM leads WHERE status='sold'")->fetchColumn();
+$revenue = $pdo->query("SELECT COALESCE(SUM(purchase_price),0) FROM purchased_leads")->fetchColumn();
+$devs = $pdo->query("SELECT COUNT(*) FROM users WHERE role='developer'")->fetchColumn();
+$conv = $total_leads > 0 ? round(($sold / $total_leads) * 100, 1) : 0;
 
-// Monthly chart data (6 months)
-$chart_labels = [];
-$chart_revenue = [];
-$chart_sold = [];
+$clbl = [];
+$crev = [];
+$csold = [];
 for ($i = 5; $i >= 0; $i--) {
     $ms = date('Y-m-01', strtotime("-$i months"));
     $me = date('Y-m-t', strtotime("-$i months"));
-    $chart_labels[] = date('M', strtotime("-$i months"));
+    $clbl[] = date('M', strtotime("-$i months"));
     $s = $pdo->prepare("SELECT COALESCE(SUM(purchase_price),0) FROM purchased_leads WHERE purchased_at BETWEEN ? AND ?");
     $s->execute([$ms, "$me 23:59:59"]);
-    $chart_revenue[] = (float) $s->fetchColumn();
+    $crev[] = (float) $s->fetchColumn();
     $s = $pdo->prepare("SELECT COUNT(*) FROM purchased_leads WHERE purchased_at BETWEEN ? AND ?");
     $s->execute([$ms, "$me 23:59:59"]);
-    $chart_sold[] = (int) $s->fetchColumn();
+    $csold[] = (int) $s->fetchColumn();
+}
+$has_data = array_sum($crev) > 0 || array_sum($csold) > 0;
+if (!$has_data) {
+    $crev = [2500, 4999, 1999, 7498, 4999, 9998];
+    $csold = [1, 2, 1, 3, 2, 4];
 }
 
-// If all chart data is zero, show sample data
-$has_chart_data = array_sum($chart_revenue) > 0 || array_sum($chart_sold) > 0;
-if (!$has_chart_data) {
-    $chart_revenue = [2500, 4999, 1999, 7498, 4999, 9998];
-    $chart_sold = [1, 2, 1, 3, 2, 4];
-}
+$users = $pdo->query("SELECT u.id, u.username, u.wallet_balance, u.created_at,
+    (SELECT COUNT(*) FROM purchased_leads WHERE user_id = u.id) as purchases
+    FROM users u WHERE u.role='developer' ORDER BY u.created_at DESC LIMIT 8")->fetchAll();
 
-// Users, Niches, Transactions
-$recent_users = $pdo->query("SELECT u.id, u.username, u.role, u.wallet_balance, u.created_at,
-    (SELECT COUNT(*) FROM purchased_leads WHERE user_id = u.id) as total_purchases
-    FROM users u WHERE u.role = 'developer' ORDER BY u.created_at DESC LIMIT 8")->fetchAll();
+$niches = $pdo->query("SELECT niche, COUNT(*) as cnt FROM leads GROUP BY niche ORDER BY cnt DESC LIMIT 5")->fetchAll();
 
-$top_niches = $pdo->query("SELECT niche, COUNT(*) as cnt FROM leads GROUP BY niche ORDER BY cnt DESC LIMIT 5")->fetchAll();
-
-$recent_txns = $pdo->query("SELECT t.*, u.username FROM transactions t JOIN users u ON t.user_id = u.id ORDER BY t.created_at DESC LIMIT 6")->fetchAll();
+$txns = $pdo->query("SELECT t.*, u.username FROM transactions t JOIN users u ON t.user_id = u.id ORDER BY t.created_at DESC LIMIT 6")->fetchAll();
 
 $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll();
 ?>
@@ -88,221 +81,162 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
         }
 
         :root {
-            --bg: #f4f6fb;
-            --white: #ffffff;
-            --border: #e8ecf4;
-            --text: #0f172a;
-            --text2: #475569;
-            --text3: #94a3b8;
-            --blue: #3b82f6;
-            --indigo: #6366f1;
-            --green: #10b981;
-            --purple: #8b5cf6;
-            --amber: #f59e0b;
-            --red: #ef4444;
-            --radius: 14px;
-            --shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
-            --shadow-lg: 0 10px 30px -5px rgba(0, 0, 0, 0.06);
+            --bg: #f0f2f5;
+            --card: #fff;
+            --b: #e5e7eb;
+            --b2: #f3f4f6;
+            --t1: #111827;
+            --t2: #374151;
+            --t3: #6b7280;
+            --t4: #9ca3af;
+            --blue: #2563eb;
+            --blue-l: #eff6ff;
+            --blue-b: #bfdbfe;
+            --green: #059669;
+            --green-l: #ecfdf5;
+            --green-b: #a7f3d0;
+            --purple: #7c3aed;
+            --purple-l: #f5f3ff;
+            --purple-b: #ddd6fe;
+            --amber: #d97706;
+            --amber-l: #fffbeb;
+            --amber-b: #fde68a;
+            --red: #dc2626;
+            --red-l: #fef2f2;
+            --r: 16px;
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
             background: var(--bg);
-            color: var(--text);
+            color: var(--t1);
             -webkit-font-smoothing: antialiased;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        /* ═══ SIDEBAR + LAYOUT ═══ */
-        .layout {
-            display: flex;
             min-height: 100vh;
         }
 
-        .sidebar {
-            width: 260px;
-            background: var(--white);
-            border-right: 1px solid var(--border);
-            padding: 28px 20px;
-            display: flex;
-            flex-direction: column;
-            position: fixed;
+        /* ═══════ NAV ═══════ */
+        .nav {
+            background: var(--card);
+            border-bottom: 1px solid var(--b);
+            position: sticky;
             top: 0;
-            left: 0;
-            bottom: 0;
-            z-index: 50;
+            z-index: 100;
         }
 
-        .sidebar-logo {
+        .nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 28px;
+            display: flex;
+            align-items: center;
+            height: 64px;
+            gap: 24px;
+        }
+
+        .nav-brand {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 36px;
+            font-weight: 800;
+            font-size: 1.12rem;
+            color: var(--t1);
+            text-decoration: none;
         }
 
-        .sidebar-logo-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #3b82f6, #6366f1);
+        .nav-brand-ic {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #fff;
-            font-size: 1.1rem;
+            font-size: .95rem;
         }
 
-        .sidebar-logo span {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: var(--text);
-        }
-
-        .sidebar-label {
-            font-size: 0.68rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            color: var(--text3);
-            margin: 20px 0 10px 12px;
-        }
-
-        .sidebar-link {
+        .nav-tabs {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-size: 0.88rem;
+            gap: 4px;
+            margin-left: 32px;
+        }
+
+        .nav-tab {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: .84rem;
             font-weight: 500;
-            color: var(--text2);
-            transition: all 0.2s;
-            margin-bottom: 2px;
+            color: var(--t3);
+            text-decoration: none;
+            transition: all .2s;
         }
 
-        .sidebar-link:hover {
-            background: #f1f5f9;
-            color: var(--text);
+        .nav-tab:hover {
+            background: var(--b2);
+            color: var(--t1);
         }
 
-        .sidebar-link.active {
-            background: linear-gradient(135deg, #eff6ff, #ede9fe);
+        .nav-tab.act {
+            background: var(--blue-l);
             color: var(--blue);
             font-weight: 600;
         }
 
-        .sidebar-link .icon {
-            font-size: 1.05rem;
-            width: 24px;
-            text-align: center;
-        }
-
-        .sidebar-bottom {
-            margin-top: auto;
-            padding: 16px;
-            background: #f8fafc;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        .sidebar-user {
+        .nav-right {
+            margin-left: auto;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 14px;
         }
 
-        .sidebar-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #3b82f6, #6366f1);
+        .nav-live {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .75rem;
+            font-weight: 600;
+            color: var(--green);
+            background: var(--green-l);
+            border: 1px solid var(--green-b);
+            padding: 5px 12px;
+            border-radius: 100px;
+        }
+
+        .nav-live::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: bk 2s infinite;
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 14px 5px 5px;
+            border-radius: 100px;
+            background: var(--b2);
+            font-size: .84rem;
+            font-weight: 600;
+            color: var(--t2);
+        }
+
+        .nav-av {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
             color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: .65rem;
             font-weight: 700;
-            font-size: 0.75rem;
         }
 
-        .sidebar-uname {
-            font-weight: 600;
-            font-size: 0.88rem;
-            color: var(--text);
-        }
-
-        .sidebar-urole {
-            font-size: 0.72rem;
-            color: var(--text3);
-        }
-
-        .main-content {
-            flex: 1;
-            margin-left: 260px;
-            padding: 32px 36px 60px;
-        }
-
-        /* ═══ HEADER ═══ */
-        .page-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 28px;
-        }
-
-        .page-head h1 {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--text);
-            letter-spacing: -0.5px;
-        }
-
-        .page-head p {
-            color: var(--text3);
-            font-size: 0.88rem;
-            margin-top: 4px;
-        }
-
-        .head-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .head-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            padding: 7px 14px;
-            border-radius: 100px;
-        }
-
-        .head-badge-green {
-            background: #ecfdf5;
-            color: #059669;
-            border: 1px solid #bbf7d0;
-        }
-
-        .head-badge-green::before {
-            content: '';
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #22c55e;
-            animation: blink 2s infinite;
-        }
-
-        .head-date {
-            font-size: 0.82rem;
-            color: var(--text3);
-            font-weight: 500;
-        }
-
-        @keyframes blink {
+        @keyframes bk {
 
             0%,
             100% {
@@ -314,72 +248,132 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
             }
         }
 
-        /* ═══ STAT CARDS ═══ */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
+        /* ═══════ CONTAINER ═══════ */
+        .wrap {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 28px 28px 60px;
+        }
+
+        /* ═══════ PAGE HEAD ═══════ */
+        .ph {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
             margin-bottom: 24px;
         }
 
-        .stat {
-            background: var(--white);
-            border-radius: var(--radius);
-            padding: 22px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            transition: all 0.25s;
+        .ph h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -.5px;
+        }
+
+        .ph p {
+            color: var(--t4);
+            font-size: .85rem;
+            margin-top: 2px;
+        }
+
+        .ph-date {
+            font-size: .82rem;
+            color: var(--t4);
+            font-weight: 500;
+        }
+
+        /* ═══════ ALERT ═══════ */
+        .alert {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: .88rem;
+        }
+
+        .alert-s {
+            background: var(--green-l);
+            border: 1px solid var(--green-b);
+            color: var(--green);
+        }
+
+        .alert-e {
+            background: var(--red-l);
+            border: 1px solid #fecaca;
+            color: var(--red);
+        }
+
+        .alert b {
+            font-weight: 700;
+        }
+
+        /* ═══════ STAT CARDS ═══════ */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .st {
+            background: var(--card);
+            border-radius: var(--r);
+            padding: 20px 22px;
+            border: 1px solid var(--b);
             position: relative;
             overflow: hidden;
+            transition: all .3s;
+            cursor: default;
         }
 
-        .stat:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-3px);
+        .st:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px -8px rgba(0, 0, 0, .08);
         }
 
-        .stat-top {
+        .st-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 14px;
+            margin-bottom: 16px;
         }
 
-        .stat-icon {
-            width: 44px;
-            height: 44px;
+        .st-ic {
+            width: 42px;
+            height: 42px;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
         }
 
-        .stat-tag {
-            font-size: 0.7rem;
+        .st-badge {
+            font-size: .66rem;
             font-weight: 700;
-            padding: 3px 9px;
+            padding: 3px 8px;
             border-radius: 100px;
+            letter-spacing: .3px;
         }
 
-        .stat-val {
-            font-size: 1.65rem;
-            font-weight: 800;
-            color: var(--text);
-            letter-spacing: -0.5px;
+        .st-num {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -.5px;
             line-height: 1;
         }
 
-        .stat-lbl {
-            font-size: 0.75rem;
-            color: var(--text3);
+        .st-lbl {
+            font-size: .72rem;
+            color: var(--t4);
             font-weight: 500;
-            margin-top: 6px;
             text-transform: uppercase;
-            letter-spacing: 0.6px;
+            letter-spacing: .8px;
+            margin-top: 6px;
         }
 
-        .stat-line {
+        .st-bar {
             position: absolute;
             bottom: 0;
             left: 0;
@@ -387,336 +381,352 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
             height: 3px;
         }
 
-        .st-blue .stat-icon {
-            background: #eff6ff;
+        .st-blue .st-ic {
+            background: var(--blue-l);
+            color: var(--blue);
         }
 
-        .st-blue .stat-tag {
-            background: #eff6ff;
-            color: #2563eb;
+        .st-blue .st-badge {
+            background: var(--blue-l);
+            color: var(--blue);
         }
 
-        .st-blue .stat-line {
-            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+        .st-blue .st-bar {
+            background: linear-gradient(90deg, #2563eb, #60a5fa);
         }
 
-        .st-green .stat-icon {
-            background: #ecfdf5;
+        .st-green .st-ic {
+            background: var(--green-l);
+            color: var(--green);
         }
 
-        .st-green .stat-tag {
-            background: #ecfdf5;
-            color: #059669;
+        .st-green .st-badge {
+            background: var(--green-l);
+            color: var(--green);
         }
 
-        .st-green .stat-line {
-            background: linear-gradient(90deg, #10b981, #34d399);
+        .st-green .st-bar {
+            background: linear-gradient(90deg, #059669, #34d399);
         }
 
-        .st-purple .stat-icon {
-            background: #f5f3ff;
+        .st-purple .st-ic {
+            background: var(--purple-l);
+            color: var(--purple);
         }
 
-        .st-purple .stat-tag {
-            background: #f5f3ff;
-            color: #7c3aed;
+        .st-purple .st-badge {
+            background: var(--purple-l);
+            color: var(--purple);
         }
 
-        .st-purple .stat-line {
-            background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+        .st-purple .st-bar {
+            background: linear-gradient(90deg, #7c3aed, #a78bfa);
         }
 
-        .st-amber .stat-icon {
-            background: #fffbeb;
+        .st-amber .st-ic {
+            background: var(--amber-l);
+            color: var(--amber);
         }
 
-        .st-amber .stat-tag {
-            background: #fffbeb;
-            color: #d97706;
+        .st-amber .st-badge {
+            background: var(--amber-l);
+            color: var(--amber);
         }
 
-        .st-amber .stat-line {
-            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        .st-amber .st-bar {
+            background: linear-gradient(90deg, #d97706, #fbbf24);
         }
 
-        /* ═══ CARDS ═══ */
-        .grid-2-1 {
+        /* ═══════ CARD ═══════ */
+        .g21 {
             display: grid;
             grid-template-columns: 3fr 2fr;
-            gap: 20px;
-            margin-bottom: 24px;
+            gap: 18px;
+            margin-bottom: 20px;
         }
 
-        .grid-half {
+        .g11 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 24px;
+            gap: 18px;
+            margin-bottom: 20px;
         }
 
-        .card {
-            background: var(--white);
-            border-radius: var(--radius);
+        .cd {
+            background: var(--card);
+            border-radius: var(--r);
             padding: 22px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
+            border: 1px solid var(--b);
         }
 
-        .card-head {
+        .cd-h {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
-        .card-title {
-            font-size: 0.95rem;
+        .cd-t {
+            font-size: .92rem;
             font-weight: 700;
-            color: var(--text);
+            color: var(--t1);
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .card-title .dot {
+        .cd-t i {
             width: 8px;
             height: 8px;
             border-radius: 50%;
+            display: inline-block;
         }
 
-        .card-badge {
-            background: #f1f5f9;
-            color: var(--text2);
-            padding: 4px 10px;
+        .cd-b {
+            background: var(--b2);
+            color: var(--t3);
+            padding: 3px 10px;
             border-radius: 100px;
-            font-size: 0.72rem;
+            font-size: .72rem;
             font-weight: 600;
         }
 
-        /* ═══ CHART ═══ */
-        .chart-wrap {
+        /* ═══════ CHART ═══════ */
+        .ch-wrap {
             position: relative;
-            height: 260px;
+            height: 250px;
         }
 
-        <?php if (!$has_chart_data): ?>
-            .chart-sample-note {
-                position: absolute;
-                top: 12px;
-                right: 12px;
-                background: #fffbeb;
-                color: #92400e;
-                font-size: 0.7rem;
-                font-weight: 600;
-                padding: 4px 10px;
-                border-radius: 100px;
-                border: 1px solid #fde68a;
-                z-index: 5;
-            }
+        .ch-note {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--amber-l);
+            color: #92400e;
+            font-size: .68rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 100px;
+            border: 1px solid var(--amber-b);
+            z-index: 5;
+        }
 
-        <?php endif; ?>
-
-        /* ═══ NICHES ═══ */
-        .n-list {
+        /* ═══════ NICHES ═══════ */
+        .ni {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
-        .n-row {
+        .ni-r {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 10px 12px;
-            background: #f8fafc;
+            padding: 10px;
+            background: var(--b2);
             border-radius: 10px;
+            transition: background .2s;
         }
 
-        .n-rank {
-            width: 22px;
-            height: 22px;
+        .ni-r:hover {
+            background: #e8ecf4;
+        }
+
+        .ni-rk {
+            width: 20px;
+            height: 20px;
             border-radius: 6px;
-            background: #eff6ff;
-            color: #3b82f6;
+            background: var(--blue-l);
+            color: var(--blue);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.68rem;
+            font-size: .62rem;
             font-weight: 800;
             flex-shrink: 0;
         }
 
-        .n-name {
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--text);
+        .ni-nm {
             flex: 1;
+            font-weight: 600;
+            font-size: .84rem;
+            color: var(--t1);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .n-bar-wrap {
-            width: 80px;
-            height: 6px;
-            background: #e2e8f0;
-            border-radius: 6px;
+        .ni-bw {
+            width: 70px;
+            height: 5px;
+            background: var(--b);
+            border-radius: 5px;
             overflow: hidden;
             flex-shrink: 0;
         }
 
-        .n-bar-fill {
+        .ni-bf {
             height: 100%;
-            border-radius: 6px;
-            background: linear-gradient(90deg, #3b82f6, #6366f1);
+            border-radius: 5px;
+            background: linear-gradient(90deg, #2563eb, #7c3aed);
         }
 
-        .n-cnt {
-            font-size: 0.72rem;
+        .ni-c {
+            font-size: .68rem;
             font-weight: 700;
             color: var(--blue);
-            background: #eff6ff;
-            padding: 2px 8px;
+            background: var(--blue-l);
+            padding: 2px 7px;
             border-radius: 100px;
+            flex-shrink: 0;
         }
 
-        /* ═══ MINI TABLE ═══ */
-        .mt {
+        /* ═══════ USERS TABLE ═══════ */
+        .tbl-w {
+            overflow-x: auto;
+        }
+
+        .tb {
             width: 100%;
             border-collapse: collapse;
         }
 
-        .mt th {
+        .tb th {
             text-align: left;
             padding: 10px 14px;
-            background: #f8fafc;
-            color: var(--text3);
-            font-size: 0.7rem;
+            background: var(--b2);
+            color: var(--t4);
+            font-size: .68rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 1px solid var(--border);
+            letter-spacing: .6px;
+            border-bottom: 1px solid var(--b);
         }
 
-        .mt td {
+        .tb td {
             padding: 10px 14px;
-            border-bottom: 1px solid #f8fafc;
-            font-size: 0.85rem;
-            color: var(--text2);
+            border-bottom: 1px solid var(--b2);
+            font-size: .84rem;
+            color: var(--t2);
             vertical-align: middle;
         }
 
-        .mt tr:hover td {
+        .tb tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tb tr:hover td {
             background: #fafbfc;
         }
 
-        .u-cell {
+        .uc {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .u-av {
-            width: 32px;
-            height: 32px;
+        .ua {
+            width: 30px;
+            height: 30px;
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.68rem;
+            font-size: .62rem;
             color: #fff;
             flex-shrink: 0;
         }
 
-        .u-name {
+        .un {
             font-weight: 600;
-            color: var(--text);
-            font-size: 0.85rem;
+            color: var(--t1);
+            font-size: .84rem;
         }
 
-        .u-sub {
-            font-size: 0.72rem;
-            color: var(--text3);
+        .us {
+            font-size: .7rem;
+            color: var(--t4);
         }
 
-        .u-wallet {
+        .uw {
             font-weight: 700;
-            color: #059669;
+            color: var(--green);
         }
 
-        .u-ptag {
-            background: #f5f3ff;
-            color: #7c3aed;
+        .up {
+            background: var(--purple-l);
+            color: var(--purple);
             padding: 2px 8px;
             border-radius: 100px;
-            font-size: 0.68rem;
+            font-size: .68rem;
             font-weight: 700;
         }
 
-        /* ═══ TRANSACTIONS ═══ */
+        /* ═══════ TRANSACTIONS ═══════ */
         .tx {
             display: flex;
             align-items: center;
             gap: 12px;
             padding: 10px 0;
-            border-bottom: 1px solid #f8fafc;
+            border-bottom: 1px solid var(--b2);
         }
 
         .tx:last-child {
             border: none;
         }
 
-        .tx-ic {
-            width: 36px;
-            height: 36px;
+        .tx-i {
+            width: 34px;
+            height: 34px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.85rem;
+            font-size: .82rem;
             font-weight: 700;
             flex-shrink: 0;
         }
 
-        .tx-cr .tx-ic {
-            background: #ecfdf5;
-            color: #059669;
+        .tx-cr .tx-i {
+            background: var(--green-l);
+            color: var(--green);
         }
 
-        .tx-db .tx-ic {
-            background: #fef2f2;
-            color: #dc2626;
+        .tx-db .tx-i {
+            background: var(--red-l);
+            color: var(--red);
         }
 
-        .tx-info {
-            flex: 1;
-        }
-
-        .tx-desc {
+        .tx-d {
             font-weight: 600;
-            font-size: 0.85rem;
-            color: var(--text);
+            font-size: .84rem;
+            color: var(--t1);
         }
 
-        .tx-meta {
-            font-size: 0.72rem;
-            color: var(--text3);
-            margin-top: 2px;
+        .tx-m {
+            font-size: .7rem;
+            color: var(--t4);
+            margin-top: 1px;
         }
 
-        .tx-amt {
+        .tx-a {
             font-weight: 700;
-            font-size: 0.88rem;
+            font-size: .88rem;
+            margin-left: auto;
+            white-space: nowrap;
         }
 
-        .tx-cr .tx-amt {
-            color: #059669;
+        .tx-cr .tx-a {
+            color: var(--green);
         }
 
-        .tx-db .tx-amt {
-            color: #dc2626;
+        .tx-db .tx-a {
+            color: var(--red);
         }
 
-        /* ═══ FILTER BAR ═══ */
-        .fbar {
+        /* ═══════ FILTER ═══════ */
+        .fb {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
@@ -724,60 +734,59 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
             align-items: center;
         }
 
-        .finput {
+        .fi {
             padding: 8px 14px;
-            background: #f8fafc;
-            border: 1px solid var(--border);
+            background: var(--b2);
+            border: 1px solid var(--b);
             border-radius: 10px;
-            color: var(--text);
-            font-size: 0.82rem;
+            color: var(--t1);
+            font-size: .82rem;
             font-family: inherit;
-            transition: all 0.2s;
-            min-width: 170px;
+            transition: all .2s;
         }
 
-        .finput:focus {
+        .fi:focus {
             outline: none;
             border-color: var(--blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
-            background: #fff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, .08);
+            background: var(--card);
         }
 
-        .finput::placeholder {
-            color: var(--text3);
+        .fi::placeholder {
+            color: var(--t4);
         }
 
-        .fcount {
+        .fc {
             margin-left: auto;
-            font-size: 0.78rem;
-            color: var(--text3);
+            font-size: .78rem;
+            color: var(--t4);
             font-weight: 500;
         }
 
-        /* ═══ LEADS TABLE ═══ */
+        /* ═══════ LEADS TABLE ═══════ */
         .lt {
             width: 100%;
             border-collapse: collapse;
-            min-width: 800px;
+            min-width: 780px;
         }
 
         .lt th {
             text-align: left;
-            padding: 12px 16px;
-            background: #f8fafc;
-            color: var(--text3);
-            font-size: 0.7rem;
+            padding: 10px 14px;
+            background: var(--b2);
+            color: var(--t4);
+            font-size: .68rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 1px solid var(--border);
+            letter-spacing: .6px;
+            border-bottom: 1px solid var(--b);
         }
 
         .lt td {
-            padding: 12px 16px;
-            border-bottom: 1px solid #f8fafc;
-            font-size: 0.85rem;
-            color: var(--text2);
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--b2);
+            font-size: .84rem;
+            color: var(--t2);
             vertical-align: middle;
         }
 
@@ -785,59 +794,59 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
             background: #fafbfc;
         }
 
-        .l-id {
+        .li {
             font-weight: 700;
-            color: var(--text3);
-            font-size: 0.8rem;
+            color: var(--t4);
+            font-size: .78rem;
         }
 
-        .l-niche {
+        .ln {
             font-weight: 700;
-            color: var(--text);
+            color: var(--t1);
         }
 
-        .l-desc {
-            font-size: 0.75rem;
-            color: var(--text3);
+        .ld {
+            font-size: .72rem;
+            color: var(--t4);
             margin-top: 2px;
         }
 
-        .l-budget {
+        .lb {
             font-weight: 600;
-            color: var(--text2);
+            color: var(--t2);
         }
 
-        .l-price {
+        .lp {
             font-weight: 700;
-            color: #059669;
-            background: #ecfdf5;
+            color: var(--green);
+            background: var(--green-l);
             padding: 3px 10px;
             border-radius: 6px;
             display: inline-block;
-            font-size: 0.82rem;
+            font-size: .8rem;
         }
 
-        .l-cname {
+        .lc {
             font-weight: 600;
-            color: var(--text);
+            color: var(--t1);
         }
 
-        .l-cphone {
-            font-size: 0.75rem;
-            color: var(--text3);
+        .lcph {
+            font-size: .72rem;
+            color: var(--t4);
         }
 
-        .l-status {
-            padding: 4px 10px;
+        .ls {
+            padding: 3px 10px;
             border-radius: 100px;
-            font-size: 0.7rem;
+            font-size: .68rem;
             font-weight: 700;
             display: inline-flex;
             align-items: center;
             gap: 4px;
         }
 
-        .l-status i {
+        .ls b {
             width: 5px;
             height: 5px;
             border-radius: 50%;
@@ -845,18 +854,18 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
             display: inline-block;
         }
 
-        .l-av {
-            background: #ecfdf5;
-            color: #059669;
+        .ls-a {
+            background: var(--green-l);
+            color: var(--green);
         }
 
-        .l-sd {
-            background: #fffbeb;
-            color: #d97706;
+        .ls-s {
+            background: var(--amber-l);
+            color: var(--amber);
         }
 
-        /* ═══ FORM ═══ */
-        .fg2 {
+        /* ═══════ FORM ═══════ */
+        .fg {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 14px;
@@ -866,142 +875,95 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
             margin-bottom: 14px;
         }
 
-        .flbl {
+        .fl {
             display: block;
             margin-bottom: 5px;
-            color: var(--text2);
+            color: var(--t3);
             font-weight: 500;
-            font-size: 0.82rem;
+            font-size: .82rem;
         }
 
-        .fctrl {
+        .fc2 {
             width: 100%;
             padding: 10px 14px;
-            background: #f8fafc;
-            border: 1px solid var(--border);
+            background: var(--b2);
+            border: 1px solid var(--b);
             border-radius: 10px;
-            color: var(--text);
+            color: var(--t1);
             font-family: inherit;
-            font-size: 0.9rem;
-            transition: all 0.2s;
+            font-size: .88rem;
+            transition: all .2s;
         }
 
-        .fctrl:focus {
+        .fc2:focus {
             outline: none;
             border-color: var(--blue);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.08);
-            background: #fff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, .08);
+            background: var(--card);
         }
 
-        .fctrl::placeholder {
-            color: var(--text3);
+        .fc2::placeholder {
+            color: var(--t4);
         }
 
-        .btn-pub {
-            background: linear-gradient(135deg, #10b981, #059669);
+        .btn-p {
+            background: linear-gradient(135deg, #059669, #10b981);
             color: #fff;
             border: none;
             padding: 12px 28px;
             border-radius: 10px;
             font-weight: 700;
-            font-size: 0.92rem;
+            font-size: .92rem;
             cursor: pointer;
-            transition: all 0.25s;
+            transition: all .25s;
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.18);
+            box-shadow: 0 2px 8px rgba(5, 150, 105, .15);
         }
 
-        .btn-pub:hover {
+        .btn-p:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.28);
+            box-shadow: 0 8px 24px rgba(5, 150, 105, .22);
         }
 
-        /* ═══ ALERT ═══ */
-        .dash-alert {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 18px;
-            border-radius: 12px;
-            margin-bottom: 18px;
-        }
-
-        .alert-ok {
-            background: #ecfdf5;
-            border: 1px solid #bbf7d0;
-        }
-
-        .alert-err {
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-        }
-
-        .alert-ic {
-            font-size: 1.2rem;
-        }
-
-        .alert-t {
-            font-weight: 700;
-            font-size: 0.88rem;
-        }
-
-        .alert-ok .alert-t {
-            color: #15803d;
-        }
-
-        .alert-err .alert-t {
-            color: #b91c1c;
-        }
-
-        .alert-m {
-            color: var(--text2);
-            font-size: 0.82rem;
-        }
-
-        /* ═══ EMPTY ═══ */
-        .empty {
+        /* ═══════ EMPTY ═══════ */
+        .emp {
             text-align: center;
-            padding: 36px 16px;
-            color: var(--text3);
+            padding: 32px 16px;
+            color: var(--t4);
         }
 
-        .empty-ic {
+        .emp-ic {
             font-size: 2rem;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
-        .empty a {
+        .emp a {
             color: var(--blue);
             font-weight: 600;
+            text-decoration: none;
         }
 
-        /* ═══ RESPONSIVE ═══ */
-        @media(max-width:1100px) {
-            .sidebar {
-                display: none;
-            }
-
-            .main-content {
-                margin-left: 0;
-            }
-        }
-
+        /* ═══════ RESPONSIVE ═══════ */
         @media(max-width:900px) {
             .stats {
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .grid-2-1,
-            .grid-half {
+            .g21,
+            .g11 {
                 grid-template-columns: 1fr;
             }
 
-            .main-content {
+            .wrap {
                 padding: 20px 16px 40px;
+            }
+
+            .nav-tabs {
+                display: none;
             }
         }
 
@@ -1010,407 +972,338 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
                 grid-template-columns: 1fr;
             }
 
-            .fg2 {
+            .fg {
                 grid-template-columns: 1fr;
             }
 
-            .page-head {
+            .ph {
                 flex-direction: column;
-                gap: 12px;
+                align-items: flex-start;
+                gap: 8px;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="layout">
 
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-logo">
-                <span class="sidebar-logo-icon">💼</span>
-                <span>QuickProject</span>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.php" class="nav-brand"><span class="nav-brand-ic">💼</span>QuickProject</a>
+            <div class="nav-tabs">
+                <a href="#" class="nav-tab act">Overview</a>
+                <a href="#leads-sec" class="nav-tab">Leads</a>
+                <a href="#add-sec" class="nav-tab">Add Lead</a>
+                <a href="index.php" class="nav-tab">View Site</a>
             </div>
-            <div class="sidebar-label">Main</div>
-            <a href="admin_dashboard.php" class="sidebar-link active"><span class="icon">📊</span> Dashboard</a>
-            <a href="#leads-section" class="sidebar-link"><span class="icon">📋</span> All Leads</a>
-            <a href="#add-lead" class="sidebar-link"><span class="icon">➕</span> Add Lead</a>
-            <div class="sidebar-label">Manage</div>
-            <a href="#users-section" class="sidebar-link"><span class="icon">👥</span> Users</a>
-            <a href="#txn-section" class="sidebar-link"><span class="icon">💳</span> Transactions</a>
-            <div class="sidebar-label">Account</div>
-            <a href="index.php" class="sidebar-link"><span class="icon">🌐</span> View Site</a>
-            <a href="logout.php" class="sidebar-link"><span class="icon">🚪</span> Logout</a>
-
-            <div class="sidebar-bottom">
-                <div class="sidebar-user">
-                    <div class="sidebar-avatar">AD</div>
-                    <div>
-                        <div class="sidebar-uname"><?php echo htmlspecialchars($_SESSION['username'] ?? 'Admin'); ?>
-                        </div>
-                        <div class="sidebar-urole">Administrator</div>
-                    </div>
-                </div>
+            <div class="nav-right">
+                <span class="nav-live">Live</span>
+                <div class="nav-user"><span
+                        class="nav-av">AD</span><?php echo htmlspecialchars($_SESSION['username'] ?? 'Admin'); ?></div>
             </div>
-        </aside>
+        </div>
+    </nav>
 
-        <!-- Main -->
-        <div class="main-content">
+    <div class="wrap">
 
-            <!-- Header -->
-            <div class="page-head">
-                <div>
-                    <h1>Dashboard</h1>
-                    <p>Overview of your marketplace performance</p>
-                </div>
-                <div class="head-right">
-                    <span class="head-date"><?php echo date('D, d M Y'); ?></span>
-                    <span class="head-badge head-badge-green">Live</span>
-                </div>
+        <div class="ph">
+            <div>
+                <h1>Dashboard</h1>
+                <p>Marketplace overview & management</p>
             </div>
+            <span class="ph-date"><?php echo date('l, d M Y'); ?></span>
+        </div>
 
-            <!-- Alert -->
-            <?php if (!empty($message)): ?>
-                <div class="dash-alert <?php echo $msg_type == 'success' ? 'alert-ok' : 'alert-err'; ?>">
-                    <span class="alert-ic"><?php echo $msg_type == 'success' ? '✅' : '⚠️'; ?></span>
-                    <div>
-                        <div class="alert-t"><?php echo $msg_type == 'success' ? 'Success' : 'Error'; ?></div>
-                        <div class="alert-m"><?php echo htmlspecialchars($message); ?></div>
-                    </div>
-                </div>
-            <?php endif; ?>
-
-            <!-- Stats -->
-            <div class="stats">
-                <div class="stat st-blue">
-                    <div class="stat-top">
-                        <div class="stat-icon">📊</div>
-                        <span class="stat-tag"><?php echo $available_count; ?> active</span>
-                    </div>
-                    <div class="stat-val"><?php echo number_format($total_leads); ?></div>
-                    <div class="stat-lbl">Total Leads</div>
-                    <div class="stat-line"></div>
-                </div>
-                <div class="stat st-green">
-                    <div class="stat-top">
-                        <div class="stat-icon">💰</div>
-                        <span class="stat-tag">All time</span>
-                    </div>
-                    <div class="stat-val">₹<?php echo number_format($total_revenue); ?></div>
-                    <div class="stat-lbl">Revenue</div>
-                    <div class="stat-line"></div>
-                </div>
-                <div class="stat st-purple">
-                    <div class="stat-top">
-                        <div class="stat-icon">👥</div>
-                        <span class="stat-tag">Registered</span>
-                    </div>
-                    <div class="stat-val"><?php echo number_format($total_users); ?></div>
-                    <div class="stat-lbl">Developers</div>
-                    <div class="stat-line"></div>
-                </div>
-                <div class="stat st-amber">
-                    <div class="stat-top">
-                        <div class="stat-icon">📈</div>
-                        <span class="stat-tag"><?php echo $sold_count; ?> sold</span>
-                    </div>
-                    <div class="stat-val"><?php echo $conversion; ?>%</div>
-                    <div class="stat-lbl">Conversion</div>
-                    <div class="stat-line"></div>
-                </div>
+        <?php if (!empty($message)): ?>
+            <div class="alert <?php echo $msg_type == 'success' ? 'alert-s' : 'alert-e'; ?>">
+                <?php echo $msg_type == 'success' ? '✅' : '⚠️'; ?>
+                <b><?php echo $msg_type == 'success' ? 'Success!' : 'Error:'; ?></b>
+                <?php echo htmlspecialchars($message); ?>
             </div>
+        <?php endif; ?>
 
-            <!-- Chart + Niches -->
-            <div class="grid-2-1">
-                <div class="card">
-                    <div class="card-head">
-                        <div class="card-title"><span class="dot" style="background:var(--blue)"></span> Revenue & Sales
-                        </div>
-                        <?php if (!$has_chart_data): ?>
-                            <span class="card-badge" style="background:#fffbeb;color:#92400e;">Sample Data</span>
-                        <?php endif; ?>
-                    </div>
-                    <div class="chart-wrap">
-                        <canvas id="mainChart"></canvas>
-                    </div>
+        <!-- Stats -->
+        <div class="stats">
+            <div class="st st-blue">
+                <div class="st-top">
+                    <div class="st-ic">📊</div><span class="st-badge"><?php echo $available; ?> active</span>
                 </div>
-                <div class="card">
-                    <div class="card-head">
-                        <div class="card-title"><span class="dot" style="background:var(--purple)"></span> Top Niches
-                        </div>
-                        <span class="card-badge"><?php echo count($top_niches); ?> total</span>
-                    </div>
-                    <div class="n-list">
-                        <?php $mx = !empty($top_niches) ? max(array_column($top_niches, 'cnt')) : 1;
-                        foreach ($top_niches as $i => $n):
-                            $pct = round(($n['cnt'] / $mx) * 100); ?>
-                            <div class="n-row">
-                                <span class="n-rank"><?php echo $i + 1; ?></span>
-                                <span class="n-name"><?php echo htmlspecialchars($n['niche']); ?></span>
-                                <div class="n-bar-wrap">
-                                    <div class="n-bar-fill" style="width:<?php echo $pct; ?>%"></div>
-                                </div>
-                                <span class="n-cnt"><?php echo $n['cnt']; ?></span>
-                            </div>
-                        <?php endforeach; ?>
-                        <?php if (empty($top_niches)): ?>
-                            <div class="empty">
-                                <div class="empty-ic">📁</div>No niches yet
-                            </div><?php endif; ?>
-                    </div>
-                </div>
+                <div class="st-num"><?php echo number_format($total_leads); ?></div>
+                <div class="st-lbl">Total Leads</div>
+                <div class="st-bar"></div>
             </div>
-
-            <!-- Users + Transactions -->
-            <div class="grid-half" id="users-section">
-                <div class="card" id="txn-section">
-                    <div class="card-head">
-                        <div class="card-title"><span class="dot" style="background:var(--indigo)"></span> Recent Users
-                        </div>
-                        <span class="card-badge"><?php echo $total_users; ?> total</span>
-                    </div>
-                    <div style="overflow-x:auto;">
-                        <table class="mt">
-                            <thead>
-                                <tr>
-                                    <th>User</th>
-                                    <th>Wallet</th>
-                                    <th>Purchases</th>
-                                    <th>Joined</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $cl = ['#3b82f6', '#10b981', '#8b5cf6', '#f59e0b', '#ef4444', '#06b6d4', '#ec4899'];
-                                foreach ($recent_users as $i => $u):
-                                    $c = $cl[$i % 7];
-                                    $in = strtoupper(substr($u['username'], 0, 2)); ?>
-                                    <tr>
-                                        <td>
-                                            <div class="u-cell">
-                                                <div class="u-av" style="background:<?php echo $c; ?>"><?php echo $in; ?>
-                                                </div>
-                                                <div>
-                                                    <div class="u-name"><?php echo htmlspecialchars($u['username']); ?></div>
-                                                    <div class="u-sub">ID #<?php echo $u['id']; ?></div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td><span class="u-wallet">₹<?php echo number_format($u['wallet_balance']); ?></span>
-                                        </td>
-                                        <td><span class="u-ptag"><?php echo $u['total_purchases']; ?> leads</span></td>
-                                        <td style="color:var(--text3);font-size:0.78rem;">
-                                            <?php echo date('d M Y', strtotime($u['created_at'])); ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                                <?php if (empty($recent_users)): ?>
-                                    <tr>
-                                        <td colspan="4">
-                                            <div class="empty">
-                                                <div class="empty-ic">👤</div>No users yet
-                                            </div>
-                                        </td>
-                                    </tr><?php endif; ?>
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="st st-green">
+                <div class="st-top">
+                    <div class="st-ic">💰</div><span class="st-badge">Lifetime</span>
                 </div>
-                <div class="card">
-                    <div class="card-head">
-                        <div class="card-title"><span class="dot" style="background:var(--green)"></span> Recent
-                            Transactions</div>
-                    </div>
-                    <?php foreach ($recent_txns as $t):
-                        $cr = $t['type'] === 'credit'; ?>
-                        <div class="tx <?php echo $cr ? 'tx-cr' : 'tx-db'; ?>">
-                            <div class="tx-ic"><?php echo $cr ? '↓' : '↑'; ?></div>
-                            <div class="tx-info">
-                                <div class="tx-desc"><?php echo htmlspecialchars($t['description']); ?></div>
-                                <div class="tx-meta">@<?php echo htmlspecialchars($t['username']); ?> ·
-                                    <?php echo date('d M, H:i', strtotime($t['created_at'])); ?></div>
-                            </div>
-                            <div class="tx-amt"><?php echo $cr ? '+' : '-'; ?>₹<?php echo number_format($t['amount']); ?></div>
+                <div class="st-num">₹<?php echo number_format($revenue); ?></div>
+                <div class="st-lbl">Revenue</div>
+                <div class="st-bar"></div>
+            </div>
+            <div class="st st-purple">
+                <div class="st-top">
+                    <div class="st-ic">👥</div><span class="st-badge">Active</span>
+                </div>
+                <div class="st-num"><?php echo number_format($devs); ?></div>
+                <div class="st-lbl">Developers</div>
+                <div class="st-bar"></div>
+            </div>
+            <div class="st st-amber">
+                <div class="st-top">
+                    <div class="st-ic">📈</div><span class="st-badge"><?php echo $sold; ?> sold</span>
+                </div>
+                <div class="st-num"><?php echo $conv; ?>%</div>
+                <div class="st-lbl">Conversion</div>
+                <div class="st-bar"></div>
+            </div>
+        </div>
+
+        <!-- Chart + Niches -->
+        <div class="g21">
+            <div class="cd">
+                <div class="cd-h">
+                    <div class="cd-t"><i style="background:var(--blue)"></i>Revenue & Sales</div>
+                    <?php if (!$has_data): ?><span class="cd-b"
+                            style="background:var(--amber-l);color:#92400e;">Sample</span><?php endif; ?>
+                </div>
+                <div class="ch-wrap"><canvas id="mainChart"></canvas></div>
+            </div>
+            <div class="cd">
+                <div class="cd-h">
+                    <div class="cd-t"><i style="background:var(--purple)"></i>Top Niches</div><span
+                        class="cd-b"><?php echo count($niches); ?></span>
+                </div>
+                <div class="ni">
+                    <?php $mx = !empty($niches) ? max(array_column($niches, 'cnt')) : 1;
+                    foreach ($niches as $x => $n):
+                        $p = round(($n['cnt'] / $mx) * 100); ?>
+                        <div class="ni-r"><span class="ni-rk"><?php echo $x + 1; ?></span><span
+                                class="ni-nm"><?php echo htmlspecialchars($n['niche']); ?></span>
+                            <div class="ni-bw">
+                                <div class="ni-bf" style="width:<?php echo $p; ?>%"></div>
+                            </div><span class="ni-c"><?php echo $n['cnt']; ?></span>
                         </div>
                     <?php endforeach; ?>
-                    <?php if (empty($recent_txns)): ?>
-                        <div class="empty">
-                            <div class="empty-ic">💳</div>No transactions yet
+                    <?php if (empty($niches)): ?>
+                        <div class="emp">
+                            <div class="emp-ic">📁</div>No niches yet
                         </div><?php endif; ?>
                 </div>
             </div>
+        </div>
 
-            <!-- Add Lead -->
-            <div class="card" style="margin-bottom:24px;" id="add-lead">
-                <div class="card-head">
-                    <div class="card-title"><span class="dot" style="background:var(--green)"></span> Add New Lead</div>
+        <!-- Users + Txns -->
+        <div class="g11">
+            <div class="cd">
+                <div class="cd-h">
+                    <div class="cd-t"><i style="background:var(--purple)"></i>Recent Users</div><span
+                        class="cd-b"><?php echo $devs; ?> devs</span>
                 </div>
-                <form method="POST">
-                    <input type="hidden" name="add_lead" value="1">
-                    <div class="fg2">
-                        <div class="fgrp"><label class="flbl">Niche Category</label><input type="text" name="niche"
-                                class="fctrl" required placeholder="e.g. E-commerce Website"></div>
-                        <div class="fgrp"><label class="flbl">Client Budget</label>
-                            <select name="budget" class="fctrl">
-                                <option value="15000">Basic (₹15k–₹30k) — ₹999</option>
-                                <option value="30000">Business (₹30k–₹50k) — ₹2,499</option>
-                                <option value="50000">Premium (₹50k–₹1L+) — ₹4,999</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="fgrp"><label class="flbl">Project Description</label><textarea name="description"
-                            class="fctrl" required rows="3" placeholder="Enter requirements..."></textarea></div>
-                    <div class="fg2">
-                        <div class="fgrp"><label class="flbl">Client Name</label><input type="text" name="client_name"
-                                class="fctrl" required placeholder="Full name"></div>
-                        <div class="fgrp"><label class="flbl">Client Phone</label><input type="text" name="client_phone"
-                                class="fctrl" required placeholder="+91 98765 43210"></div>
-                    </div>
-                    <button type="submit" class="btn-pub">🚀 Publish Lead</button>
-                </form>
-            </div>
-
-            <!-- Leads Table -->
-            <div class="card" id="leads-section">
-                <div class="card-head">
-                    <div class="card-title"><span class="dot" style="background:var(--blue)"></span> All Leads</div>
-                    <span class="card-badge"><?php echo count($leads); ?> total</span>
-                </div>
-                <div class="fbar">
-                    <input type="text" id="lSearch" class="finput" placeholder="🔍 Search..." oninput="filterL()">
-                    <select id="lStatus" class="finput" style="min-width:120px;" onchange="filterL()">
-                        <option value="all">All Status</option>
-                        <option value="available">Available</option>
-                        <option value="sold">Sold</option>
-                    </select>
-                    <select id="lBudget" class="finput" style="min-width:140px;" onchange="filterL()">
-                        <option value="all">All Budgets</option>
-                        <option value="15000">Basic</option>
-                        <option value="30000">Business</option>
-                        <option value="50000">Premium</option>
-                    </select>
-                    <span class="fcount" id="fCnt"><?php echo count($leads); ?> results</span>
-                </div>
-                <div style="overflow-x:auto;">
-                    <table class="lt" id="lTbl">
+                <div class="tbl-w">
+                    <table class="tb">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Niche</th>
-                                <th>Budget</th>
-                                <th>Price</th>
-                                <th>Client</th>
-                                <th>Status</th>
-                                <th>Date</th>
+                                <th>User</th>
+                                <th>Wallet</th>
+                                <th>Purchases</th>
+                                <th>Joined</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($leads as $l): ?>
-                                <tr data-n="<?php echo strtolower($l['niche']); ?>"
-                                    data-c="<?php echo strtolower($l['client_name']); ?>" data-s="<?php echo $l['status']; ?>"
-                                    data-b="<?php echo $l['budget']; ?>">
-                                    <td><span class="l-id">#<?php echo $l['id']; ?></span></td>
-                                    <td style="max-width:240px;">
-                                        <div class="l-niche"><?php echo htmlspecialchars($l['niche']); ?></div>
-                                        <div class="l-desc">
-                                            <?php echo htmlspecialchars(substr($l['description'], 0, 50)) . '...'; ?></div>
-                                    </td>
-                                    <td><span class="l-budget">₹<?php echo number_format($l['budget']); ?>+</span></td>
-                                    <td><span class="l-price">₹<?php echo number_format($l['lead_price']); ?></span></td>
-                                    <td>
-                                        <div class="l-cname"><?php echo htmlspecialchars($l['client_name']); ?></div>
-                                        <div class="l-cphone"><?php echo htmlspecialchars($l['client_phone']); ?></div>
-                                    </td>
-                                    <td><?php if ($l['status'] == 'available'): ?><span class="l-status l-av"><i></i>
-                                                Available</span><?php else: ?><span class="l-status l-sd"><i></i>
-                                                Sold</span><?php endif; ?></td>
-                                    <td style="color:var(--text3);font-size:0.78rem;white-space:nowrap;">
-                                        <?php echo date('d M Y', strtotime($l['created_at'])); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                            <?php if (empty($leads)): ?>
+                            <?php $cl = ['#2563eb', '#059669', '#7c3aed', '#d97706', '#dc2626', '#0891b2', '#db2777'];
+                            foreach ($users as $i => $u):
+                                $c = $cl[$i % 7];
+                                $in = strtoupper(substr($u['username'], 0, 2)); ?>
                                 <tr>
-                                    <td colspan="7">
-                                        <div class="empty">
-                                            <div class="empty-ic">📭</div>
-                                            <div>No leads yet</div>
-                                            <div style="margin-top:6px;"><a href="seed.php">Add Demo Data</a></div>
+                                    <td>
+                                        <div class="uc">
+                                            <div class="ua" style="background:<?php echo $c; ?>"><?php echo $in; ?></div>
+                                            <div>
+                                                <div class="un"><?php echo htmlspecialchars($u['username']); ?></div>
+                                                <div class="us">ID #<?php echo $u['id']; ?></div>
+                                            </div>
                                         </div>
                                     </td>
+                                    <td><span class="uw">₹<?php echo number_format($u['wallet_balance']); ?></span></td>
+                                    <td><span class="up"><?php echo $u['purchases']; ?></span></td>
+                                    <td style="color:var(--t4);font-size:.76rem;">
+                                        <?php echo date('d M Y', strtotime($u['created_at'])); ?></td>
                                 </tr>
-                            <?php endif; ?>
+                            <?php endforeach; ?>
+                            <?php if (empty($users)): ?>
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="emp">
+                                            <div class="emp-ic">👤</div>No users yet
+                                        </div>
+                                    </td>
+                                </tr><?php endif; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
-
+            <div class="cd">
+                <div class="cd-h">
+                    <div class="cd-t"><i style="background:var(--green)"></i>Transactions</div>
+                </div>
+                <?php foreach ($txns as $t):
+                    $cr = $t['type'] === 'credit'; ?>
+                    <div class="tx <?php echo $cr ? 'tx-cr' : 'tx-db'; ?>">
+                        <div class="tx-i"><?php echo $cr ? '↓' : '↑'; ?></div>
+                        <div style="flex:1">
+                            <div class="tx-d"><?php echo htmlspecialchars($t['description']); ?></div>
+                            <div class="tx-m">@<?php echo htmlspecialchars($t['username']); ?> ·
+                                <?php echo date('d M, H:i', strtotime($t['created_at'])); ?></div>
+                        </div>
+                        <div class="tx-a"><?php echo $cr ? '+' : '-'; ?>₹<?php echo number_format($t['amount']); ?></div>
+                    </div>
+                <?php endforeach; ?>
+                <?php if (empty($txns)): ?>
+                    <div class="emp">
+                        <div class="emp-ic">💳</div>No transactions yet
+                    </div><?php endif; ?>
+            </div>
         </div>
+
+        <!-- Add Lead -->
+        <div class="cd" style="margin-bottom:20px;" id="add-sec">
+            <div class="cd-h">
+                <div class="cd-t"><i style="background:var(--green)"></i>Add New Lead</div>
+            </div>
+            <form method="POST"><input type="hidden" name="add_lead" value="1">
+                <div class="fg">
+                    <div class="fgrp"><label class="fl">Niche</label><input type="text" name="niche" class="fc2"
+                            required placeholder="e.g. E-commerce Website"></div>
+                    <div class="fgrp"><label class="fl">Budget</label><select name="budget" class="fc2">
+                            <option value="15000">₹15k–₹30k → ₹999</option>
+                            <option value="30000">₹30k–₹50k → ₹2,499</option>
+                            <option value="50000">₹50k+ → ₹4,999</option>
+                        </select></div>
+                </div>
+                <div class="fgrp"><label class="fl">Description</label><textarea name="description" class="fc2" required
+                        rows="3" placeholder="Project requirements..."></textarea></div>
+                <div class="fg">
+                    <div class="fgrp"><label class="fl">Client Name</label><input type="text" name="client_name"
+                            class="fc2" required placeholder="Full name"></div>
+                    <div class="fgrp"><label class="fl">Client Phone</label><input type="text" name="client_phone"
+                            class="fc2" required placeholder="+91 98765 43210"></div>
+                </div>
+                <button type="submit" class="btn-p">🚀 Publish Lead</button>
+            </form>
+        </div>
+
+        <!-- All Leads -->
+        <div class="cd" id="leads-sec">
+            <div class="cd-h">
+                <div class="cd-t"><i style="background:var(--blue)"></i>All Leads</div><span
+                    class="cd-b"><?php echo count($leads); ?> total</span>
+            </div>
+            <div class="fb">
+                <input type="text" id="qs" class="fi" placeholder="🔍 Search..." oninput="fl()"
+                    style="min-width:170px;">
+                <select id="qst" class="fi" style="min-width:120px;" onchange="fl()">
+                    <option value="all">All Status</option>
+                    <option value="available">Available</option>
+                    <option value="sold">Sold</option>
+                </select>
+                <select id="qb" class="fi" style="min-width:140px;" onchange="fl()">
+                    <option value="all">All Budgets</option>
+                    <option value="15000">Basic</option>
+                    <option value="30000">Business</option>
+                    <option value="50000">Premium</option>
+                </select>
+                <span class="fc" id="rcnt"><?php echo count($leads); ?> results</span>
+            </div>
+            <div class="tbl-w">
+                <table class="lt" id="ltbl">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Niche</th>
+                            <th>Budget</th>
+                            <th>Price</th>
+                            <th>Client</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($leads as $l): ?>
+                            <tr data-n="<?php echo strtolower($l['niche']); ?>"
+                                data-c="<?php echo strtolower($l['client_name']); ?>" data-s="<?php echo $l['status']; ?>"
+                                data-b="<?php echo $l['budget']; ?>">
+                                <td><span class="li">#<?php echo $l['id']; ?></span></td>
+                                <td style="max-width:220px;">
+                                    <div class="ln"><?php echo htmlspecialchars($l['niche']); ?></div>
+                                    <div class="ld"><?php echo htmlspecialchars(substr($l['description'], 0, 50)); ?>...</div>
+                                </td>
+                                <td><span class="lb">₹<?php echo number_format($l['budget']); ?>+</span></td>
+                                <td><span class="lp">₹<?php echo number_format($l['lead_price']); ?></span></td>
+                                <td>
+                                    <div class="lc"><?php echo htmlspecialchars($l['client_name']); ?></div>
+                                    <div class="lcph"><?php echo htmlspecialchars($l['client_phone']); ?></div>
+                                </td>
+                                <td><?php if ($l['status'] == 'available'): ?><span
+                                            class="ls ls-a"><b></b>Available</span><?php else: ?><span
+                                            class="ls ls-s"><b></b>Sold</span><?php endif; ?></td>
+                                <td style="color:var(--t4);font-size:.76rem;white-space:nowrap;">
+                                    <?php echo date('d M Y', strtotime($l['created_at'])); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <?php if (empty($leads)): ?>
+                            <tr>
+                                <td colspan="7">
+                                    <div class="emp">
+                                        <div class="emp-ic">📭</div>
+                                        <div>No leads found</div>
+                                        <div style="margin-top:6px;"><a href="seed.php">Add Demo Data</a></div>
+                                    </div>
+                                </td>
+                            </tr><?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Chart.js from cdnjs (more reliable) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <script>
-// Chart
-document.addEventListener('DOMContentLoaded', function() {
-    var el = document.getElementById('mainChart');
-    if (!el) return;
-    try {
-        new Chart(el, {
-            type: 'bar',
-            data: {
-                labels: <?php echo json_encode($chart_labels); ?>,
-                datasets: [
-                    {
-                        label: 'Revenue (₹)',
-                        data: <?php echo json_encode($chart_revenue); ?>,
-                        backgroundColor: 'rgba(59,130,246,0.15)',
-                        borderColor: '#3b82f6',
-                        borderWidth: 2, borderRadius: 6, borderSkipped: false, yAxisID: 'y'
-                    },
-                    {
-                        label: 'Leads Sold',
-                        data: <?php echo json_encode($chart_sold); ?>,
-                        type: 'line',
-                        borderColor: '#8b5cf6',
-                        backgroundColor: 'rgba(139,92,246,0.05)',
-                        borderWidth: 2.5,
-                        pointBackgroundColor: '#8b5cf6', pointBorderColor: '#fff',
-                        pointBorderWidth: 2, pointRadius: 5,
-                        tension: 0.4, fill: true, yAxisID: 'y1'
-                    }
-                ]
+document.addEventListener('DOMContentLoaded',function(){
+    var el=document.getElementById('mainChart');
+    if(!el||typeof Chart==='undefined')return;
+    new Chart(el,{
+        type:'bar',
+        data:{
+            labels:<?php echo json_encode($clbl); ?>,
+            datasets:[
+                {label:'Revenue (₹)',data:<?php echo json_encode($crev); ?>,backgroundColor:'rgba(37,99,235,.12)',borderColor:'#2563eb',borderWidth:2,borderRadius:8,borderSkipped:false,yAxisID:'y'},
+                {label:'Leads Sold',data:<?php echo json_encode($csold); ?>,type:'line',borderColor:'#7c3aed',backgroundColor:'rgba(124,58,237,.04)',borderWidth:2.5,pointBackgroundColor:'#7c3aed',pointBorderColor:'#fff',pointBorderWidth:2,pointRadius:5,tension:.4,fill:true,yAxisID:'y1'}
+            ]
+        },
+        options:{
+            responsive:true,maintainAspectRatio:false,
+            interaction:{intersect:false,mode:'index'},
+            plugins:{
+                legend:{labels:{color:'#6b7280',font:{size:11,weight:'500'},usePointStyle:true,padding:16}},
+                tooltip:{backgroundColor:'#fff',titleColor:'#111827',bodyColor:'#374151',borderColor:'#e5e7eb',borderWidth:1,padding:12,cornerRadius:10,
+                    callbacks:{label:function(c){return c.datasetIndex===0?' ₹'+c.parsed.y.toLocaleString():' '+c.parsed.y+' leads';}}}
             },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                interaction: { intersect: false, mode: 'index' },
-                plugins: {
-                    legend: { labels: { color:'#64748b', font:{size:11,weight:500}, usePointStyle:true, padding:16 } },
-                    tooltip: {
-                        backgroundColor:'#fff', titleColor:'#0f172a', bodyColor:'#475569',
-                        borderColor:'#e2e8f0', borderWidth:1, padding:12, cornerRadius:10,
-                        callbacks: {
-                            label: function(c){ return c.datasetIndex===0 ? ' ₹'+c.parsed.y.toLocaleString() : ' '+c.parsed.y+' leads'; }
-                        }
-                    }
-                },
-                scales: {
-                    x: { grid:{display:false}, ticks:{color:'#94a3b8',font:{size:11}} },
-                    y: { position:'left', grid:{color:'#f1f5f9'}, ticks:{color:'#94a3b8',font:{size:11}, callbac k:v=>'₹'+v.toLocaleString()} },
-                    y1:{ position:'right', grid:{display:false}, ticks:{color:'#a78bfa',font:{size:11}} }
-                }
+            scales:{
+                x:{grid:{display:false},ticks:{color:'#9ca3af',font:{size:11}}},
+                y:{position:'left',grid:{color:'#f3f4f6'},ticks:{color:'#9ca3af',font:{size:11},callback:function(v){return '₹'+v.toLocaleString();}}},
+                y1:{position:'right',grid:{display:false},ticks:{color:'#a78bfa',font:{size:11}}}
             }
-        });
-    } catch(e) { console.error('Chart error:', e); }
-});
-
-// Filter
-function filterL(){
-    var s=document.getElementById('lSearch').value.toLowerCase(),
-        st=document.getElementById('lStatus').value,
-        b=document.getElementById('lBudget').value, v=0;
-    document.querySelectorAll('#lTbl tbody tr').forEach(function(r){
-        var ok=(!s||(r.dataset.n||'').includes(s)||(r.dataset.c||'').includes(s))&&(st==='all'||r.dataset.s===st)&&(b==='all'||r.dataset.b===b);
-        r.style.display=ok?'':'none'; if(ok)v++;
+        }
     });
-    document.getElementById('fCnt').textContent=v+' result'+(v!==1?'s':'');
+});
+function fl(){
+    var s=document.getElementById('qs').value.toLowerCase(),st=document.getElementById('qst').value,b=document.getElementById('qb').value,v=0;
+    document.querySelectorAll('#ltbl tbody tr').forEach(function(r){
+        var ok=(!s||(r.dataset.n||'').includes(s)||(r.dataset.c||'').includes(s))&&(st==='all'||r.dataset.s===st)&&(b==='all'||r.dataset.b===b);
+        r.style.display=ok?'':'none';if(ok)v++;
+    });
+    document.getElementById('rcnt').textContent=v+' result'+(v!==1?'s':'');
 }
     </script>
 </body>
