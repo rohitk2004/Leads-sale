@@ -164,8 +164,11 @@ $cart_count = count(get_cart_items($pdo));
     <!-- Available Leads Section -->
     <section id="leads" class="leads-section">
         <div class="container">
-            <h2 class="section-title">Available Leads</h2>
-            <p class="section-subtitle">Fresh opportunities updated daily</p>
+            <div class="sec-header">
+                <span class="sec-label">Browse Leads</span>
+                <h2 class="sec-title">Available <span>Leads</span></h2>
+                <p class="sec-desc">Fresh opportunities updated daily — unlock verified client details</p>
+            </div>
 
             <?php if (empty($available_leads)): ?>
                 <div class="empty-state">
@@ -254,67 +257,107 @@ $cart_count = count(get_cart_items($pdo));
     </section>
 
     <!-- Features Section -->
-    <section class="features-section">
+    <section class="feat-section">
+        <div class="feat-noise"></div>
+        <div class="feat-glow feat-glow-1"></div>
+        <div class="feat-glow feat-glow-2"></div>
         <div class="container">
-            <div class="features-header">
-                <span class="features-label">Why QuickProject</span>
-                <h2 class="features-title">Everything you need to <br><span>close more deals</span></h2>
+            <div class="feat-header">
+                <span class="feat-label">Why QuickProject</span>
+                <h2 class="feat-title">Everything you need to <br><span>close more deals</span></h2>
+                <p class="feat-desc">We provide verified, exclusive leads with instant access — so you can focus on
+                    growing your business.</p>
             </div>
 
-            <div class="features-bento">
-                <!-- Feature 1 - Wide -->
-                <div class="bento-card bento-wide bento-blue">
-                    <div class="bento-number">01</div>
-                    <div class="bento-icon">
+            <div class="feat-grid">
+                <!-- Feature 1 -->
+                <div class="feat-card">
+                    <div class="feat-card-glow feat-card-glow-blue"></div>
+                    <div class="feat-card-icon feat-icon-blue">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                             stroke-linecap="round" stroke-linejoin="round">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
-                    <h3>Verified & Qualified Leads</h3>
-                    <p>Every lead is human-verified with accurate budgets, requirements, and genuine contact details. No
-                        bots, no fake inquiries — only real clients ready to invest.</p>
+                    <h3 class="feat-card-title">Verified & Qualified</h3>
+                    <p class="feat-card-text">Every lead is human-verified with accurate budgets, requirements, and
+                        genuine contact details.</p>
+                    <a href="#" class="feat-card-link">
+                        <span>Learn more</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                    </a>
                 </div>
 
                 <!-- Feature 2 -->
-                <div class="bento-card bento-amber">
-                    <div class="bento-number">02</div>
-                    <div class="bento-icon">
+                <div class="feat-card">
+                    <div class="feat-card-glow feat-card-glow-amber"></div>
+                    <div class="feat-card-icon feat-icon-amber">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                             stroke-linecap="round" stroke-linejoin="round">
                             <path d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     </div>
-                    <h3>Instant Access</h3>
-                    <p>Get full client contact details the moment you purchase. Zero waiting period.</p>
+                    <h3 class="feat-card-title">Instant Access</h3>
+                    <p class="feat-card-text">Get full client contact details the moment you purchase. Zero waiting
+                        period.</p>
+                    <a href="#" class="feat-card-link">
+                        <span>Learn more</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                    </a>
                 </div>
 
                 <!-- Feature 3 -->
-                <div class="bento-card bento-purple">
-                    <div class="bento-number">03</div>
-                    <div class="bento-icon">
+                <div class="feat-card">
+                    <div class="feat-card-glow feat-card-glow-purple"></div>
+                    <div class="feat-card-icon feat-icon-purple">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                             stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                             <path d="M7 11V7a5 5 0 0110 0v4"></path>
                         </svg>
                     </div>
-                    <h3>Exclusive Rights</h3>
-                    <p>Once purchased, the lead is exclusively yours. No competition from other developers.</p>
+                    <h3 class="feat-card-title">Exclusive Rights</h3>
+                    <p class="feat-card-text">Once purchased, the lead is exclusively yours. No competition from other
+                        developers.</p>
+                    <a href="#" class="feat-card-link">
+                        <span>Learn more</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                    </a>
                 </div>
 
                 <!-- Feature 4 -->
-                <div class="bento-card bento-wide bento-green">
-                    <div class="bento-number">04</div>
-                    <div class="bento-icon">
+                <div class="feat-card">
+                    <div class="feat-card-glow feat-card-glow-green"></div>
+                    <div class="feat-card-icon feat-icon-green">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
                             stroke-linecap="round" stroke-linejoin="round">
                             <line x1="12" y1="1" x2="12" y2="23"></line>
                             <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"></path>
                         </svg>
                     </div>
-                    <h3>Affordable Pricing</h3>
-                    <p>Transparent pricing based on project budget. Pay only for what you need — no subscriptions.</p>
+                    <h3 class="feat-card-title">Affordable Pricing</h3>
+                    <p class="feat-card-text">Transparent pricing based on project budget. Pay only for what you need —
+                        no subscriptions.</p>
+                    <a href="#" class="feat-card-link">
+                        <span>Learn more</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
@@ -323,8 +366,11 @@ $cart_count = count(get_cart_items($pdo));
     <!-- Pricing Section -->
     <section class="pricing-section">
         <div class="container">
-            <h2 class="section-title">Transparent Pricing</h2>
-            <p class="section-subtitle">Choose the lead category that fits your business goals</p>
+            <div class="sec-header">
+                <span class="sec-label">Pricing Plans</span>
+                <h2 class="sec-title">Transparent <span>Pricing</span></h2>
+                <p class="sec-desc">Choose the lead category that fits your business goals</p>
+            </div>
 
             <div class="pricing-cards-grid">
                 <!-- Basic Plan -->
@@ -414,7 +460,7 @@ $cart_count = count(get_cart_items($pdo));
             </div>
 
             <div class="pricing-footer-tip">
-                <div class="pricing-tip-icon">⚡</div>
+                <div class="pricing-tip-icon">-</div>
                 <p><span class="pricing-tip-highlight">Pro Tip:</span> Wallet members save up to <strong>20%
                         EXTRA</strong> on every purchase. <a href="login.php" class="pricing-tip-link">Login to top up
                         →</a></p>
@@ -425,8 +471,11 @@ $cart_count = count(get_cart_items($pdo));
     <!-- How It Works Section -->
     <section id="how-it-works" class="hiw-section">
         <div class="container">
-            <h2 class="section-title">How It Works</h2>
-            <p class="section-subtitle">Start earning with leads in 4 simple steps</p>
+            <div class="sec-header">
+                <span class="sec-label">Simple Process</span>
+                <h2 class="sec-title">How It <span>Works</span></h2>
+                <p class="sec-desc">Start earning with leads in 4 simple steps</p>
+            </div>
 
             <div class="hiw-timeline">
                 <!-- Progress Line -->
@@ -539,8 +588,11 @@ $cart_count = count(get_cart_items($pdo));
     <section id="reviews" class="reviews-section">
         <div class="container">
             <div class="reviews-header">
-                <h2 class="section-title">Trusted by Professional Developers</h2>
-                <p class="section-subtitle">Join thousands of developers growing their business with QuickProject</p>
+                <div class="sec-header">
+                    <span class="sec-label">Testimonials</span>
+                    <h2 class="sec-title">Trusted by <span>Professional Developers</span></h2>
+                    <p class="sec-desc">Join thousands of developers growing their business with QuickProject</p>
+                </div>
                 <!-- Trust Stats Bar -->
                 <div class="reviews-trust-bar">
                     <div class="trust-stat">
@@ -1010,8 +1062,12 @@ $cart_count = count(get_cart_items($pdo));
     <!-- CTA Section -->
     <section class="cta-section">
         <div class="container">
-            <h2>Ready to Grow Your Business?</h2>
-            <p>Join thousands of developers who are already closing deals with premium leads.</p>
+            <div class="sec-header sec-header-light">
+                <span class="sec-label sec-label-light">Get Started</span>
+                <h2 class="sec-title sec-title-light">Ready to <span>Grow Your Business?</span></h2>
+                <p class="sec-desc sec-desc-light">Join thousands of developers who are already closing deals with
+                    premium leads.</p>
+            </div>
             <a href="#leads" class="btn btn-primary btn-lg">Get Started Now</a>
         </div>
     </section>
