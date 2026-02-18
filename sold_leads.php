@@ -3,6 +3,7 @@ require_once 'functions.php';
 
 $sold_leads = get_sold_leads($pdo);
 $cart_count = count(get_cart_items($pdo));
+$total_sold = count($sold_leads);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,9 +11,10 @@ $cart_count = count(get_cart_items($pdo));
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sold Leads - Quick Project</title>
+    <title>Sold Leads - QuickProject</title>
     <meta name="description" content="View recently sold leads and closed opportunities">
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -20,56 +22,80 @@ $cart_count = count(get_cart_items($pdo));
     <?php include 'header.php'; ?>
 
     <!-- Page Header -->
-    <section class="page-header">
+    <section class="pg-header pg-header-sold">
+        <div class="pg-header-bg"></div>
         <div class="container">
-            <h1 class="page-title">Sold Leads</h1>
-            <p class="page-subtitle">Recently closed opportunities - No longer available</p>
+            <div class="pg-header-content">
+                <div>
+                    <h1 class="pg-title">Sold Leads</h1>
+                    <p class="pg-subtitle">Recently closed opportunities — no longer available for purchase</p>
+                </div>
+                <div class="pg-header-badge pg-badge-sold">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                    </svg>
+                    <span><?php echo $total_sold; ?> leads sold</span>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Sold Leads Section -->
-    <section class="leads-section sold-leads-section">
+    <section class="pg-body">
         <div class="container">
             <?php if (empty($sold_leads)): ?>
-                <div class="empty-state">
-                    <div class="empty-icon">✅</div>
+                <div class="dash-empty">
+                    <div class="dash-empty-icon">✅</div>
                     <h3>No sold leads yet</h3>
-                    <p>Sold leads will appear here once purchased</p>
+                    <p>Sold leads will appear here once purchased by developers.</p>
+                    <a href="available_leads.php" class="dash-empty-btn">Browse Available Leads</a>
                 </div>
             <?php else: ?>
+                <div class="filter-results">
+                    <span>Showing <strong><?php echo $total_sold; ?></strong> sold leads</span>
+                    <a href="available_leads.php" class="dash-section-link">
+                        <span>View Available Leads</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                    </a>
+                </div>
                 <div class="leads-grid">
                     <?php foreach ($sold_leads as $lead):
-                        // Blur phone number - show only last 4 digits (same as available leads)
                         $phone = $lead['client_phone'];
                         $blurred_phone = str_repeat('●', max(0, strlen($phone) - 4)) . substr($phone, -4);
                         ?>
-                        <div class="lead-card sold-lead-card">
-                            <div class="sold-badge">✓ SOLD</div>
+                        <div class="lead-card sold-card">
+                            <div class="sold-ribbon">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.5">
+                                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                                    <polyline points="22 4 12 14.01 9 11.01" />
+                                </svg>
+                                SOLD
+                            </div>
                             <div class="lead-header">
-                                <h3>
-                                    <?php echo htmlspecialchars($lead['niche']); ?>
-                                </h3>
+                                <h3><?php echo htmlspecialchars($lead['niche']); ?></h3>
                             </div>
 
-                            <!-- 4 Fields: Name, Number (Blurred), Budget, Requirement -->
                             <div class="lead-details">
                                 <div class="detail-row">
                                     <div class="detail-item detail-name">
                                         <span class="detail-icon">👤</span>
                                         <div class="detail-content">
                                             <span class="detail-label">Client Name</span>
-                                            <span class="detail-value">
-                                                <?php echo htmlspecialchars($lead['client_name']); ?>
-                                            </span>
+                                            <span
+                                                class="detail-value"><?php echo htmlspecialchars($lead['client_name']); ?></span>
                                         </div>
                                     </div>
                                     <div class="detail-item detail-phone">
                                         <span class="detail-icon">📞</span>
                                         <div class="detail-content">
                                             <span class="detail-label">Phone Number</span>
-                                            <span class="detail-value blurred-text">
-                                                <?php echo htmlspecialchars($blurred_phone); ?>
-                                            </span>
+                                            <span
+                                                class="detail-value blurred-text"><?php echo htmlspecialchars($blurred_phone); ?></span>
                                         </div>
                                     </div>
                                 </div>
@@ -79,9 +105,8 @@ $cart_count = count(get_cart_items($pdo));
                                         <span class="detail-icon">💰</span>
                                         <div class="detail-content">
                                             <span class="detail-label">Budget</span>
-                                            <span class="detail-value text-green">₹
-                                                <?php echo number_format($lead['budget']); ?>+
-                                            </span>
+                                            <span
+                                                class="detail-value text-green">₹<?php echo number_format($lead['budget']); ?>+</span>
                                         </div>
                                     </div>
                                 </div>
@@ -91,18 +116,21 @@ $cart_count = count(get_cart_items($pdo));
                                         <span class="detail-icon">📋</span>
                                         <div class="detail-content">
                                             <span class="detail-label">Requirement</span>
-                                            <span class="detail-value">
-                                                <?php echo htmlspecialchars($lead['description']); ?>
-                                            </span>
+                                            <span
+                                                class="detail-value"><?php echo htmlspecialchars($lead['description']); ?></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="lead-footer">
+                            <div class="lead-footer sold-footer">
                                 <div class="sold-notice">
-                                    <span class="sold-icon">🔒</span>
-                                    <span class="sold-text">This lead has been sold and is no longer available</span>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                        <path d="M7 11V7a5 5 0 0110 0v4" />
+                                    </svg>
+                                    <span>This lead has been sold and is no longer available</span>
                                 </div>
                             </div>
                         </div>

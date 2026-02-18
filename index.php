@@ -103,27 +103,54 @@ $cart_count = count(get_cart_items($pdo));
                 </div>
             </div>
 
-            <!-- Floating Lead Preview Card -->
-            <div class="hero-preview-card">
-                <div class="hero-preview-header">
-                    <span class="hero-preview-badge">Premium Lead</span>
-                    <span class="hero-preview-price">₹499</span>
-                </div>
-                <div class="hero-preview-body">
-                    <h4>E-Commerce Website Development</h4>
-                    <p class="hero-preview-company">TechStart Solutions Pvt. Ltd.</p>
-                    <div class="hero-preview-details">
-                        <span>📍 Mumbai</span>
-                        <span>💰 ₹2L - ₹5L</span>
-                        <span>⏰ 2 weeks</span>
+            <!-- Floating Lead Preview Cards (Stacked) -->
+            <div class="hero-preview-wrapper">
+                <!-- Background card for depth -->
+                <div class="hero-preview-bg-card"></div>
+
+                <!-- Main Preview Card -->
+                <div class="hero-preview-card">
+                    <div class="hero-preview-header">
+                        <div class="hero-preview-header-left">
+                            <span class="hero-preview-badge">Premium Lead</span>
+                            <span class="hero-preview-new">● New</span>
+                        </div>
+                        <span class="hero-preview-price">₹499</span>
                     </div>
-                </div>
-                <div class="hero-preview-footer">
-                    <div class="hero-preview-blur">
-                        <div class="blur-line"></div>
-                        <div class="blur-line short"></div>
+                    <div class="hero-preview-body">
+                        <h4>E-Commerce Website Development</h4>
+                        <p class="hero-preview-company">TechStart Solutions Pvt. Ltd.</p>
+                        <div class="hero-preview-tags">
+                            <span class="preview-tag">React</span>
+                            <span class="preview-tag">Node.js</span>
+                            <span class="preview-tag">MongoDB</span>
+                            <span class="preview-tag tag-more">+2</span>
+                        </div>
+                        <div class="hero-preview-details">
+                            <span>📍 Mumbai</span>
+                            <span>💰 ₹2L - ₹5L</span>
+                            <span>⏰ 2 weeks</span>
+                        </div>
+                        <div class="hero-preview-progress">
+                            <div class="progress-header">
+                                <span>Budget Match</span>
+                                <span class="progress-pct">87%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                        </div>
                     </div>
-                    <span class="hero-preview-unlock">🔓 Buy to unlock contact</span>
+                    <div class="hero-preview-footer">
+                        <div class="hero-preview-blur">
+                            <div class="blur-line"></div>
+                            <div class="blur-line short"></div>
+                        </div>
+                        <div class="hero-preview-action">
+                            <span class="hero-preview-unlock">🔓 Buy to unlock contact details</span>
+                            <span class="hero-preview-cta">View →</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -993,38 +1020,38 @@ $cart_count = count(get_cart_items($pdo));
 
     <!-- Hero Counter Animation -->
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const counters = document.querySelectorAll('.hero-stat-value[data-count]');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const el = entry.target;
-                    const target = parseInt(el.dataset.count);
-                    const prefix = el.dataset.prefix || '';
-                    const suffix = el.dataset.suffix || '+';
-                    const useComma = el.dataset.format === 'comma';
-                    const duration = 2000;
-                    const start = performance.now();
+        document.addEventListener('DOMContentLoaded', () => {
+            const counters = document.querySelectorAll('.hero-stat-value[data-count]');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const target = parseInt(el.dataset.count);
+                        const prefix = el.dataset.prefix || '';
+                        const suffix = el.dataset.suffix || '+';
+                        const useComma = el.dataset.format === 'comma';
+                        const duration = 2000;
+                        const start = performance.now();
 
-                    function animate(now) {
-                        const elapsed = now - start;
-                        const progress = Math.min(elapsed / duration, 1);
-                        const eased = 1 - Math.pow(1 - progress, 3);
-                        let current = Math.floor(eased * target);
-                        if (useComma) {
-                            el.textContent = prefix + current.toLocaleString() + suffix;
-                        } else {
-                            el.textContent = prefix + current + suffix;
+                        function animate(now) {
+                            const elapsed = now - start;
+                            const progress = Math.min(elapsed / duration, 1);
+                            const eased = 1 - Math.pow(1 - progress, 3);
+                            let current = Math.floor(eased * target);
+                            if (useComma) {
+                                el.textContent = prefix + current.toLocaleString() + suffix;
+                            } else {
+                                el.textContent = prefix + current + suffix;
+                            }
+                            if (progress < 1) requestAnimationFrame(animate);
                         }
-                        if (progress < 1) requestAnimationFrame(animate);
+                        requestAnimationFrame(animate);
+                        observer.unobserve(el);
                     }
-                    requestAnimationFrame(animate);
-                    observer.unobserve(el);
-                }
-            });
-        }, { threshold: 0.5 });
-        counters.forEach(c => observer.observe(c));
-    });
+                });
+            }, { threshold: 0.5 });
+            counters.forEach(c => observer.observe(c));
+        });
     </script>
 </body>
 
