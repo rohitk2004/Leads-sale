@@ -7,13 +7,26 @@ require_login('admin');
 $message = "";
 $msg_type = "";
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['toggle_lead_id'])) {
+    $lead_id = (int) $_POST['toggle_lead_id'];
+    $new_status = ($_POST['current_status'] === 'available') ? 'sold' : 'available';
+    $stmt = $pdo->prepare("UPDATE leads SET status = ? WHERE id = ?");
+    if ($stmt->execute([$new_status, $lead_id])) {
+        $message = "Lead #$lead_id status changed to $new_status.";
+        $msg_type = "success";
+    } else {
+        $message = "Failed to update status.";
+        $msg_type = "error";
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_lead'])) {
     $niche = trim($_POST['niche']);
     $budget = (float) $_POST['budget'];
     $desc = trim($_POST['description']);
     $name = trim($_POST['client_name']);
     $phone = trim($_POST['client_phone']);
-    $lead_price = ($budget == 50000) ? 4999 : (($budget == 30000) ? 2499 : 999);
+    $lead_price = ($budget == 5000) ? 2 : (($budget == 50000) ? 4999 : (($budget == 30000) ? 2499 : 999));
     try {
         $pdo->prepare("INSERT INTO leads (niche, budget, lead_price, description, client_name, client_phone, status) VALUES (?,?,?,?,?,?,'available')")
             ->execute([$niche, $budget, $lead_price, $desc, $name, $phone]);
@@ -1179,6 +1192,7 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
                     <div class="fgrp"><label class="fl">Niche</label><input type="text" name="niche" class="fc2"
                             required placeholder="e.g. E-commerce Website"></div>
                     <div class="fgrp"><label class="fl">Budget</label><select name="budget" class="fc2">
+                            <option value="5000">₹5k (Test) → ₹2</option>
                             <option value="15000">₹15k–₹30k → ₹999</option>
                             <option value="30000">₹30k–₹50k → ₹2,499</option>
                             <option value="50000">₹50k+ → ₹4,999</option>
@@ -1248,9 +1262,21 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
                                     <div class="lc"><?php echo htmlspecialchars($l['client_name']); ?></div>
                                     <div class="lcph"><?php echo htmlspecialchars($l['client_phone']); ?></div>
                                 </td>
-                                <td><?php if ($l['status'] == 'available'): ?><span
-                                            class="ls ls-a"><b></b>Available</span><?php else: ?><span
-                                            class="ls ls-s"><b></b>Sold</span><?php endif; ?></td>
+                                <td>
+                                    <form method="POST" style="display:inline;">
+                                        <input type="hidden" name="toggle_lead_id" value="<?php echo $l['id']; ?>">
+                                        <input type="hidden" name="current_status" value="<?php echo $l['status']; ?>">
+                                        <button type="submit"
+                                            style="border:none; background:none; padding:0; cursor:pointer;"
+                                            title="Click to toggle">
+                                            <?php if ($l['status'] == 'available'): ?>
+                                                <span class="ls ls-a"><b></b>Available</span>
+                                            <?php else: ?>
+                                                <span class="ls ls-s"><b></b>Sold</span>
+                                            <?php endif; ?>
+                                        </button>
+                                    </form>
+                                </td>
                                 <td style="color:var(--t4);font-size:.76rem;white-space:nowrap;">
                                     <?php echo date('d M Y', strtotime($l['created_at'])); ?>
                                 </td>

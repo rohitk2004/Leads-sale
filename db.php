@@ -1,9 +1,16 @@
 <?php
+// Local Development
 $host = 'localhost';
-$db = 'u891532816_sales';
-$user = 'u891532816_rohit';
-$pass = 'Rohit@@9313##';
+$db = 'lead_selling_db'; // Ensure this database exists in phpMyAdmin
+$user = 'root';
+$pass = '';
 $charset = 'utf8mb4';
+
+// Production Settings (Uncomment for Live Site)
+// $host = 'localhost';
+// $db = 'u891532816_sales';
+// $user = 'u891532816_rohit';
+// $pass = 'Rohit@@9313##';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [
