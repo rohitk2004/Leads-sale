@@ -250,10 +250,10 @@ function get_available_leads($pdo)
 {
     $sql = "SELECT * FROM leads WHERE status = 'available'";
 
-    // Hide test leads (Budget 5000) from non-admins
-    if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-        $sql .= " AND budget != 5000";
-    }
+    // Show all available leads regardless of budget (Uncomment below to restrict test leads again)
+    // if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    //     $sql .= " AND budget != 5000";
+    // }
 
     $sql .= " ORDER BY created_at DESC";
     $stmt = $pdo->query($sql);
