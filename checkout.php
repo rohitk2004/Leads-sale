@@ -51,11 +51,10 @@ if (empty($cart_items) && empty($message)) {
 
     <?php include 'header.php'; ?>
 
-    <section class="page-header"
-        style="padding: 60px 0; background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white; margin-bottom: 40px;">
+    <section class="page-header">
         <div class="container">
-            <h1 style="color: white; margin-bottom: 10px;">Checkout</h1>
-            <p style="opacity: 0.8;">Complete your purchase to access lead details instantly.</p>
+            <h1 class="page-title">Checkout</h1>
+            <p class="page-subtitle">Complete your purchase to access lead details instantly.</p>
         </div>
     </section>
 

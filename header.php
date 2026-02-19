@@ -56,7 +56,7 @@ if (isset($pdo)) {
         </div>
         <nav>
             <a href="index" class="nav-link">Home</a>
-            <a href="#about" class="nav-link">About Us</a>
+            <a href="about" class="nav-link">About Us</a>
             <a href="available_leads" class="nav-link">Available Leads</a>
             <a href="sold_leads" class="nav-link">Sold Leads</a>
             <a href="contact" class="nav-link">Contact Us</a>
