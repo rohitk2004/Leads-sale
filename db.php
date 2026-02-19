@@ -1,16 +1,20 @@
 <?php
-// Local Development
-$host = 'localhost';
-$db = 'lead_selling_db'; // Ensure this database exists in phpMyAdmin
-$user = 'root';
-$pass = '';
-$charset = 'utf8mb4';
+// Check environment
+if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['HTTP_HOST'] == '127.0.0.1') {
+    // Local Development (XAMPP)
+    $host = 'localhost';
+    $db = 'lead_selling_db';
+    $user = 'root';
+    $pass = '';
+} else {
+    // Production (Live Server)
+    $host = 'localhost';
+    $db = 'u891532816_sales';
+    $user = 'u891532816_rohit';
+    $pass = 'Rohit@@9313##';
+}
 
-// Production Settings (Uncomment for Live Site)
-// $host = 'localhost';
-// $db = 'u891532816_sales';
-// $user = 'u891532816_rohit';
-// $pass = 'Rohit@@9313##';
+$charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [
