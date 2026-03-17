@@ -27,6 +27,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -44,6 +45,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 h1,
@@ -334,7 +336,7 @@ a {
   transform: scale(1.05);
 }
 
-.main-header nav {
+.main-nav {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -4561,24 +4563,176 @@ textarea {
   border: 1px solid rgba(199, 137, 63, 0.2);
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  .main-header .container {
-    flex-direction: column;
-    gap: 15px;
+/* ===== HAMBURGER MENU ===== */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 1001;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.nav-toggle-bar {
+  display: block;
+  width: 24px;
+  height: 2.5px;
+  background: #334155;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.nav-toggle-active .nav-toggle-bar:nth-child(1) {
+  transform: translateY(7.5px) rotate(45deg);
+}
+
+.nav-toggle-active .nav-toggle-bar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.nav-toggle-active .nav-toggle-bar:nth-child(3) {
+  transform: translateY(-7.5px) rotate(-45deg);
+}
+
+/* ===== RESPONSIVE — TABLET (1024px) ===== */
+@media (max-width: 1024px) {
+  h1 {
+    font-size: 2.8rem;
   }
 
-  .main-header nav {
-    flex-wrap: wrap;
-    justify-content: center;
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  .features-section,
+  .how-it-works-section,
+  .reviews-section {
+    padding: 80px 0;
+  }
+}
+
+/* ===== RESPONSIVE — MOBILE (768px) ===== */
+@media (max-width: 768px) {
+
+  /* --- Top Header --- */
+  .top-header {
+    padding: 6px 0;
+    font-size: 0.72rem;
+  }
+
+  .top-header-content {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .top-header-email-text {
+    display: none;
+  }
+
+  .top-header-left,
+  .top-header-right {
+    gap: 8px;
+  }
+
+  .top-header-btn {
+    padding: 4px 10px;
+    font-size: 0.72rem;
+  }
+
+  .top-header-user {
+    font-size: 0.72rem;
+    padding: 4px 8px;
+  }
+
+  /* --- Main Header + Hamburger --- */
+  .main-header {
+    padding: 12px 0;
+  }
+
+  .main-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .logo h1 {
+    font-size: 1.4rem;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .main-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    flex-direction: column;
+    padding: 12px 20px 20px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    z-index: 998;
+    gap: 0;
+  }
+
+  .main-nav.nav-open {
+    display: flex;
+    animation: slideDown 0.3s ease;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .main-nav .nav-link,
+  .main-nav .cart-link {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+  }
+
+  .main-nav .nav-link:hover,
+  .main-nav .cart-link:hover {
+    background: rgba(37, 99, 235, 0.06);
+  }
+
+  .main-nav .nav-link::after {
+    display: none;
+  }
+
+  /* --- Hero --- */
+  .hero {
+    padding: 60px 0 50px;
   }
 
   .hero-title {
-    font-size: 2.5rem;
+    font-size: 2.4rem;
+    letter-spacing: -1.5px;
   }
 
   .hero-subtitle {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .hero-cta {
@@ -4586,23 +4740,217 @@ textarea {
     align-items: center;
   }
 
-  .hero-stats {
-    flex-direction: column;
-    gap: 30px;
+  .hero-btn-primary,
+  .hero-btn-ghost {
+    width: 100%;
+    justify-content: center;
   }
 
+  .hero-stats {
+    flex-direction: column;
+    gap: 20px;
+    padding: 24px;
+    width: 100%;
+  }
+
+  .hero-stat-divider {
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+  }
+
+  .hide-mobile {
+    display: none;
+  }
+
+  .hero-scroll {
+    display: none;
+  }
+
+  /* --- General Sections --- */
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .section-title,
+  .sec-title {
+    font-size: 1.8rem;
+    letter-spacing: -1px;
+  }
+
+  .features-section,
+  .how-it-works-section,
+  .reviews-section {
+    padding: 60px 0;
+  }
+
+  .sec-header {
+    margin-bottom: 36px;
+  }
+
+  .sec-desc {
+    font-size: 0.92rem;
+  }
+
+  /* --- Leads Grid --- */
   .leads-grid {
     grid-template-columns: 1fr;
   }
 
-  .footer-bottom {
-    flex-direction: column;
-    gap: 20px;
-    text-align: center;
+  /* --- Page Header --- */
+  .page-header {
+    padding: 50px 0;
   }
 
-  .section-title {
+  .page-title {
     font-size: 2rem;
+  }
+
+  .page-subtitle {
+    font-size: 0.95rem;
+  }
+
+  /* --- Cards & Tables --- */
+  .card {
+    padding: 20px;
+  }
+
+  table {
+    font-size: 0.85rem;
+  }
+
+  th,
+  td {
+    padding: 10px 8px;
+  }
+
+  /* --- Buttons --- */
+  .btn {
+    padding: 12px 24px;
+    font-size: 0.9rem;
+  }
+
+  /* --- Auth Pages --- */
+  .auth-card {
+    padding: 32px 24px;
+    border-radius: 18px;
+  }
+
+  /* --- Contact --- */
+  .contact-container {
+    grid-template-columns: 1fr !important;
+  }
+
+  .contact-form,
+  .contact-info {
+    padding: 30px !important;
+  }
+}
+
+/* ===== RESPONSIVE — SMALL MOBILE (480px) ===== */
+@media (max-width: 480px) {
+  .top-header-content {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .logo h1 {
+    font-size: 1.2rem;
+  }
+
+  .hero {
+    padding: 50px 0 40px;
+  }
+
+  .hero-title {
+    font-size: 1.9rem;
+    letter-spacing: -1px;
+  }
+
+  .hero-subtitle {
+    font-size: 0.92rem;
+  }
+
+  .hero-badge {
+    font-size: 0.72rem;
+    padding: 5px 12px 5px 8px;
+  }
+
+  .hero-btn-primary {
+    padding: 14px 24px;
+    font-size: 0.95rem;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+  }
+
+  .section-title,
+  .sec-title {
+    font-size: 1.5rem;
+  }
+
+  .features-section,
+  .how-it-works-section,
+  .reviews-section {
+    padding: 48px 0;
+  }
+
+  .page-header {
+    padding: 36px 0;
+  }
+
+  .page-title {
+    font-size: 1.6rem;
+  }
+
+  .container {
+    padding: 0 12px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 10px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    border-radius: 10px;
+  }
+
+  .auth-card {
+    padding: 28px 18px;
+    border-radius: 16px;
+  }
+
+  /* Make tables scrollable */
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
   }
 }
 

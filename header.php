@@ -15,14 +15,7 @@ if (isset($pdo)) {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                    contact@quickproject.in
-                </a>
-                <a href="tel:+919876543210" class="top-header-link">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                    +91 98765 43210
+                    <span class="top-header-email-text">contact@quickproject.in</span>
                 </a>
             </div>
             <div class="top-header-right">
@@ -54,7 +47,15 @@ if (isset($pdo)) {
                 <h1>💼 Quick<span style="color: var(--success-color);">Project</span></h1>
             </a>
         </div>
-        <nav>
+
+        <!-- Hamburger Toggle -->
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+        </button>
+
+        <nav class="main-nav" id="mainNav">
             <a href="index" class="nav-link">Home</a>
             <a href="about" class="nav-link">About Us</a>
             <a href="available_leads" class="nav-link">Available Leads</a>
@@ -75,3 +76,24 @@ if (isset($pdo)) {
         </nav>
     </div>
 </header>
+
+<script>
+    // Hamburger toggle
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggle = document.getElementById('navToggle');
+        const nav = document.getElementById('mainNav');
+        if (toggle && nav) {
+            toggle.addEventListener('click', function () {
+                nav.classList.toggle('nav-open');
+                toggle.classList.toggle('nav-toggle-active');
+            });
+            // Close menu when a link is clicked
+            nav.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', function () {
+                    nav.classList.remove('nav-open');
+                    toggle.classList.remove('nav-toggle-active');
+                });
+            });
+        }
+    });
+</script>

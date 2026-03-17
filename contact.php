@@ -227,14 +227,7 @@ $cart_count = count(get_cart_items($pdo));
                         </div>
                     </div>
 
-                    <div class="info-item">
-                        <div class="info-icon">📞</div>
-                        <div>
-                            <strong>Call Us</strong><br>
-                            <a href="tel:+919876543210" style="color: white; text-decoration: underline;">+91 98765
-                                43210</a>
-                        </div>
-                    </div>
+
 
                     <div class="social-links">
                         <a href="#" class="social-link">f</a>
