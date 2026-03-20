@@ -20,6 +20,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['toggle_lead_id'])) {
     }
 }
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_lead_id'])) {
+    $lead_id = (int) $_POST['delete_lead_id'];
+    try {
+        $pdo->prepare("DELETE FROM cart WHERE lead_id = ?")->execute([$lead_id]);
+        $pdo->prepare("DELETE FROM purchased_leads WHERE lead_id = ?")->execute([$lead_id]);
+        $pdo->prepare("DELETE FROM leads WHERE id = ?")->execute([$lead_id]);
+        $message = "Lead #$lead_id deleted successfully.";
+        $msg_type = "success";
+    } catch (PDOException $e) {
+        $message = "Failed to delete lead: " . $e->getMessage();
+        $msg_type = "error";
+    }
+}
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_lead'])) {
     $niche = trim($_POST['niche']);
     $budget = (float) $_POST['budget'];
@@ -1243,6 +1258,7 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
                             <th>Client</th>
                             <th>Status</th>
                             <th>Date</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1280,11 +1296,24 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
                                 <td style="color:var(--t4);font-size:.76rem;white-space:nowrap;">
                                     <?php echo date('d M Y', strtotime($l['created_at'])); ?>
                                 </td>
+                                <td>
+                                    <div style="display:flex;gap:6px;">
+                                        <a href="edit_lead?id=<?php echo $l['id']; ?>"
+                                            style="font-size:12px;text-decoration:none;color:#fff;background:#3b82f6;padding:5px 8px;border-radius:4px;font-weight:600;">Edit</a>
+                                        <form method="POST"
+                                            onsubmit="return confirm('Are you sure you want to completely delete this lead?');"
+                                            style="margin:0;">
+                                            <input type="hidden" name="delete_lead_id" value="<?php echo $l['id']; ?>">
+                                            <button type="submit"
+                                                style="font-size:12px;color:#fff;background:#ef4444;border:none;padding:5px 8px;border-radius:4px;font-weight:600;cursor:pointer;">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                         <?php if (empty($leads)): ?>
                             <tr>
-                                <td colspan="7">
+                                <td colspan="8">
                                     <div class="emp">
                                         <div class="emp-ic">📭</div>
                                         <div>No leads found</div>
@@ -1334,7 +1363,16 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
         function fl() {
             var s = document.getElementById('qs').value.toLowerCase(), st = document.getElementById('qst').value, b = document.getElementById('qb').value, v = 0;
             document.querySelectorAll('#ltbl tbody tr').forEach(function (r) {
-                var ok = (!s || (r.dataset.n || '').includes(s) || (r.dataset.c || '').includes(s)) && (st === 'all' || r.dataset.s === st) && (b === 'all' || r.dataset.b === b);
+                if (!r.dataset.n) return; // skip "No leads found" row
+                var rowB = parseInt(r.dataset.b, 10) || 0;
+                var bOk = true;
+                if (b !== 'all') {
+                    if (b === '15000') bOk = (rowB >= 15000 && rowB < 30000);
+                    else if (b === '30000') bOk = (rowB >= 30000 && rowB < 50000);
+                    else if (b === '50000') bOk = (rowB >= 50000);
+                    else bOk = (rowB === parseInt(b, 10)); // Testing or specific tiers
+                }
+                var ok = (!s || (r.dataset.n || '').includes(s) || (r.dataset.c || '').includes(s)) && (st === 'all' || r.dataset.s === st) && bOk;
                 r.style.display = ok ? '' : 'none'; if (ok) v++;
             });
             document.getElementById('rcnt').textContent = v + ' result' + (v !== 1 ? 's' : '');
