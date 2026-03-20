@@ -144,13 +144,18 @@ function add_funds($pdo, $user_id, $amount)
 function execute_purchase_logic($pdo, $user_id, $cart_items)
 {
     foreach ($cart_items as $item) {
+        // Mark lead as sold FIRST, ensuring it's still available
+        $stmt = $pdo->prepare("UPDATE leads SET status = 'sold' WHERE id = ? AND status = 'available'");
+        $stmt->execute([$item['id']]);
+
+        // If no rows were updated, it means the lead was already sold or unavailable
+        if ($stmt->rowCount() === 0) {
+            throw new Exception("Lead '{$item['niche']}' is no longer available.");
+        }
+
         // Record purchase
         $stmt = $pdo->prepare("INSERT INTO purchased_leads (user_id, lead_id, purchase_price) VALUES (?, ?, ?)");
         $stmt->execute([$user_id, $item['id'], $item['lead_price']]);
-
-        // Mark lead as sold
-        $stmt = $pdo->prepare("UPDATE leads SET status = 'sold' WHERE id = ?");
-        $stmt->execute([$item['id']]);
     }
     clear_cart($pdo);
 }

@@ -33,7 +33,28 @@ if ($generated_signature == $razorpay_signature) {
     if (process_direct_purchase($pdo, $user_id, $razorpay_payment_id)) {
         echo json_encode(['success' => true, 'message' => 'Purchase successful!']);
     } else {
-        echo json_encode(['error' => 'Payment verified but failed to update order database. Contact support: ' . $razorpay_payment_id]);
+        // Purchase failed (e.g., lead sold out), so fetch amount and add to wallet automatically
+        $api_key = RAZORPAY_KEY_ID;
+        $api_secret = RAZORPAY_KEY_SECRET;
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api.razorpay.com/v1/payments/" . $razorpay_payment_id);
+        curl_setopt($ch, CURLOPT_USERPWD, $api_key . ":" . $api_secret);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        $details = json_decode($response, true);
+        curl_close($ch);
+
+        if (json_last_error() === JSON_ERROR_NONE && isset($details['amount'])) {
+            $amount_inr = $details['amount'] / 100;
+            if (add_funds($pdo, $user_id, $amount_inr)) {
+                echo json_encode(['error' => 'One or more leads were no longer available. However, a refund of ₹' . number_format($amount_inr, 2) . ' was automatically added to your wallet!']);
+            } else {
+                echo json_encode(['error' => 'Payment verified but purchase failed. Contact support with Payment ID: ' . $razorpay_payment_id]);
+            }
+        } else {
+            echo json_encode(['error' => 'Payment verified but failed to update order database. Contact support: ' . $razorpay_payment_id]);
+        }
     }
 
 } else {
