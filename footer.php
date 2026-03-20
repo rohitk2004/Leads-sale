@@ -83,8 +83,9 @@
                 </div>
                 <div class="footer-legal">
                     <a href="terms">Terms</a>
-                    <a href="terms#refund-policy">Refund</a>
+                    <a href="refund">Refund</a>
                     <a href="privacy">Privacy</a>
+                    <a href="shipping">Shipping</a>
                 </div>
             </div>
         </div>

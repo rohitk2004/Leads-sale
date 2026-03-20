@@ -7,7 +7,7 @@ require_once 'functions.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms and Conditions - QuickProject</title>
+    <title>Shipping & Delivery Policy - QuickProject</title>
     <link rel="stylesheet" href="style.css">
     <style>
         .legal-content {
@@ -47,33 +47,32 @@ require_once 'functions.php';
 
     <section class="page-header">
         <div class="container">
-            <h1 class="page-title">Terms & Conditions</h1>
-            <p class="page-subtitle">Please read our terms carefully before using our services.</p>
+            <h1 class="page-title">Shipping & Delivery Policy</h1>
+            <p class="page-subtitle">Understanding our digital delivery process.</p>
         </div>
     </section>
 
     <section class="legal-content">
         <div class="container">
             <div class="legal-container">
-                <p>By accessing <strong>QuickProject.in</strong>, you agree to comply with the following terms:</p>
+                <p><strong>QuickProject.in</strong> provides 100% Digital Services.</p>
 
-                <h2>Platform Role</h2>
-                <p>QuickProject.in is a lead-generation platform. We connect service seekers with service providers.</p>
+                <h2>Nature of Delivery</h2>
+                <p>We do not ship any physical products. No courier or postal services are used.</p>
 
-                <h2>Lead Usage</h2>
-                <p>Leads purchased are for the sole use of the buyer. Reselling, sharing, or distributing lead data is
-                    strictly prohibited and will result in a permanent ban.</p>
+                <h2>Delivery Timeline</h2>
+                <p>Access to lead data and project requirements is granted instantly upon successful payment
+                    confirmation.</p>
 
-                <h2>Verification</h2>
-                <p>While we strive to verify all project requirements, we do not guarantee that every lead will result
-                    in a closed deal or a contract.</p>
+                <h2>Delivery Method</h2>
+                <p>Once payment is processed, the digital lead details are unlocked within your user dashboard. You will
+                    also receive a confirmation email with the transaction details.</p>
 
-                <h2>User Responsibility</h2>
-                <p>You are responsible for the quality of work you provide to the clients you connect with through our
-                    platform.</p>
-
-                <h2>Account Termination</h2>
-                <p>We reserve the right to suspend accounts that engage in fraudulent activity or spamming.</p>
+                <h2>Failed Delivery</h2>
+                <p>If you do not gain access within 10 minutes of payment, please contact <a
+                        href="mailto:support@quickproject.in"
+                        style="font-weight: bold; color: #2563eb; text-decoration: none;">support@quickproject.in</a>
+                    with your transaction ID, and we will resolve it within 24 hours.</p>
             </div>
         </div>
     </section>
