@@ -78,6 +78,7 @@ $cart_count = count(get_cart_items($pdo));
             margin-bottom: 20px;
             position: relative;
             z-index: 1;
+            color: #ffffff;
         }
 
         .contact-info p {
