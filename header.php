@@ -10,12 +10,12 @@ if (isset($pdo)) {
     <div class="container">
         <div class="top-header-content">
             <div class="top-header-left">
-                <a href="mailto:contact@leadmarket.com" class="top-header-link">
+                <a href="mailto:support@quickproject.in" class="top-header-link">
                     <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                    <span class="top-header-email-text">contact@quickproject.in</span>
+                    <span class="top-header-email-text">support@quickproject.in</span>
                 </a>
             </div>
             <div class="top-header-right">

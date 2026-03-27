@@ -122,14 +122,14 @@ if (empty($cart_items) && empty($message)) {
                 <h3 style="margin-bottom: 25px;">Choose Payment Option</h3>
 
                 <div class="payment-selection">
-                    <!-- Razorpay Option (Default) -->
-                    <label class="payment-option selected" id="option-razorpay">
-                        <input type="radio" name="payment_method" value="razorpay" checked style="display: none;"
-                            onchange="selectPaymentMethod('razorpay')">
+                    <!-- Cashfree Option (Default) -->
+                    <label class="payment-option selected" id="option-cashfree">
+                        <input type="radio" name="payment_method" value="cashfree" checked style="display: none;"
+                            onchange="selectPaymentMethod('cashfree')">
                         <div class="option-content">
                             <div class="option-icon" style="background: #e0f2fe; color: #0284c7;">&#128179;</div>
                             <div class="option-details">
-                                <span class="option-name">Online Payment (Razorpay)</span>
+                                <span class="option-name">Online Payment (Cashfree)</span>
                                 <span class="option-desc">Cards, UPI, Netbanking</span>
                             </div>
                             <div class="selection-status">&#10003;</div>
@@ -295,8 +295,12 @@ if (empty($cart_items) && empty($message)) {
                 }
             </style>
 
-            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+            <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
             <script>
+                const cashfree = Cashfree({
+                    mode: "sandbox" // "production" for live
+                });
+
                 function selectPaymentMethod(method) {
                     document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
                     document.getElementById('option-' + method).classList.add('selected');
@@ -306,7 +310,7 @@ if (empty($cart_items) && empty($message)) {
                     const method = document.querySelector('input[name="payment_method"]:checked').value;
                     const btn = document.getElementById('pay-now-btn');
 
-                    if (method === 'razorpay') {
+                    if (method === 'cashfree') {
                         startDirectPayment(btn);
                     } else if (method === 'wallet') {
                         btn.innerHTML = 'Processing Wallet Payment...';
@@ -321,8 +325,8 @@ if (empty($cart_items) && empty($message)) {
                     btn.disabled = true;
 
                     try {
-                        // Create Order
-                        const response = await fetch('razorpay_checkout_order', { method: 'POST' });
+                        // Create Order on backend
+                        const response = await fetch('cashfree_checkout_order.php', { method: 'POST' });
                         const order = await response.json();
 
                         if (order.error) {
@@ -332,50 +336,38 @@ if (empty($cart_items) && empty($message)) {
                             return;
                         }
 
-                        const options = {
-                            "key": "<?php echo RAZORPAY_KEY_ID; ?>",
-                            "amount": order.amount,
-                            "currency": "INR",
-                            "name": "Quick Project",
-                            "description": "Lead Purchase",
-                            "order_id": order.id,
-                            "handler": async function (response) {
-                                const verifyRes = await fetch('razorpay_checkout_verify', {
+                        let checkoutOptions = {
+                            paymentSessionId: order.payment_session_id,
+                            redirectTarget: "_modal",
+                        };
+
+                        cashfree.checkout(checkoutOptions).then(async (result) => {
+                            if (result.error) {
+                                alert(result.error.message || "Payment Failed");
+                                btn.innerHTML = originalContent;
+                                btn.disabled = false;
+                            }
+                            if (result.paymentDetails) {
+                                const verifyRes = await fetch('cashfree_checkout_verify.php', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
-                                        razorpay_payment_id: response.razorpay_payment_id,
-                                        razorpay_order_id: response.razorpay_order_id,
-                                        razorpay_signature: response.razorpay_signature
+                                        order_id: order.order_id
                                     })
                                 });
 
-                                const result = await verifyRes.json();
-                                if (result.success) {
-                                    // Redirect to dashboard or sold leads
+                                const verifyData = await verifyRes.json();
+                                if (verifyData.success) {
                                     window.location.href = 'sold_leads?purchase_success=1';
                                 } else {
-                                    alert(result.error);
-                                    btn.innerHTML = originalContent;
-                                    btn.disabled = false;
-                                }
-                            },
-                            "prefill": {
-                                "name": "<?php echo $_SESSION['username']; ?>",
-                                "email": "",
-                                "contact": ""
-                            },
-                            "theme": { "color": "#2563eb" },
-                            "modal": {
-                                "ondismiss": function () {
+                                    alert(verifyData.error || "Payment verification failed");
                                     btn.innerHTML = originalContent;
                                     btn.disabled = false;
                                 }
                             }
-                        };
+                        });
 
-                        const rzp = new Razorpay(options);
-                        rzp.open();
+
                     } catch (error) {
                         console.error(error);
                         alert('Something went wrong');
