@@ -39,7 +39,7 @@ $data = [
 ];
 
 try {
-    $url = "https://sandbox.cashfree.com/pg/orders";
+    $url = "https://api.cashfree.com/pg/orders";
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);

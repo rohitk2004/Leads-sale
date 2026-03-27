@@ -3,6 +3,8 @@ require_once 'functions.php';
 require_once 'config.php';
 require_login('developer');
 
+header('Content-Type: application/json');
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: developer_dashboard.php");
     exit;
@@ -21,7 +23,7 @@ $app_id = CASHFREE_APP_ID;
 $secret_key = CASHFREE_SECRET_KEY;
 
 try {
-    $url = "https://sandbox.cashfree.com/pg/orders/" . $order_id;
+    $url = "https://api.cashfree.com/pg/orders/" . $order_id;
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);

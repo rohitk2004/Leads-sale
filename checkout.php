@@ -298,7 +298,7 @@ if (empty($cart_items) && empty($message)) {
             <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
             <script>
                 const cashfree = Cashfree({
-                    mode: "sandbox" // "production" for live
+                    mode: "production" // "production" for live
                 });
 
                 function selectPaymentMethod(method) {
@@ -326,7 +326,7 @@ if (empty($cart_items) && empty($message)) {
 
                     try {
                         // Create Order on backend
-                        const response = await fetch('cashfree_checkout_order.php', { method: 'POST' });
+                        const response = await fetch('cashfree_checkout_order', { method: 'POST' });
                         const order = await response.json();
 
                         if (order.error) {
@@ -348,7 +348,7 @@ if (empty($cart_items) && empty($message)) {
                                 btn.disabled = false;
                             }
                             if (result.paymentDetails) {
-                                const verifyRes = await fetch('cashfree_checkout_verify.php', {
+                                const verifyRes = await fetch('cashfree_checkout_verify', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({

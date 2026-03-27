@@ -1,6 +1,6 @@
 <?php
 define('RAZORPAY_KEY_ID', 'rzp_test_SGmZLCAWsgymUM');
 define('RAZORPAY_KEY_SECRET', 'NmoGixvGlhwO9ZxbJ2m8TI6f');
-define('CASHFREE_APP_ID', 'TEST11026870e98477d8eb2c7228372a07862011');
-define('CASHFREE_SECRET_KEY', 'cfsk_ma_test_358063d88f53e210d98238aba5b7917d_4d091aa5');
+define('CASHFREE_APP_ID', '12383538eea9aad3fb48f48273b3538321');
+define('CASHFREE_SECRET_KEY', 'cfsk_ma_prod_8ebda0943bf597bb9ebd03d19d33ebc7_4aba2119');
 ?>

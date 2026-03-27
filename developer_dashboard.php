@@ -203,7 +203,7 @@ foreach ($purchased_leads as $l) {
             <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
             <script>
                 const cashfree = Cashfree({
-                    mode: "sandbox" // "production" for live
+                    mode: "production" // "production" for live
                 });
 
                 async function startPayment(btn) {
@@ -220,7 +220,7 @@ foreach ($purchased_leads as $l) {
                     btn.disabled = true;
 
                     try {
-                        const response = await fetch('cashfree_order.php', {
+                        const response = await fetch('cashfree_order', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ amount: amount })
@@ -247,7 +247,7 @@ foreach ($purchased_leads as $l) {
                                 btn.disabled = false;
                             }
                             if (result.paymentDetails) {
-                                const verifyRes = await fetch('cashfree_verify.php', {
+                                const verifyRes = await fetch('cashfree_verify', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify({
