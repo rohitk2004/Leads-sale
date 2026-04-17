@@ -1,14 +1,12 @@
 <?php
 // Check environment
-if ($_SERVER['HTTP_HOST'] == 'localhost' || $_SERVER['HTTP_HOST'] == '127.0.0.1') {
-    // Local Development (XAMPP)
-    $host = 'localhost';
-    $db = 'lead_selling_db';
-    $user = 'root';
-    $pass = '';
-} else {
-    // Production (Live Server)
-    $host = 'localhost';
+$host = 'localhost';
+$db = 'lead_selling_db';
+$user = 'root';
+$pass = '';
+
+// If accessed via a live public domain (not local/LAN)
+if (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'localhost') === false && strpos($_SERVER['HTTP_HOST'], '127.0.0.1') === false && strpos($_SERVER['HTTP_HOST'], '192.168.') === false) {
     $db = 'u891532816_sales';
     $user = 'u891532816_rohit';
     $pass = 'Rohit@@9313##';
