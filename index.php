@@ -388,12 +388,12 @@ $cart_count = count(get_cart_items($pdo));
                     <div class="pricing-prices">
                         <div class="pricing-standard">
                             <span class="pricing-price-label">Standard Price</span>
-                            <span class="pricing-price-amount pricing-standard-amount">₹999</span>
+                            <span class="pricing-price-amount pricing-standard-amount">₹99</span>
                         </div>
                         <div class="pricing-wallet">
                             <span class="pricing-save-badge">SAVE 20%</span>
                             <span class="pricing-price-label">Wallet Price</span>
-                            <span class="pricing-price-amount pricing-wallet-amount">₹799</span>
+                            <span class="pricing-price-amount pricing-wallet-amount">₹79</span>
                         </div>
                     </div>
                     <a href="available_leads" class="btn btn-outline pricing-btn">Browse Basic Leads</a>
@@ -421,12 +421,12 @@ $cart_count = count(get_cart_items($pdo));
                     <div class="pricing-prices">
                         <div class="pricing-standard">
                             <span class="pricing-price-label">Standard Price</span>
-                            <span class="pricing-price-amount pricing-standard-amount">₹2,499</span>
+                            <span class="pricing-price-amount pricing-standard-amount">₹249</span>
                         </div>
                         <div class="pricing-wallet">
                             <span class="pricing-save-badge">SAVE 20%</span>
                             <span class="pricing-price-label">Wallet Price</span>
-                            <span class="pricing-price-amount pricing-wallet-amount">₹1,999</span>
+                            <span class="pricing-price-amount pricing-wallet-amount">₹199</span>
                         </div>
                     </div>
                     <a href="available_leads" class="btn btn-primary pricing-btn">Browse Business Leads</a>
@@ -447,12 +447,12 @@ $cart_count = count(get_cart_items($pdo));
                     <div class="pricing-prices">
                         <div class="pricing-standard">
                             <span class="pricing-price-label">Standard Price</span>
-                            <span class="pricing-price-amount pricing-standard-amount">₹4,999</span>
+                            <span class="pricing-price-amount pricing-standard-amount">₹499</span>
                         </div>
                         <div class="pricing-wallet">
                             <span class="pricing-save-badge">SAVE 20%</span>
                             <span class="pricing-price-label">Wallet Price</span>
-                            <span class="pricing-price-amount pricing-wallet-amount">₹3,999</span>
+                            <span class="pricing-price-amount pricing-wallet-amount">₹399</span>
                         </div>
                     </div>
                     <a href="available_leads" class="btn btn-outline pricing-btn">Browse Premium Leads</a>

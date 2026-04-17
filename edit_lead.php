@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_lead'])) {
     $phone = trim($_POST['client_phone']);
     $status = $_POST['status'];
     // Recalculate price based on budget
-    $lead_price = ($budget == 5000) ? 2 : (($budget == 50000) ? 4999 : (($budget == 30000) ? 2499 : 999));
+    $lead_price = ($budget == 5000) ? 2 : (($budget == 50000) ? 499 : (($budget == 30000) ? 249 : 99));
 
     try {
         $stmt = $pdo->prepare("UPDATE leads SET niche=?, budget=?, lead_price=?, description=?, client_name=?, client_phone=?, status=? WHERE id=?");

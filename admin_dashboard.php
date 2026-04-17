@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_lead'])) {
     $desc = trim($_POST['description']);
     $name = trim($_POST['client_name']);
     $phone = trim($_POST['client_phone']);
-    $lead_price = ($budget == 5000) ? 2 : (($budget == 50000) ? 4999 : (($budget == 30000) ? 2499 : 999));
+    $lead_price = ($budget == 5000) ? 2 : (($budget == 50000) ? 499 : (($budget == 30000) ? 249 : 99));
     try {
         $pdo->prepare("INSERT INTO leads (niche, budget, lead_price, description, client_name, client_phone, status) VALUES (?,?,?,?,?,?,'available')")
             ->execute([$niche, $budget, $lead_price, $desc, $name, $phone]);
@@ -1208,9 +1208,9 @@ $leads = $pdo->query("SELECT * FROM leads ORDER BY created_at DESC")->fetchAll()
                             required placeholder="e.g. E-commerce Website"></div>
                     <div class="fgrp"><label class="fl">Budget</label><select name="budget" class="fc2">
                             <option value="5000">₹5k (Test) → ₹2</option>
-                            <option value="15000">₹15k–₹30k → ₹999</option>
-                            <option value="30000">₹30k–₹50k → ₹2,499</option>
-                            <option value="50000">₹50k+ → ₹4,999</option>
+                            <option value="15000">₹15k–₹30k → ₹99</option>
+                            <option value="30000">₹30k–₹50k → ₹249</option>
+                            <option value="50000">₹50k+ → ₹499</option>
                         </select></div>
                 </div>
                 <div class="fgrp"><label class="fl">Description</label><textarea name="description" class="fc2" required
