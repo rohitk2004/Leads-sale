@@ -5,6 +5,16 @@ if (isset($pdo)) {
     $cart_count = count(get_cart_items($pdo));
 }
 ?>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ELEP38JWY8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ELEP38JWY8');
+</script>
+
 <!-- Mini Top Header -->
 <div class="top-header">
     <div class="container">
