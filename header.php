@@ -15,19 +15,19 @@ $base_path = (strpos($_SERVER['SCRIPT_NAME'], '/industries/') !== false || strpo
 <div class="top-announcement-bar">
     <div class="container">
         <div class="top-announcement-content">
-            <span class="top-announcement-badge">🔥 LIVE BATCH OPEN</span>
-            <span>Learn Tech Support Call Generation & Advanced Black Hat SEO by 25+ Yrs Industry Expert</span>
-            <a href="<?php echo $base_path; ?>available_leads.php" style="color: var(--amber); font-weight: 700; text-decoration: underline; margin-left: 8px;">Enroll Now &rarr;</a>
+            <span class="top-announcement-badge">🚨 FINAL WAKE-UP CALL</span>
+            <span>Learn Tech Support Call Generation & Advanced Black Hat SEO in 30 Days</span>
+            <a href="<?php echo $base_path; ?>available_leads.php" style="color: #ff6b35; font-weight: 700; text-decoration: underline; margin-left: 8px;">Enroll Now &rarr;</a>
         </div>
     </div>
 </div>
 
-<!-- Main Navigation Header -->
+<!-- Main Navigation Header (Matching Screenshot Layout) -->
 <header class="main-header">
     <div class="container">
         <div class="nav-container">
             
-            <!-- Brand Logo -->
+            <!-- Brand Logo (Left) -->
             <a href="<?php echo $base_path; ?>index.php" class="brand-logo">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
@@ -35,15 +35,16 @@ $base_path = (strpos($_SERVER['SCRIPT_NAME'], '/industries/') !== false || strpo
                 <span>BlackHat<span class="brand-badge">SEO</span></span>
             </a>
 
-            <!-- Navigation Links with Mega Menu -->
+            <!-- Navigation Links (Center - Matching Screenshot) -->
             <ul class="nav-links">
-                <li class="nav-item"><a href="<?php echo $base_path; ?>index.php" class="nav-link-btn">Home</a></li>
+                <li class="nav-item"><a href="<?php echo $base_path; ?>forum/index.php" class="nav-link-btn">FORUM</a></li>
+                <li class="nav-item"><a href="<?php echo $base_path; ?>tools/index.php" class="nav-link-btn">TOOLS</a></li>
                 
                 <!-- Mega Menu: Industries -->
                 <li class="nav-item">
                     <a href="<?php echo $base_path; ?>industries/index.php" class="nav-link-btn">
-                        Industries
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                        INDUSTRIES
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
                     </a>
                     <div class="mega-menu">
                         <div class="mega-menu-grid">
@@ -58,10 +59,7 @@ $base_path = (strpos($_SERVER['SCRIPT_NAME'], '/industries/') !== false || strpo
                             <a href="<?php echo $base_path; ?>industries/healthcare.php" class="mega-menu-card">🏥 Healthcare</a>
                             <a href="<?php echo $base_path; ?>industries/real-estate.php" class="mega-menu-card">🏢 Real Estate</a>
                             <a href="<?php echo $base_path; ?>industries/legal.php" class="mega-menu-card">⚖️ Legal & Attorneys</a>
-                            <a href="<?php echo $base_path; ?>industries/education.php" class="mega-menu-card">🎓 Education</a>
                             <a href="<?php echo $base_path; ?>industries/home-services.php" class="mega-menu-card">🔧 Home Services</a>
-                            <a href="<?php echo $base_path; ?>industries/gaming.php" class="mega-menu-card">🎮 Gaming Traffic</a>
-                            <a href="<?php echo $base_path; ?>industries/automotive.php" class="mega-menu-card">🚗 Automotive</a>
                         </div>
                     </div>
                 </li>
@@ -69,8 +67,8 @@ $base_path = (strpos($_SERVER['SCRIPT_NAME'], '/industries/') !== false || strpo
                 <!-- Mega Menu: Services -->
                 <li class="nav-item">
                     <a href="<?php echo $base_path; ?>services/index.php" class="nav-link-btn">
-                        Services
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                        SERVICES
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
                     </a>
                     <div class="mega-menu">
                         <div class="mega-menu-grid" style="grid-template-columns: repeat(2, 1fr); width: 540px;">
@@ -86,17 +84,20 @@ $base_path = (strpos($_SERVER['SCRIPT_NAME'], '/industries/') !== false || strpo
                     </div>
                 </li>
 
-                <li class="nav-item"><a href="<?php echo $base_path; ?>tools/index.php" class="nav-link-btn">Tools</a></li>
-                <li class="nav-item"><a href="<?php echo $base_path; ?>forum/index.php" class="nav-link-btn">Forum</a></li>
-                <li class="nav-item"><a href="<?php echo $base_path; ?>available_leads.php" class="nav-link-btn">Courses</a></li>
-                <li class="nav-item"><a href="<?php echo $base_path; ?>about.php" class="nav-link-btn">About Expert</a></li>
-                <li class="nav-item"><a href="<?php echo $base_path; ?>contact.php" class="nav-link-btn">Contact Us</a></li>
+                <li class="nav-item"><a href="<?php echo $base_path; ?>available_leads.php" class="nav-link-btn">COURSES</a></li>
+                <li class="nav-item"><a href="<?php echo $base_path; ?>about.php" class="nav-link-btn">ABOUT EXPERT</a></li>
+                <li class="nav-item"><a href="<?php echo $base_path; ?>contact.php" class="nav-link-btn">CONTACT US</a></li>
             </ul>
 
-            <!-- Navigation Actions -->
+            <!-- Navigation Right Actions (Phone Pill & Cart - Matching Screenshot) -->
             <div class="nav-actions">
+                <a href="tel:+919811002233" class="header-phone-btn">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    +91 (892) 062-4649
+                </a>
+
                 <a href="<?php echo $base_path; ?>cart.php" class="btn-cart">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
                     Cart
@@ -105,14 +106,8 @@ $base_path = (strpos($_SERVER['SCRIPT_NAME'], '/industries/') !== false || strpo
                     <?php endif; ?>
                 </a>
 
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="<?php echo $base_path; ?><?php echo $_SESSION['role'] == 'admin' ? 'admin_dashboard.php' : 'developer_dashboard.php'; ?>" class="btn-outline">
-                        Dashboard (<?php echo htmlspecialchars($_SESSION['username']); ?>)
-                    </a>
-                    <a href="<?php echo $base_path; ?>logout.php" class="btn-outline" style="border-color: rgba(244, 63, 94, 0.4); color: var(--rose);">Logout</a>
-                <?php else: ?>
-                    <a href="<?php echo $base_path; ?>login.php" class="btn-outline">Login</a>
-                    <a href="<?php echo $base_path; ?>register.php" class="btn-primary">Join Course</a>
+                <?php if (!isset($_SESSION['user_id'])): ?>
+                    <a href="<?php echo $base_path; ?>register.php" class="btn-primary" style="padding: 8px 18px; font-size: 13px;">Join Course</a>
                 <?php endif; ?>
             </div>
 

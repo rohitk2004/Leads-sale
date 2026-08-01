@@ -5,7 +5,7 @@ require_once 'functions.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_to_cart'])) {
     $lead_id = $_POST['lead_id'];
     add_to_cart($pdo, $lead_id);
-    header("Location: cart");
+    header("Location: cart.php");
     exit;
 }
 
@@ -28,58 +28,70 @@ $cart_count = count(get_cart_items($pdo));
 
     <?php include 'header.php'; ?>
 
-    <!-- HERO SECTION -->
+    <!-- HERO SECTION (EXACTLY MATCHING SCREENSHOT DESIGN) -->
     <section class="hero">
-        <div class="hero-glow-1"></div>
-        <div class="hero-glow-2"></div>
+        <div class="hero-glow-amber"></div>
 
         <div class="container">
-            <div class="hero-content">
-                <div class="hero-pill">
-                    <span>⚡ #1 Black Hat SEO & Call Generation Course in Delhi & Worldwide</span>
+            <!-- Small Wakeup Badge -->
+            <div class="hero-wake-badge">
+                <span>🚨 FINAL WAKE-UP CALL</span>
+            </div>
+
+            <!-- NEON GLOWING BOX FROM SCREENSHOT -->
+            <div class="hero-glowing-box">
+                <span class="hero-box-title-orange">Black Hat SEO Course</span>
+                <span class="hero-box-title-white">in Delhi, India</span>
+            </div>
+
+            <!-- Subtitle Below Box -->
+            <h2 class="hero-headline-sub">
+                Learn Advanced Call-Generation & Survival SEO in 30 Days — Before Your Business Dies
+            </h2>
+
+            <!-- Paragraph -->
+            <p class="hero-description-main">
+                Google Ads bans, silent account throttling, and rising PPC costs are destroying call-driven businesses. This intensive program teaches you to generate calls, dominate SERPs, and protect your revenue when traditional marketing fails.
+            </p>
+
+            <div class="hero-ctas" style="justify-content: center; display: flex; gap: 16px; margin-bottom: 50px;">
+                <a href="#pricing" class="btn-primary" style="padding: 14px 36px; font-size: 16px;">
+                    <span>Enroll in 30-Day Program</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+                <a href="#expert" class="btn-outline" style="padding: 14px 28px; font-size: 16px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                    <span>Meet 25+ Yrs Expert</span>
+                </a>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="hero-stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" style="color: var(--teal);">18,640+</div>
+                    <div class="stat-label">Students Trained</div>
                 </div>
-
-                <h1 class="hero-title">
-                    Dominate SERPs. Generate High-Intent <span class="gradient-text-teal">Inbound Calls</span> & Scale Organic <span class="gradient-text-amber">Traffic Fast</span>.
-                </h1>
-
-                <p class="hero-subtitle">
-                    Master aggressive technical SEO, high-velocity indexing, PBN domain networks, SERP manipulation, and inbound call generation strategies for Tech Support, Airlines, Crypto & Competitive Niches.
-                </p>
-
-                <div class="hero-ctas">
-                    <a href="#pricing" class="btn-primary" style="padding: 14px 32px; font-size: 16px;">
-                        <span>Explore Pricing & Enrolment</span>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                    </a>
-                    <a href="#expert" class="btn-outline" style="padding: 14px 28px; font-size: 16px;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                        <span>Meet 25+ Yrs Expert</span>
-                    </a>
+                <div class="stat-item">
+                    <div class="stat-value" style="color: #ff6b35;">₹50Cr+</div>
+                    <div class="stat-label">Call Value Generated</div>
                 </div>
-
-                <!-- Stats Grid -->
-                <div class="hero-stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-value" style="color: var(--teal);">18,640+</div>
-                        <div class="stat-label">Students Trained</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" style="color: var(--amber);">₹50Cr+</div>
-                        <div class="stat-label">Call Value Generated</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" style="color: var(--purple);">25+ Yrs</div>
-                        <div class="stat-label">Industry Expertise</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value" style="color: var(--emerald);">99.4%</div>
-                        <div class="stat-label">SERP Domination Rate</div>
-                    </div>
+                <div class="stat-item">
+                    <div class="stat-value" style="color: var(--purple);">25+ Yrs</div>
+                    <div class="stat-label">Industry Expertise</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" style="color: var(--emerald);">99.4%</div>
+                    <div class="stat-label">SERP Domination Rate</div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Floating WhatsApp CTA (From Screenshot) -->
+    <a href="https://wa.me/919811002233?text=Hi,%20I%20am%20interested%20in%20BlackHat%20SEO%20Course" target="_blank" class="whatsapp-float-btn">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+        <span>WhatsApp Now</span>
+    </a>
 
     <!-- INDUSTRY VERTICALS SECTION -->
     <section style="padding: 60px 0; border-top: 1px solid var(--line);">
@@ -91,28 +103,28 @@ $cart_count = count(get_cart_items($pdo));
             </div>
 
             <div class="grid-4">
-                <a href="industries/tech-support" class="industry-card">
+                <a href="industries/tech-support.php" class="industry-card">
                     <div class="industry-icon">🎧</div>
                     <div>
                         <div class="industry-name">Tech Support</div>
                         <div style="font-size: 12px; color: var(--ink-muted);">Printer, Router & Software Calls</div>
                     </div>
                 </a>
-                <a href="industries/airlines" class="industry-card">
+                <a href="industries/airlines.php" class="industry-card">
                     <div class="industry-icon">✈️</div>
                     <div>
                         <div class="industry-name">Airlines & Travel</div>
                         <div style="font-size: 12px; color: var(--ink-muted);">Flight Changes & Reservations</div>
                     </div>
                 </a>
-                <a href="industries/accounting" class="industry-card">
+                <a href="industries/accounting.php" class="industry-card">
                     <div class="industry-icon">📊</div>
                     <div>
                         <div class="industry-name">QuickBooks & Acct</div>
                         <div style="font-size: 12px; color: var(--ink-muted);">Financial Software Inbound Leads</div>
                     </div>
                 </a>
-                <a href="industries/crypto" class="industry-card">
+                <a href="industries/crypto.php" class="industry-card">
                     <div class="industry-icon">🪙</div>
                     <div>
                         <div class="industry-name">Cryptocurrency</div>
@@ -172,7 +184,7 @@ $cart_count = count(get_cart_items($pdo));
         </div>
     </section>
 
-    <!-- OFFICIAL COURSE PRICING TIERS (MATCHING BLACKHATSEOCOURSE.COM SCHEMA) -->
+    <!-- OFFICIAL COURSE PRICING TIERS -->
     <section id="pricing" style="padding: 80px 0; border-top: 1px solid var(--line);">
         <div class="container">
             <div class="section-header">
@@ -207,16 +219,16 @@ $cart_count = count(get_cart_items($pdo));
                         </li>
                     </ul>
 
-                    <a href="register" class="btn-outline" style="width: 100%; justify-content: center; margin-top: auto;">
+                    <a href="register.php" class="btn-outline" style="width: 100%; justify-content: center; margin-top: auto;">
                         Enroll in Basic Batch &rarr;
                     </a>
                 </div>
 
                 <!-- Tier 2: Call Gen Masterclass -->
-                <div class="glass-card course-card" style="border-color: var(--teal); box-shadow: 0 0 30px var(--teal-glow);">
+                <div class="glass-card course-card" style="border-color: #ff5722; box-shadow: 0 0 35px rgba(255, 87, 34, 0.45);">
                     <div class="course-card-header">
-                        <span class="category-tag" style="background: rgba(0, 242, 254, 0.15); color: var(--teal); border-color: var(--teal);">MOST POPULAR</span>
-                        <span class="course-price" style="color: var(--teal);">₹24,999</span>
+                        <span class="category-tag" style="background: rgba(255, 87, 34, 0.18); color: #ff6b35; border-color: #ff5722;">MOST POPULAR</span>
+                        <span class="course-price" style="color: #ff6b35;">₹24,999</span>
                     </div>
 
                     <h3 class="course-title">Tech Support & Call Gen Masterclass</h3>
@@ -224,24 +236,24 @@ $cart_count = count(get_cart_items($pdo));
 
                     <ul class="course-features">
                         <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--teal);"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #ff6b35;"><polyline points="20 6 9 17 4 12"/></svg>
                             Everything in Starter Pack
                         </li>
                         <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--teal);"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #ff6b35;"><polyline points="20 6 9 17 4 12"/></svg>
                             Tech Support & Airlines Call Routing Blueprint
                         </li>
                         <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--teal);"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #ff6b35;"><polyline points="20 6 9 17 4 12"/></svg>
                             Technical Cloaking & User-Agent Redirect Setup
                         </li>
                         <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--teal);"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #ff6b35;"><polyline points="20 6 9 17 4 12"/></svg>
                             CTR Search Bot Suite License
                         </li>
                     </ul>
 
-                    <a href="register" class="btn-primary" style="width: 100%; justify-content: center; margin-top: auto;">
+                    <a href="register.php" class="btn-primary" style="width: 100%; justify-content: center; margin-top: auto; background: linear-gradient(135deg, #ff6b35 0%, #ff3838 100%); color: #fff; box-shadow: 0 4px 18px rgba(255, 87, 34, 0.4);">
                         Enroll in Call Gen Masterclass &rarr;
                     </a>
                 </div>
@@ -249,8 +261,8 @@ $cart_count = count(get_cart_items($pdo));
                 <!-- Tier 3: VIP Enterprise Mentorship -->
                 <div class="glass-card course-card">
                     <div class="course-card-header">
-                        <span class="category-tag" style="background: rgba(255, 159, 67, 0.15); color: var(--amber); border-color: var(--amber);">VIP MENTORSHIP</span>
-                        <span class="course-price" style="color: var(--amber);">₹49,999</span>
+                        <span class="category-tag" style="background: rgba(0, 242, 254, 0.15); color: var(--teal); border-color: var(--teal);">VIP MENTORSHIP</span>
+                        <span class="course-price" style="color: var(--teal);">₹49,999</span>
                     </div>
 
                     <h3 class="course-title">VIP 1-on-1 Mentorship & PBN Build</h3>
@@ -258,24 +270,24 @@ $cart_count = count(get_cart_items($pdo));
 
                     <ul class="course-features">
                         <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--amber);"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--teal);"><polyline points="20 6 9 17 4 12"/></svg>
                             Everything in Call Gen Masterclass
                         </li>
                         <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--amber);"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--teal);"><polyline points="20 6 9 17 4 12"/></svg>
                             Private 1-on-1 Mentorship with Suresh Das
                         </li>
                         <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--amber);"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--teal);"><polyline points="20 6 9 17 4 12"/></svg>
                             Custom Footprint-Free PBN Network Setup
                         </li>
                         <li>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--amber);"><polyline points="20 6 9 17 4 12"/></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--teal);"><polyline points="20 6 9 17 4 12"/></svg>
                             24/7 Priority Emergency Support
                         </li>
                     </ul>
 
-                    <a href="contact" class="btn-outline" style="width: 100%; justify-content: center; margin-top: auto; border-color: var(--amber); color: var(--amber);">
+                    <a href="contact.php" class="btn-outline" style="width: 100%; justify-content: center; margin-top: auto; border-color: var(--teal); color: var(--teal);">
                         Apply for VIP Mentorship &rarr;
                     </a>
                 </div>
@@ -374,12 +386,12 @@ $cart_count = count(get_cart_items($pdo));
     </section>
 
     <!-- CALL TO ACTION BANNER -->
-    <section style="padding: 80px 0; background: linear-gradient(135deg, rgba(0, 242, 254, 0.08) 0%, rgba(255, 159, 67, 0.08) 100%); border-top: 1px solid var(--line);">
+    <section style="padding: 80px 0; background: linear-gradient(135deg, rgba(255, 87, 34, 0.08) 0%, rgba(0, 242, 254, 0.08) 100%); border-top: 1px solid var(--line);">
         <div class="container" style="text-align: center;">
             <span class="section-tag">TAKE YOUR RANKINGS TO THE NEXT LEVEL</span>
             <h2 style="font-size: 42px; font-weight: 800; margin-bottom: 20px;">Ready to Scale Inbound Calls & Dominate Google SERPs?</h2>
             <p style="color: var(--ink-muted); max-width: 640px; margin: 0 auto 30px; font-size: 18px;">Join thousands of successful SEO professionals, affiliates, and call center owners.</p>
-            <a href="register" class="btn-primary" style="padding: 16px 40px; font-size: 18px;">Enroll in BlackHat SEO Course Now &rarr;</a>
+            <a href="register.php" class="btn-primary" style="padding: 16px 40px; font-size: 18px; background: linear-gradient(135deg, #ff6b35 0%, #ff3838 100%); color: #fff;">Enroll in BlackHat SEO Course Now &rarr;</a>
         </div>
     </section>
 
