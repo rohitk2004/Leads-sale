@@ -1,22 +1,10 @@
 <?php
 require_once 'functions.php';
 
-$success_message = '';
-$error_message = '';
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_contact'])) {
-    // In a real application, you would send an email here
-    // For now, we'll just show a success message
-    $name = htmlspecialchars($_POST['name']);
-    $email = htmlspecialchars($_POST['email']);
-    $subject = htmlspecialchars($_POST['subject']);
-    $message = htmlspecialchars($_POST['message']);
-
-    // Simulate successful submission
-    $success_message = "Thank you, $name! Your message has been sent successfully. We will get back to you shortly.";
+$message_sent = false;
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['contact_submit'])) {
+    $message_sent = true;
 }
-
-$cart_count = count(get_cart_items($pdo));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,301 +12,97 @@ $cart_count = count(get_cart_items($pdo));
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Quick Project</title>
-    <meta name="description" content="Get in touch with our team for support or inquiries.">
+    <title>Contact & Advisory Consultation | BlackHat SEO Course</title>
+    <meta name="description" content="Get in touch with BlackHat SEO course advisors in Delhi, India. Book a private consultation or inquire about batch schedules.">
     <link rel="stylesheet" href="style.css">
-    <style>
-        .contact-section {
-            padding: 60px 0;
-            background-color: #f8fafc;
-        }
-
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        }
-
-        .contact-info {
-            background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
-            color: white;
-            padding: 50px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .contact-info::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .contact-info::after {
-            content: '';
-            position: absolute;
-            bottom: -30px;
-            left: -30px;
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .contact-info h3 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
-            color: #ffffff;
-        }
-
-        .contact-info p {
-            margin-bottom: 30px;
-            opacity: 0.9;
-            line-height: 1.6;
-            position: relative;
-            z-index: 1;
-        }
-
-        .info-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 25px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .info-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-size: 1.2rem;
-        }
-
-        .contact-form {
-            padding: 50px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #334155;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 40px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .social-link {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .social-link:hover {
-            background: white;
-            color: #2563eb;
-            transform: translateY(-3px);
-        }
-
-        .alert-success {
-            background-color: #dcfce7;
-            color: #166534;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 4px solid #22c55e;
-        }
-
-        @media (max-width: 768px) {
-            .contact-container {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-form,
-            .contact-info {
-                padding: 30px;
-            }
-        }
-    </style>
 </head>
 
 <body>
 
     <?php include 'header.php'; ?>
 
-    <!-- Page Header -->
-    <section class="page-header">
-        <div class="container">
-            <h1 class="page-title">Contact Us</h1>
-            <p class="page-subtitle">Have questions? We're here to help you grow your business.</p>
+    <!-- Page Banner -->
+    <section style="padding: 60px 0 40px; background: rgba(13, 15, 23, 0.7); border-bottom: 1px solid var(--line);">
+        <div class="container" style="text-align: center;">
+            <span class="section-tag">GET IN TOUCH</span>
+            <h1 style="font-size: 42px; font-weight: 800; margin-bottom: 12px;">Contact Course Advisory</h1>
+            <p style="color: var(--ink-muted); max-width: 600px; margin: 0 auto; font-size: 16px;">Have questions about batch schedules, custom team training, or call gen blueprints?</p>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="contact-section">
+    <!-- Main Content -->
+    <section style="padding: 80px 0;">
         <div class="container">
-            <div class="contact-container animate-in">
-                <!-- Contact Info Column -->
-                <div class="contact-info">
-                    <h3>Get in Touch</h3>
-                    <p>Whether you have a question about features, pricing, or anything else, our team is ready to
-                        answer all your questions.</p>
-
-                    <div class="info-item">
-                        <div class="info-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="2" y1="12" x2="22" y2="12"></line>
-                                <path
-                                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
-                                </path>
-                            </svg>
-                        </div>
-                        <div>
-                            <strong>Online Operations</strong><br>
-                            We manage everything directly on our website.<br>
-                            (100% Digital)
-                        </div>
-                    </div>
-
-                    <div class="info-item">
-                        <div class="info-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
-                                </path>
-                                <polyline points="22,6 12,13 2,6"></polyline>
-                            </svg>
-                        </div>
-                        <div>
-                            <strong>Email Us</strong><br>
-                            <a href="mailto:support@quickproject.in"
-                                style="color: white; text-decoration: none;">support@quickproject.in</a>
-                        </div>
-                    </div>
-
-                    <div class="social-links">
-                        <a href="#" class="social-link" aria-label="Facebook">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Twitter">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z">
-                                </path>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-link" aria-label="LinkedIn">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path
-                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
-                                </path>
-                                <rect x="2" y="9" width="4" height="12"></rect>
-                                <circle cx="4" cy="4" r="2"></circle>
-                            </svg>
-                        </a>
-                        <a href="#" class="social-link" aria-label="Instagram">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Contact Form Column -->
-                <div class="contact-form">
-                    <h3>Send us a Message</h3>
-
-                    <?php if (!empty($success_message)): ?>
-                        <div class="alert-success">
-                            <?php echo $success_message; ?>
+            <div class="grid-2" style="gap: 40px;">
+                
+                <!-- Contact Form -->
+                <div class="glass-card" style="padding: 36px;">
+                    <h3 style="font-size: 24px; font-weight: 800; margin-bottom: 20px;">Send a Message</h3>
+                    
+                    <?php if ($message_sent): ?>
+                        <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid var(--emerald); color: var(--emerald); padding: 14px 18px; border-radius: 12px; margin-bottom: 20px; font-weight: 600;">
+                            ✅ Thank you! Your inquiry has been sent. A senior SEO advisor will contact you shortly.
                         </div>
                     <?php endif; ?>
 
-                    <form method="POST" action="">
+                    <form method="POST">
                         <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" name="name" class="form-control" placeholder="Your Name"
-                                required>
+                            <label class="form-label">Your Full Name</label>
+                            <input type="text" name="name" class="form-control" placeholder="e.g. Vikram Sharma" required>
                         </div>
-
                         <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" class="form-control"
-                                placeholder="you@example.com" required>
+                            <label class="form-label">Email Address</label>
+                            <input type="email" name="email" class="form-control" placeholder="e.g. vikram@agency.com" required>
                         </div>
-
                         <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" id="subject" name="subject" class="form-control"
-                                placeholder="How can we help?" required>
+                            <label class="form-label">Phone Number / WhatsApp</label>
+                            <input type="text" name="phone" class="form-control" placeholder="+91 9876543210" required>
                         </div>
-
                         <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" class="form-control" rows="5"
-                                placeholder="Write your message here..." required></textarea>
+                            <label class="form-label">Primary Interest / Industry</label>
+                            <select name="industry" class="form-control" required>
+                                <option value="Tech Support">Tech Support Call Gen</option>
+                                <option value="Airlines">Airlines & Travel SEO</option>
+                                <option value="PBN & Indexing">PBN & High-Velocity Indexing</option>
+                                <option value="CTR Manipulation">CTR & SERP Automation Bot</option>
+                                <option value="QuickBooks">QuickBooks & Accounting</option>
+                                <option value="Crypto">Cryptocurrency Traffic</option>
+                            </select>
                         </div>
-
-                        <button type="submit" name="submit_contact" class="btn btn-primary btn-lg"
-                            style="width: 100%;">Send Message</button>
+                        <div class="form-group">
+                            <label class="form-label">Message / Details</label>
+                            <textarea name="message" class="form-control" rows="4" placeholder="Tell us about your project or call center requirements..." required></textarea>
+                        </div>
+                        <button type="submit" name="contact_submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 14px;">
+                            <span>Submit Advisory Inquiry</span>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                        </button>
                     </form>
                 </div>
+
+                <!-- Info Box -->
+                <div>
+                    <div class="glass-card" style="padding: 32px; margin-bottom: 24px;">
+                        <h4 style="font-size: 20px; font-weight: 700; margin-bottom: 16px; color: var(--teal);">Training Center HQ</h4>
+                        <p style="color: var(--ink-muted); margin-bottom: 12px; font-size: 15px;">
+                            📍 <strong>Address:</strong> BlackHat SEO Training Academy, Cannaught Place / South Extension, New Delhi, India
+                        </p>
+                        <p style="color: var(--ink-muted); margin-bottom: 12px; font-size: 15px;">
+                            ✉️ <strong>Email Support:</strong> support@blackhatseocourse.com
+                        </p>
+                        <p style="color: var(--ink-muted); font-size: 15px;">
+                            📞 <strong>Advisory Helpline:</strong> +91 9811002233
+                        </p>
+                    </div>
+
+                    <div class="glass-card" style="padding: 32px; border-color: rgba(255, 159, 67, 0.3);">
+                        <h4 style="font-size: 20px; font-weight: 700; margin-bottom: 12px; color: var(--amber);">⚡ Private 1-on-1 Mentorship</h4>
+                        <p style="color: var(--ink-muted); font-size: 14px; line-height: 1.6;">
+                            Need private custom cloaking setups or dedicated PBN architecture for enterprise-level call centers? Contact our senior team for private consulting retainer agreements.
+                        </p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>

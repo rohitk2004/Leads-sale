@@ -11,10 +11,9 @@ $total_sold = count($sold_leads);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sold Leads - QuickProject</title>
-    <meta name="description" content="View recently sold leads and closed opportunities">
+    <title>Completed Batches & Sold Out SEO Packages - BlackHat SEO</title>
+    <meta name="description" content="View filled batches and sold out BlackHat SEO course packages and call gen blueprints.">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -22,254 +21,56 @@ $total_sold = count($sold_leads);
     <?php include 'header.php'; ?>
 
     <!-- Page Header -->
-    <section class="pg-header pg-header-sold">
-        <div class="pg-header-bg"></div>
+    <section style="padding: 60px 0 40px; background: rgba(13, 15, 23, 0.7); border-bottom: 1px solid var(--line);">
         <div class="container">
-            <div class="pg-header-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
                 <div>
-                    <h1 class="pg-title">Sold Leads</h1>
-                    <p class="pg-subtitle">Recently closed opportunities — no longer available for purchase</p>
+                    <span class="section-tag">ARCHIVED BATCHES</span>
+                    <h1 style="font-size: 38px; font-weight: 800;">Completed Batches & Sold Out Packages</h1>
+                    <p style="color: var(--ink-muted); font-size: 16px; margin-top: 6px;">Fully enrolled course batches and claimed call generation blueprints.</p>
                 </div>
-                <div class="pg-header-badge pg-badge-sold">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
-                        <polyline points="22 4 12 14.01 9 11.01" />
-                    </svg>
-                    <span><?php echo $total_sold; ?> leads sold</span>
+                <div style="background: rgba(244, 63, 94, 0.1); border: 1px solid var(--rose); padding: 8px 20px; border-radius: 30px; color: var(--rose); font-family: var(--font-mono); font-size: 13px; font-weight: 700;">
+                    ✓ <?php echo $total_sold; ?> Completed Batches
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Scrolling Sold Leads Ticker -->
-    <div class="sold-ticker">
-        <div class="sold-ticker-label">
-            <span class="sold-ticker-dot"></span>
-            Live Sales
-        </div>
-        <div class="sold-ticker-track">
-            <div class="sold-ticker-scroll">
-                <!-- Set 1 -->
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">E-Commerce Website</span>
-                    <span class="ticker-meta">Mumbai</span>
-                    <span class="ticker-time">2 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">Mobile App Development</span>
-                    <span class="ticker-meta">Bangalore</span>
-                    <span class="ticker-time">5 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">SEO Services</span>
-                    <span class="ticker-meta">Delhi</span>
-                    <span class="ticker-time">8 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">WordPress Redesign</span>
-                    <span class="ticker-meta">Pune</span>
-                    <span class="ticker-time">12 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">CRM Software</span>
-                    <span class="ticker-meta">Hyderabad</span>
-                    <span class="ticker-time">15 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">Logo & Branding</span>
-                    <span class="ticker-meta">Chennai</span>
-                    <span class="ticker-time">18 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">React Dashboard</span>
-                    <span class="ticker-meta">Ahmedabad</span>
-                    <span class="ticker-time">22 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">Shopify Store</span>
-                    <span class="ticker-meta">Jaipur</span>
-                    <span class="ticker-time">25 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">API Integration</span>
-                    <span class="ticker-meta">Kolkata</span>
-                    <span class="ticker-time">30 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">Cloud Migration</span>
-                    <span class="ticker-meta">Noida</span>
-                    <span class="ticker-time">35 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <!-- Set 2 (duplicate for seamless loop) -->
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">E-Commerce Website</span>
-                    <span class="ticker-meta">Mumbai</span>
-                    <span class="ticker-time">2 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">Mobile App Development</span>
-                    <span class="ticker-meta">Bangalore</span>
-                    <span class="ticker-time">5 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">SEO Services</span>
-                    <span class="ticker-meta">Delhi</span>
-                    <span class="ticker-time">8 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">WordPress Redesign</span>
-                    <span class="ticker-meta">Pune</span>
-                    <span class="ticker-time">12 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">CRM Software</span>
-                    <span class="ticker-meta">Hyderabad</span>
-                    <span class="ticker-time">15 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">Logo & Branding</span>
-                    <span class="ticker-meta">Chennai</span>
-                    <span class="ticker-time">18 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">React Dashboard</span>
-                    <span class="ticker-meta">Ahmedabad</span>
-                    <span class="ticker-time">22 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">Shopify Store</span>
-                    <span class="ticker-meta">Jaipur</span>
-                    <span class="ticker-time">25 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">API Integration</span>
-                    <span class="ticker-meta">Kolkata</span>
-                    <span class="ticker-time">30 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-                <div class="sold-ticker-item">
-                    <span class="ticker-niche">Cloud Migration</span>
-                    <span class="ticker-meta">Noida</span>
-                    <span class="ticker-time">35 mins ago</span>
-                    <span class="ticker-sold">SOLD</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <section class="pg-body">
+    <!-- Content Body -->
+    <section style="padding: 60px 0;">
         <div class="container">
-            <?php if (empty($sold_leads)): ?>
-                <div class="dash-empty">
-                    <div class="dash-empty-icon">✅</div>
-                    <h3>No sold leads yet</h3>
-                    <p>Sold leads will appear here once purchased by developers.</p>
-                    <a href="available_leads" class="dash-empty-btn">Browse Available Leads</a>
-                </div>
-            <?php else: ?>
-                <div class="filter-results">
-                    <span>Showing <strong><?php echo $total_sold; ?></strong> sold leads</span>
-                    <a href="available_leads" class="dash-section-link">
-                        <span>View Available Leads</span>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                            <polyline points="12 5 19 12 12 19" />
-                        </svg>
-                    </a>
-                </div>
-                <div class="leads-grid">
-                    <?php foreach ($sold_leads as $lead):
-                        $phone = $lead['client_phone'];
-                        $blurred_phone = str_repeat('●', max(0, strlen($phone) - 4)) . substr($phone, -4);
-                        ?>
-                        <div class="lead-card sold-card">
-                            <div class="sold-ribbon">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2.5">
-                                    <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
-                                    <polyline points="22 4 12 14.01 9 11.01" />
-                                </svg>
-                                SOLD
-                            </div>
-                            <div class="lead-header">
-                                <h3><?php echo htmlspecialchars($lead['niche']); ?></h3>
+            <div class="grid-3">
+                <?php if (!empty($sold_leads)): ?>
+                    <?php foreach ($sold_leads as $lead): ?>
+                        <div class="glass-card course-card" style="opacity: 0.75; border-color: rgba(244, 63, 94, 0.3);">
+                            <div class="course-card-header">
+                                <span class="category-tag" style="background: rgba(244, 63, 94, 0.15); color: var(--rose); border-color: rgba(244, 63, 94, 0.3);"><?php echo htmlspecialchars($lead['niche']); ?></span>
+                                <span class="course-price" style="color: var(--rose);">SOLD OUT</span>
                             </div>
 
-                            <div class="lead-details">
-                                <div class="detail-row">
-                                    <div class="detail-item detail-name">
-                                        <span class="detail-icon">👤</span>
-                                        <div class="detail-content">
-                                            <span class="detail-label">Client Name</span>
-                                            <span
-                                                class="detail-value"><?php echo htmlspecialchars($lead['client_name']); ?></span>
-                                        </div>
-                                    </div>
-                                    <div class="detail-item detail-phone">
-                                        <span class="detail-icon">📞</span>
-                                        <div class="detail-content">
-                                            <span class="detail-label">Phone Number</span>
-                                            <span
-                                                class="detail-value blurred-text"><?php echo htmlspecialchars($blurred_phone); ?></span>
-                                        </div>
-                                    </div>
-                                </div>
+                            <h3 class="course-title"><?php echo htmlspecialchars($lead['niche']); ?></h3>
+                            <p class="course-desc"><?php echo htmlspecialchars($lead['description']); ?></p>
 
-                                <div class="detail-row">
-                                    <div class="detail-item detail-budget">
-                                        <span class="detail-icon">💰</span>
-                                        <div class="detail-content">
-                                            <span class="detail-label">Budget</span>
-                                            <span
-                                                class="detail-value text-green">₹<?php echo number_format($lead['budget']); ?>+</span>
-                                        </div>
-                                    </div>
-                                </div>
+                            <ul class="course-features">
+                                <li>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--rose);"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Instructor: <?php echo htmlspecialchars($lead['client_name']); ?>
+                                </li>
+                                <li>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--rose);"><polyline points="20 6 9 17 4 12"/></svg>
+                                    Batch Status: Fully Enrolled
+                                </li>
+                            </ul>
 
-                                <div class="detail-row">
-                                    <div class="detail-item detail-requirement full-width">
-                                        <span class="detail-icon">📋</span>
-                                        <div class="detail-content">
-                                            <span class="detail-label">Requirement</span>
-                                            <span
-                                                class="detail-value"><?php echo htmlspecialchars($lead['description']); ?></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="lead-footer sold-footer">
-                                <div class="sold-notice">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                                        <path d="M7 11V7a5 5 0 0110 0v4" />
-                                    </svg>
-                                    <span>This lead has been sold and is no longer available</span>
-                                </div>
-                            </div>
+                            <button class="btn-outline" disabled style="width: 100%; justify-content: center; opacity: 0.5; cursor: not-allowed;">
+                                <span>Batch Full / Sold Out</span>
+                            </button>
                         </div>
                     <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
+                <?php else: ?>
+                    <p style="text-align: center; grid-column: 1 / -1; color: var(--ink-muted);">No sold out packages at present.</p>
+                <?php endif; ?>
+            </div>
         </div>
     </section>
 

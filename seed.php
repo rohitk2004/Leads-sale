@@ -2,60 +2,87 @@
 require_once 'db.php';
 
 try {
-    echo "<h2>Seeding Database...</h2>";
+    echo "<h2 style='color:#00f2fe; font-family:sans-serif;'>Seeding BlackHat SEO Course & Call Gen Marketplace...</h2>";
 
-    // 1. Add some leads if empty
-    $stmt = $pdo->query("SELECT COUNT(*) FROM leads");
-    if ($stmt->fetchColumn() == 0) {
-        $leads = [
-            ['E-commerce Website Redesign', 50000, 499, 'Looking for a complete redesign of our Shopify store with custom theme development.', 'Rajesh Kumar', '+91 9876543210', 'available'],
-            ['Real Estate App Flutter', 30000, 249, 'Need a hybrid mobile app for property listing with map integration.', 'Sneha Gupta', '+91 9898989898', 'available'],
-            ['Law Firm SEO & Website', 15000, 99, 'Basic Wordpress site for a law firm with SEO optimization.', 'Amit Singh', '+91 8765432109', 'available'],
-            ['Hospital Management System', 50000, 499, 'Web-based ERP for a 50-bed hospital. Needs patient records & billing.', 'Dr. Mehta', '+91 7654321098', 'sold'],
-            ['Portfolio for Photographer', 15000, 99, 'Minimalist portfolio site with gallery and contact form.', 'Priya Art', '+91 6543210987', 'available']
-        ];
+    // Clean existing leads table
+    $pdo->exec("DELETE FROM leads");
 
-        $stmt = $pdo->prepare("INSERT INTO leads (niche, budget, lead_price, description, client_name, client_phone, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $courses = [
+        [
+            'Tech Support Inbound Call Generation Masterclass', 
+            9999, 
+            9999, 
+            'Complete blueprint for generating 500+ daily inbound tech support calls via high-velocity indexing, parasite SERP takeover, and cloaked landing pages.', 
+            'Suresh Das (25+ Yrs Industry Expert)', 
+            '+91 9811002233', 
+            'available'
+        ],
+        [
+            'Airlines & Flight Reservation SEO Call Generation', 
+            14999, 
+            14999, 
+            'Advanced course on ranking flight booking & GDS search keywords within 48 hours using high-authority PBNs and automated parasite subdomains.', 
+            'BlackHat SEO Advisory', 
+            '+91 9811002244', 
+            'available'
+        ],
+        [
+            'CTR Manipulation & SERP Rank Automation Bot Suite', 
+            19999, 
+            19999, 
+            'Access to residential proxy CTR manipulation software, custom browser automation scripts, and search dwell time emulation for ranking top 3.', 
+            'BlackHat Tech Team', 
+            '+91 9811002255', 
+            'available'
+        ],
+        [
+            'High-Velocity PBN & Expired Domain Network Blueprint', 
+            12499, 
+            12499, 
+            'Master step-by-step expired domain hunting, metric validation, host fingerprint obfuscation, and tier-1 PBN link insertion techniques.', 
+            'Suresh Das', 
+            '+91 9811002266', 
+            'available'
+        ],
+        [
+            'QuickBooks & Financial Accounting Lead Gen SEO', 
+            24999, 
+            24999, 
+            'High-ticket accounting call generation methodology. Target high-intent financial software support calls with 0 footprint redirection.', 
+            'Lead Gen Academy', 
+            '+91 9811002277', 
+            'available'
+        ],
+        [
+            'Crypto & Forex High-Volume Organic Traffic Engine', 
+            29999, 
+            29999, 
+            'Aggressive parasite SEO techniques for high-competition cryptocurrency exchange, wallet recovery, and trading platform organic traffic.', 
+            'BlackHat SEO Elite', 
+            '+91 9811002288', 
+            'sold'
+        ]
+    ];
 
-        foreach ($leads as $lead) {
-            $stmt->execute($lead);
-        }
-        echo "✅ Added 5 demo leads.<br>";
-    } else {
-        echo "ℹ️ Leads table already has data.<br>";
+    $stmt = $pdo->prepare("INSERT INTO leads (niche, budget, lead_price, description, client_name, client_phone, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+    foreach ($courses as $course) {
+        $stmt->execute($course);
     }
+    echo "✅ Successfully seeded 6 BlackHat SEO Courses & Call Gen Blueprints.<br>";
 
-    // 2. Add a dummy developer user if none
+    // Ensure demo user exists
     $stmt = $pdo->query("SELECT COUNT(*) FROM users WHERE role = 'developer'");
     if ($stmt->fetchColumn() == 0) {
         $pass = password_hash('dev123', PASSWORD_DEFAULT);
-        $pdo->prepare("INSERT INTO users (username, password, role, wallet_balance) VALUES ('dev_demo', ?, 'developer', 1500.00)")
+        $pdo->prepare("INSERT INTO users (username, password, role, wallet_balance) VALUES ('seo_student', ?, 'developer', 50000.00)")
             ->execute([$pass]);
-        echo "✅ Added demo developer user (dev_demo / dev123).<br>";
-    } else {
-        echo "ℹ️ Developers already exist.<br>";
+        echo "✅ Added demo student user (seo_student / dev123).<br>";
     }
 
-    // 3. Add a purchased lead record if sold leads exist but no purchase record
-    // This is to populate the sales chart
-    $stmt = $pdo->query("SELECT id FROM leads WHERE status = 'sold' LIMIT 1");
-    $sold_lead = $stmt->fetchColumn();
-
-    $stmt = $pdo->query("SELECT id FROM users WHERE role = 'developer' LIMIT 1");
-    $dev_user = $stmt->fetchColumn();
-
-    if ($sold_lead && $dev_user) {
-        $stmt = $pdo->query("SELECT COUNT(*) FROM purchased_leads");
-        if ($stmt->fetchColumn() == 0) {
-            $pdo->prepare("INSERT INTO purchased_leads (user_id, lead_id, purchase_price, purchased_at) VALUES (?, ?, 499.00, NOW() - INTERVAL 2 DAY)")
-                ->execute([$dev_user, $sold_lead]);
-            echo "✅ Added demo purchase record.<br>";
-        }
-    }
-
-    echo "<h3>Done! <a href='admin_dashboard'>Go to Dashboard</a></h3>";
+    echo "<h3 style='color:#10b981; font-family:sans-serif;'>Database Seeding Complete! <a href='index' style='color:#00f2fe;'>Return to Homepage</a></h3>";
 
 } catch (PDOException $e) {
-    die("Error: " . $e->getMessage());
+    die("Seeding Error: " . $e->getMessage());
 }
 ?>
