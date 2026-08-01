@@ -28,25 +28,25 @@ $cart_count = count(get_cart_items($pdo));
 
     <?php include 'header.php'; ?>
 
-    <!-- HERO SECTION (100% MATCHING USER SCREENSHOT) -->
-    <section style="position: relative; padding: 100px 0 110px; background: #080914; overflow: hidden; text-align: center;">
-        <!-- Ambient Radial Glow Backdrop from Screenshot -->
-        <div style="position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%); width: 900px; height: 600px; background: radial-gradient(circle, rgba(255, 69, 0, 0.22) 0%, rgba(88, 28, 135, 0.12) 45%, transparent 70%); filter: blur(100px); pointer-events: none;"></div>
+    <!-- HERO SECTION (EXACT REPLICA OF USER SCREENSHOTS) -->
+    <section style="position: relative; padding: 90px 0 60px; background: #080914; overflow: hidden; text-align: center;">
+        <!-- Ambient Radial Glow Backdrop -->
+        <div style="position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); width: 900px; height: 600px; background: radial-gradient(circle, rgba(255, 69, 0, 0.22) 0%, rgba(88, 28, 135, 0.12) 45%, transparent 70%); filter: blur(100px); pointer-events: none;"></div>
 
         <div class="container" style="position: relative; z-index: 10; max-width: 1100px; margin: 0 auto; padding: 0 20px;">
             
             <!-- Top Pill Badge -->
-            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 69, 0, 0.12); border: 1px solid rgba(255, 69, 0, 0.4); padding: 6px 22px; border-radius: 30px; margin-bottom: 36px;">
+            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 69, 0, 0.12); border: 1px solid rgba(255, 69, 0, 0.4); padding: 6px 22px; border-radius: 30px; margin-bottom: 32px;">
                 <span style="font-size: 13px;">🚨</span>
                 <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 800; color: #ff6b35; letter-spacing: 1.2px; text-transform: uppercase;">FINAL WAKE-UP CALL</span>
             </div>
 
             <!-- NEON GLOWING BOX FROM SCREENSHOT -->
-            <div style="background: rgba(12, 14, 24, 0.85); border: 2px solid #ff4500; border-radius: 28px; padding: 56px 30px 44px; max-width: 940px; margin: 0 auto 44px; box-shadow: 0 0 60px rgba(255, 69, 0, 0.65), inset 0 0 35px rgba(255, 69, 0, 0.3); backdrop-filter: blur(16px);">
+            <div style="background: rgba(12, 14, 24, 0.85); border: 2px solid #ff4500; border-radius: 28px; padding: 52px 30px 40px; max-width: 940px; margin: 0 auto 36px; box-shadow: 0 0 60px rgba(255, 69, 0, 0.65), inset 0 0 35px rgba(255, 69, 0, 0.3); backdrop-filter: blur(16px);">
                 <h1 style="font-family: 'Outfit', sans-serif; font-size: 72px; font-weight: 900; color: #ff5500; text-shadow: 0 0 45px rgba(255, 85, 0, 0.95), 0 0 12px #ff5500; line-height: 1.05; margin: 0 0 8px; letter-spacing: -1.5px;">
                     Black Hat SEO Course
                 </h1>
-                <h2 style="font-family: 'Outfit', sans-serif; font-size: 72px; font-weight: 900; color: #ffffff; text-shadow: 0 0 30px rgba(255, 255, 255, 0.75); line-height: 1.05; margin: 0 0 32px; letter-spacing: -1.5px;">
+                <h2 style="font-family: 'Outfit', sans-serif; font-size: 72px; font-weight: 900; color: #ffffff; text-shadow: 0 0 30px rgba(255, 255, 255, 0.75); line-height: 1.05; margin: 0 0 30px; letter-spacing: -1.5px;">
                     in Delhi, India
                 </h2>
                 <!-- Glowing Orange Line Divider -->
@@ -54,19 +54,89 @@ $cart_count = count(get_cart_items($pdo));
             </div>
 
             <!-- Subtitle Below Box -->
-            <h3 style="font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 500; color: #f1f5f9; max-width: 860px; margin: 0 auto 28px; line-height: 1.45;">
+            <h3 style="font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 500; color: #f1f5f9; max-width: 860px; margin: 0 auto 24px; line-height: 1.45;">
                 Learn Advanced Call-Generation & Survival SEO in 30 Days — Before Your Business Dies
             </h3>
 
             <!-- Paragraph -->
-            <p style="font-family: 'Inter', sans-serif; font-size: 15px; color: #94a3b8; max-width: 760px; margin: 0 auto 40px; line-height: 1.75;">
+            <p style="font-family: 'Inter', sans-serif; font-size: 15px; color: #94a3b8; max-width: 760px; margin: 0 auto 36px; line-height: 1.75;">
                 Google Ads bans, silent account throttling, and rising PPC costs are destroying call-driven businesses. This intensive program teaches you to generate calls, dominate SERPs, and protect your revenue when traditional marketing fails.
             </p>
+
+            <!-- CTA Buttons (Matching Screenshot) -->
+            <div style="display: flex; justify-content: center; gap: 16px; margin-bottom: 44px; flex-wrap: wrap;">
+                <a href="#pricing" style="background: linear-gradient(135deg, #ff5722 0%, #ff3838 100%); color: #ffffff; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 15px; padding: 14px 32px; border-radius: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 20px rgba(255, 87, 34, 0.45); transition: transform 0.2s ease;">
+                    <span>🚀 Join Now (30 Days)</span>
+                </a>
+                <a href="#modules" style="background: transparent; color: #ff6b35; border: 1px solid #ff5722; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 15px; padding: 14px 32px; border-radius: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s ease;">
+                    <span>📚 View Curriculum</span>
+                </a>
+            </div>
+
+            <!-- Horizontal Divider Line -->
+            <div style="width: 100%; max-width: 720px; height: 1px; background: rgba(255, 255, 255, 0.1); margin: 0 auto 32px;"></div>
+
+            <!-- 3-Column Rating & Metadata Badges (Matching Screenshot) -->
+            <div style="display: flex; justify-content: center; align-items: center; gap: 48px; flex-wrap: wrap; margin-bottom: 70px;">
+                <!-- Rating -->
+                <div style="display: flex; align-items: center; gap: 10px; text-align: left;">
+                    <span style="font-size: 26px;">⭐</span>
+                    <div>
+                        <div style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 800; color: #fbbf24;">4.8/5</div>
+                        <div style="font-size: 11px; color: #94a3b8; font-weight: 500;">Avg Rating (230 reviews)</div>
+                    </div>
+                </div>
+
+                <!-- Published -->
+                <div style="display: flex; align-items: center; gap: 10px; text-align: left;">
+                    <span style="font-size: 24px;">📅</span>
+                    <div>
+                        <div style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 800; color: #ff6b35;">Published</div>
+                        <div style="font-size: 11px; color: #94a3b8; font-weight: 500;">Jan 2025</div>
+                    </div>
+                </div>
+
+                <!-- Updated -->
+                <div style="display: flex; align-items: center; gap: 10px; text-align: left;">
+                    <span style="font-size: 24px;">🔄</span>
+                    <div>
+                        <div style="font-family: 'Outfit', sans-serif; font-size: 18px; font-weight: 800; color: #ff6b35;">Updated</div>
+                        <div style="font-size: 11px; color: #94a3b8; font-weight: 500;">Jan 30, 2026</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CRITICAL ALERT GLOWING BOX (EXACT MATCHING USER SCREENSHOT) -->
+            <div style="background: linear-gradient(180deg, rgba(35, 15, 10, 0.85) 0%, rgba(15, 10, 12, 0.95) 100%); border: 2px solid #ff5722; border-radius: 24px; padding: 40px 30px; max-width: 960px; margin: 0 auto; box-shadow: 0 0 50px rgba(255, 87, 34, 0.55), inset 0 0 30px rgba(255, 87, 34, 0.25); position: relative; text-align: center;">
+                
+                <h2 style="font-family: 'Outfit', sans-serif; font-size: 42px; font-weight: 900; color: #ff5722; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 16px; display: flex; align-items: center; justify-content: center; gap: 14px;">
+                    <span style="font-size: 38px;">⚠️</span>
+                    <span>CRITICAL ALERT</span>
+                </h2>
+
+                <p style="font-family: 'Inter', sans-serif; font-size: 17px; color: #ffffff; font-weight: 700; max-width: 820px; margin: 0 auto 28px; line-height: 1.5;">
+                    Google has already started tightening policies. <span style="color: #ff6b35;">By Feb 2026, call-driven businesses will face massive restrictions.</span> Is yours at risk?
+                </p>
+
+                <!-- 3 Risk Badges -->
+                <div style="display: flex; justify-content: center; align-items: center; gap: 14px; flex-wrap: wrap;">
+                    <span style="background: rgba(239, 68, 68, 0.18); border: 1px solid rgba(239, 68, 68, 0.4); color: #f87171; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 800; padding: 6px 16px; border-radius: 20px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px;">
+                        <span>🔴</span> HIGH RISK
+                    </span>
+                    <span style="background: rgba(255, 107, 53, 0.18); border: 1px solid rgba(255, 107, 53, 0.4); color: #ff6b35; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 800; padding: 6px 16px; border-radius: 20px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px;">
+                        <span>📉</span> URGENT ACTION NEEDED
+                    </span>
+                    <span style="background: rgba(245, 158, 11, 0.18); border: 1px solid rgba(245, 158, 11, 0.4); color: #fbbf24; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 800; padding: 6px 16px; border-radius: 20px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px;">
+                        <span>⏰</span> LIMITED TIME
+                    </span>
+                </div>
+
+            </div>
 
         </div>
     </section>
 
-    <!-- FLOATING WHATSAPP WIDGET (MATCHING SCREENSHOT BOTTOM-RIGHT) -->
+    <!-- FLOATING WHATSAPP WIDGET -->
     <a href="https://wa.me/918920624649?text=Hi,%20I%20am%20interested%20in%20BlackHat%20SEO%20Course" target="_blank" style="position: fixed; bottom: 28px; right: 28px; z-index: 9999; display: flex; align-items: center; gap: 12px; text-decoration: none;">
         <div style="background: #10b981; color: #ffffff; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 13px; padding: 10px 20px; border-radius: 24px; box-shadow: 0 0 25px rgba(16, 185, 129, 0.6); display: flex; align-items: center; gap: 8px;">
             <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
@@ -79,7 +149,7 @@ $cart_count = count(get_cart_items($pdo));
     </a>
 
     <!-- INDUSTRY VERTICALS SECTION -->
-    <section style="padding: 60px 0; border-top: 1px solid var(--line);">
+    <section style="padding: 80px 0; border-top: 1px solid var(--line);">
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">HIGH-CONVERTING NICHES</span>
