@@ -1,45 +1,32 @@
-<?php
-require_once '../db.php';
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black Hat SEO Courses for Insurance Call Generation | BlackHat SEO</title>
-    <meta name="description" content="Master Insurance Lead & Call Generation SEO for Auto, Health, Life, and Home insurance keywords.">
-    <link rel="stylesheet" href="../style.css">
-</head>
-
-<body>
-
-    <?php include '../header.php'; ?>
-
-    <section style="padding: 80px 0 40px; background: rgba(13, 15, 23, 0.8); border-bottom: 1px solid var(--line);">
-        <div class="container" style="text-align: center;">
-            <span class="section-tag">INSURANCE LEAD GENERATION</span>
-            <h1 style="font-size: 42px; font-weight: 800; margin-bottom: 16px;">Insurance Inbound Call Generation SEO</h1>
-            <p style="color: var(--ink-muted); max-width: 760px; margin: 0 auto; font-size: 18px;">
-                Capture competitive Auto, Health, Medicare, and Life Insurance search traffic and route live calls to agents.
-            </p>
-        </div>
-    </section>
-
-    <section style="padding: 80px 0;">
-        <div class="container">
-            <div class="glass-card" style="padding: 40px; border-color: var(--amber-glow);">
-                <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 16px; color: var(--amber);">Insurance SEO Engine</h2>
-                <p style="color: var(--ink-muted); margin-bottom: 24px; font-size: 16px;">
-                    Target geo-specific insurance quote queries, commercial coverage keywords, and rapid quote comparison funnels.
-                </p>
-                <a href="../available_leads.php" class="btn-primary">Enroll in Insurance Course &rarr;</a>
-            </div>
-        </div>
-    </section>
-
-    <?php include '../footer.php'; ?>
-
-</body>
-
-</html>
+<?php require_once '../db.php'; require_once '_page_builder.php';
+render_industry_page([
+    'title'      => 'Insurance',
+    'tagline'    => 'Rank for <strong>auto, health, life, and Medicare insurance</strong> keywords and route inbound callers directly to licensed agents or your call center — earning $40-$200 per call.',
+    'emoji'      => '🛡️',
+    'badge'      => 'INSURANCE LEADS',
+    'color'      => '#10b981',
+    'glow'       => 'rgba(16,185,129,0.35)',
+    'desc'       => 'Generate insurance inbound calls using Black Hat SEO. Target auto, health, life, and Medicare insurance keywords to earn $40-$200 per qualified call.',
+    'meta_title' => 'Black Hat SEO for Insurance Call Generation | BlackHat SEO Course Delhi',
+    'stats'      => [['$40-200','Per Insurance Call'],['Medicare','Highest Pay Rate'],['Open Enrollment','Peak Call Season'],['100%','Compliant Routing']],
+    'keywords'   => ['Medicare Supplement Plans','Health Insurance Quotes','Auto Insurance Comparison','Life Insurance Call','Homeowners Insurance Quotes','Final Expense Insurance','Dental Insurance Coverage','Short Term Health Plans','Car Insurance Rates','AARP Medicare Advantage','Medigap Plans 2025','Small Business Health Insurance'],
+    'steps'      => [
+        ['🎯','Target Open Enrollment Windows','Medicare Open Enrollment (Oct-Dec) and ACA enrollment periods drive 10x normal search volume. We pre-rank your pages 60 days ahead to capture the full surge.'],
+        ['⚡','State-Licensed Geo Targeting','Deploy state-specific pages for every insurance product line — "Medicare supplement plans Florida", "auto insurance Texas cheap" — with precise geo-targeting by ZIP code.'],
+        ['📞','Carrier-Specific Routing','Route callers to the highest-paying insurance buyer for that specific product type and state using real-time bidding integration with major pay-per-call networks.'],
+    ],
+    'calls'      => [
+        ['🏥','Health Insurance Quotes','ACA marketplace plans, off-exchange plans, and short-term health'],
+        ['👴','Medicare Plans','Medicare Advantage, Medigap supplements, and Part D drug plans'],
+        ['🚗','Auto Insurance','Car insurance quotes, SR-22, and high-risk driver coverage'],
+        ['🏠','Home & Renters Insurance','Homeowners, renters, flood, and umbrella policy inquiries'],
+        ['💀','Life Insurance','Term life, whole life, final expense, and accidental death coverage'],
+        ['🦷','Dental & Vision','Dental, vision, and supplemental health insurance inquiries'],
+    ],
+    'modules'    => [
+        ['MODULE 01','Enrollment Calendar Strategy','Build your entire content and ranking calendar around open enrollment windows for Medicare (Oct-Dec), ACA (Nov-Jan), and state-specific deadlines for maximum ROI.'],
+        ['MODULE 02','State Compliance Architecture','Structure your pages to remain compliant with TCPA, CMS, and state insurance regulations while still maximizing inbound call volume and conversion rates.'],
+        ['MODULE 03','Pay-Per-Call Network Integration','Connect your inbound call flow to top insurance PPCall networks (Ringba, Retreaver, Boberdoo) to maximize revenue per call across multiple buyer programs simultaneously.'],
+        ['MODULE 04','Medicare Domination Blueprint','The complete playbook for ranking Medicare supplement and Advantage plan keywords during the Q4 open enrollment period — the highest-earning time of year for insurance calls.'],
+    ],
+]);

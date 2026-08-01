@@ -1,45 +1,32 @@
-<?php
-require_once '../db.php';
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black Hat SEO Courses for Legal & Law Firm Call Generation | BlackHat SEO</title>
-    <meta name="description" content="Master Legal & Attorney Call Generation SEO. Rank high-ticket personal injury, DUI, and corporate law firm keywords.">
-    <link rel="stylesheet" href="../style.css">
-</head>
-
-<body>
-
-    <?php include '../header.php'; ?>
-
-    <section style="padding: 80px 0 40px; background: rgba(13, 15, 23, 0.8); border-bottom: 1px solid var(--line);">
-        <div class="container" style="text-align: center;">
-            <span class="section-tag">LEGAL & LAW FIRM LEADS</span>
-            <h1 style="font-size: 42px; font-weight: 800; margin-bottom: 16px;">Legal & Attorney Call Generation SEO</h1>
-            <p style="color: var(--ink-muted); max-width: 760px; margin: 0 auto; font-size: 18px;">
-                Generate high-ticket inbound calls for Personal Injury, DUI Defense, Mass Tort, and Immigration law firms.
-            </p>
-        </div>
-    </section>
-
-    <section style="padding: 80px 0;">
-        <div class="container">
-            <div class="glass-card" style="padding: 40px; border-color: var(--teal-glow);">
-                <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">Legal Search Strategy</h2>
-                <p style="color: var(--ink-muted); margin-bottom: 24px; font-size: 16px;">
-                    Capture legal consultation intent across high-CPC keywords using parasite authority, local geo takeover, and instant attorney call routing.
-                </p>
-                <a href="../available_leads.php" class="btn-primary">Enroll in Legal SEO Course &rarr;</a>
-            </div>
-        </div>
-    </section>
-
-    <?php include '../footer.php'; ?>
-
-</body>
-
-</html>
+<?php require_once '../db.php'; require_once '_page_builder.php';
+render_industry_page([
+    'title'      => 'Legal & Law Firms',
+    'tagline'    => 'Rank for <strong>personal injury, DUI, criminal defense, and family law</strong> keywords — the highest-paying lead categories in the entire pay-per-call industry at $150-$500 per call.',
+    'emoji'      => '⚖️',
+    'badge'      => 'LEGAL & LAW FIRM LEADS',
+    'color'      => '#8b5cf6',
+    'glow'       => 'rgba(139,92,246,0.35)',
+    'desc'       => 'Generate legal inbound calls for personal injury, DUI, criminal defense, and family law firms using Black Hat SEO. Earn $150-$500 per qualified attorney call.',
+    'meta_title' => 'Black Hat SEO for Legal & Attorney Call Generation | BlackHat SEO Course Delhi',
+    'stats'      => [['$150-500','Per Attorney Call'],['PI Calls','Highest Value'],['Mass Torts','Explosive Growth'],['1 Call = $5K+','Case Value to Firm']],
+    'keywords'   => ['Car Accident Lawyer Near Me','DUI Attorney Free Consultation','Personal Injury Attorney','Criminal Defense Lawyer','Divorce Attorney Consultation','Workers Compensation Lawyer','Social Security Disability Help','Mesothelioma Lawyer Call','Truck Accident Attorney','Medical Malpractice Lawyer','Class Action Lawsuit Join','Immigration Lawyer Free Case'],
+    'steps'      => [
+        ['🎯','Focus on Emergency Legal Queries','Target high-urgency queries: "just got arrested lawyer", "car accident what to do", "DUI pulled over tonight" — these callers need help NOW and convert immediately.'],
+        ['⚡','Mass Tort Campaign Deployment','Capitalize on billion-dollar class action settlements — Camp Lejeune, Roundup, talcum powder — using our mass tort keyword harvesting and parasite ranking system to capture thousands of qualified claimants.'],
+        ['📞','Attorney Network Monetization','Route qualified legal callers to the highest-bidding law firm in your Ringba or Retreaver account — some practice areas pay over $500 per qualifying call.'],
+    ],
+    'calls'      => [
+        ['🚗','Personal Injury / Auto Accidents','Car, truck, motorcycle accidents — the highest-volume legal call category'],
+        ['🍺','DUI / Criminal Defense','DUI arrests, criminal charges, and misdemeanor/felony defense'],
+        ['👨‍👩‍👧','Family Law & Divorce','Divorce, child custody, child support, and adoption proceedings'],
+        ['⚕️','Medical Malpractice','Surgical errors, misdiagnosis, medication errors, and birth injuries'],
+        ['☠️','Mass Torts / Class Actions','Mesothelioma, Roundup, Camp Lejeune, talcum powder, and more'],
+        ['♿','Disability & Workers Comp','SSDI applications, workers comp claims, and workplace injury'],
+    ],
+    'modules'    => [
+        ['MODULE 01','Legal Emergency Query Targeting','Build your entire keyword strategy around the exact phrases typed by people in legal emergencies — right after an accident, arrest, or receiving legal papers — when they must call NOW.'],
+        ['MODULE 02','State Bar Compliant Funnels','Design attorney lead gen funnels that satisfy state bar advertising rules while maximizing call volume and conversion — including proper disclaimers and lawyer referral disclosures.'],
+        ['MODULE 03','Mass Tort Scalable Campaign','The complete playbook for building and scaling a mass tort call generation business — from identifying emerging tort opportunities to ranking content before the advertising flood hits.'],
+        ['MODULE 04','Legal PPCall Network Mastery','Navigate the most profitable pay-per-call networks in legal (Nolo, FindLaw, APTUS) and negotiate premium call rates using volume leverage and quality scoring improvements.'],
+    ],
+]);

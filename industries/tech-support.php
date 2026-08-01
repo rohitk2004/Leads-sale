@@ -1,75 +1,32 @@
-<?php
-require_once '../db.php';
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black Hat SEO Courses for Tech Support Call Generation | BlackHat SEO</title>
-    <meta name="description" content="Master Tech Support Inbound Call Generation using advanced Black Hat SEO techniques, parasite subdomain takeovers, and cloaked landing pages.">
-    <link rel="stylesheet" href="../style.css">
-</head>
-
-<body>
-
-    <?php include '../header.php'; ?>
-
-    <section style="padding: 80px 0 40px; background: rgba(13, 15, 23, 0.8); border-bottom: 1px solid var(--line);">
-        <div class="container" style="text-align: center;">
-            <span class="section-tag">TECH SUPPORT CALL GEN</span>
-            <h1 style="font-size: 42px; font-weight: 800; margin-bottom: 16px;">Black Hat SEO for Tech Support Call Generation</h1>
-            <p style="color: var(--ink-muted); max-width: 760px; margin: 0 auto; font-size: 18px;">
-                Learn how top call centers generate 500+ daily live inbound calls for Printer, Router, Email, Antivirus, and Software Support queries.
-            </p>
-        </div>
-    </section>
-
-    <section style="padding: 80px 0;">
-        <div class="container">
-            <div class="grid-2" style="gap: 40px; align-items: center; margin-bottom: 60px;">
-                <div>
-                    <h2 style="font-size: 32px; font-weight: 800; margin-bottom: 20px;">Why Tech Support SEO Call Gen Works</h2>
-                    <p style="color: var(--ink-muted); margin-bottom: 16px; font-size: 15px;">
-                        Tech support keywords have high intent and high conversion rates. Users searching for urgent printer setup or email account issues want an immediate phone solution.
-                    </p>
-                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 12px;">
-                        <li style="display: flex; gap: 10px; font-size: 15px;">
-                            <span style="color: var(--teal); font-weight: 800;">✓</span>
-                            <span>High-Velocity Indexing for 50,000+ Error-Code Landing Pages</span>
-                        </li>
-                        <li style="display: flex; gap: 10px; font-size: 15px;">
-                            <span style="color: var(--teal); font-weight: 800;">✓</span>
-                            <span>Parasite Subdomain Authority Takeovers (Web 2.0 & Gov Backlinks)</span>
-                        </li>
-                        <li style="display: flex; gap: 10px; font-size: 15px;">
-                            <span style="color: var(--teal); font-weight: 800;">✓</span>
-                            <span>Dynamic Click-to-Call Phone Number Injection & Geo Routing</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="glass-card" style="padding: 36px; border-color: var(--teal-glow);">
-                    <h3 style="font-size: 24px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">Course Modules Included</h3>
-                    <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px; color: var(--ink-muted);">
-                        <div>• Module 1: Keyword Harvester for Error Codes & Model Numbers</div>
-                        <div>• Module 2: Automated HTML Page Generator with Dynamic Call CTAs</div>
-                        <div>• Module 3: Googlebot Cloaking & User-Agent Filtering</div>
-                        <div>• Module 4: High-Authority Parasite Indexing (Medium, LinkedIn, GitHub)</div>
-                        <div>• Module 5: Call Tracking & Route Management for Call Centers</div>
-                    </div>
-
-                    <a href="../available_leads" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 24px;">
-                        Enroll in Tech Support Course &rarr;
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <?php include '../footer.php'; ?>
-
-</body>
-
-</html>
+<?php require_once '../db.php'; require_once '_page_builder.php';
+render_industry_page([
+    'title'      => 'Tech Support',
+    'tagline'    => 'Generate <strong>500+ inbound calls/day</strong> from people searching for printer, antivirus, router, and Windows support. Rank zero-footprint pages for every software error code.',
+    'emoji'      => '🎧',
+    'badge'      => 'TECH SUPPORT CALLS',
+    'color'      => '#ff5500',
+    'glow'       => 'rgba(255,85,0,0.35)',
+    'desc'       => 'Master Tech Support Call Generation with Black Hat SEO. Target printer, antivirus, router and Windows support keywords to generate 500+ inbound calls daily.',
+    'meta_title' => 'Black Hat SEO for Tech Support Call Generation | BlackHat SEO Course Delhi',
+    'stats'      => [['500+','Calls/Day Possible'],['$12-80','Revenue Per Call'],['10,000+','Daily Searches'],['#1','Keyword Target: Top 3']],
+    'keywords'   => ['Printer Support Calls','Antivirus Tech Support','Router Setup Calls','Windows Error Support','QuickBooks Help Calls','Email Setup Support','Software Install Calls','Device Driver Support','VPN Setup Calls','Password Reset Support','Remote Desktop Help','PC Repair Calls'],
+    'steps'      => [
+        ['🔍','Target Error Code Keywords','Harvest thousands of ultra-low-competition, zero-volume error code queries like "HP printer error 0x83c0000a" — each one generates a direct inbound call from a frustrated user.'],
+        ['⚡','Deploy High-Velocity Pages','Use our batch URL generation scripts to create 10,000+ geo-targeted support pages in under 24 hours, each optimized for a specific device, error, and region.'],
+        ['📞','Route Calls via Cloaking','Use IP-based cloaking to serve Google a compliance-friendly page while routing real visitors to your phone number capture page with auto-dialer integration.'],
+    ],
+    'calls'      => [
+        ['🖨️','Printer Support','HP, Canon, Epson error codes — extremely high caller intent'],
+        ['🛡️','Antivirus Help','Norton, McAfee, Kaspersky install, renewal & virus removal'],
+        ['📶','Router & WiFi Setup','Netgear, Linksys, TP-Link configuration & password reset'],
+        ['💻','Windows & OS Support','Blue screen, activation errors, driver issues — all platforms'],
+        ['📧','Email Setup & Recovery','Outlook, Gmail, Yahoo IMAP/POP3 configuration calls'],
+        ['🔌','Smart Device Setup','Smart TV, Ring doorbell, Alexa, Echo setup & troubleshooting'],
+    ],
+    'modules'    => [
+        ['MODULE 01','Error Code Page Factory','Build 10,000+ error-code landing pages with automated templating and submit them to Google in under 6 hours using our crawl budget manipulation technique.'],
+        ['MODULE 02','Call Routing Infrastructure','Set up trackable phone number pools with dynamic insertion, call recording, and real-time routing — so you know exactly which keyword generated each call.'],
+        ['MODULE 03','CTR Manipulation for Support Terms','Use residential proxy bot farms to simulate real-user searches for your targeted support keywords, boosting organic rankings to Page 1 within 72 hours.'],
+        ['MODULE 04','Cloaking & Compliance Shield','Deploy server-side IP cloaking to serve Googlebot a perfectly safe page while showing real visitors your high-converting call capture funnel.'],
+    ],
+]);

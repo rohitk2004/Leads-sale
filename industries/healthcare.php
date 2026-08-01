@@ -1,45 +1,32 @@
-<?php
-require_once '../db.php';
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black Hat SEO Courses for Healthcare Call Generation | BlackHat SEO</title>
-    <meta name="description" content="Master Healthcare & Medical Lead Generation SEO. Rank keywords for rehab centers, medical clinics, and wellness services.">
-    <link rel="stylesheet" href="../style.css">
-</head>
-
-<body>
-
-    <?php include '../header.php'; ?>
-
-    <section style="padding: 80px 0 40px; background: rgba(13, 15, 23, 0.8); border-bottom: 1px solid var(--line);">
-        <div class="container" style="text-align: center;">
-            <span class="section-tag">HEALTHCARE & MEDICAL LEADS</span>
-            <h1 style="font-size: 42px; font-weight: 800; margin-bottom: 16px;">Healthcare & Clinic Call Generation</h1>
-            <p style="color: var(--ink-muted); max-width: 760px; margin: 0 auto; font-size: 18px;">
-                Generate high-intent patient inquiries and inbound calls for specialized medical clinics, rehabilitation centers, and telehealth services.
-            </p>
-        </div>
-    </section>
-
-    <section style="padding: 80px 0;">
-        <div class="container">
-            <div class="glass-card" style="padding: 40px; border-color: var(--teal-glow);">
-                <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">Healthcare Search Strategy</h2>
-                <p style="color: var(--ink-muted); margin-bottom: 24px; font-size: 16px;">
-                    Understand medical schema markup, local geo-targeted SERP takeover, and compliant patient lead routing.
-                </p>
-                <a href="../available_leads.php" class="btn-primary">Enroll in Healthcare Course &rarr;</a>
-            </div>
-        </div>
-    </section>
-
-    <?php include '../footer.php'; ?>
-
-</body>
-
-</html>
+<?php require_once '../db.php'; require_once '_page_builder.php';
+render_industry_page([
+    'title'      => 'Healthcare',
+    'tagline'    => 'Drive <strong>high-intent patient acquisition calls</strong> for hospitals, clinics, dental offices, rehab centers, and telehealth providers using aggressive medical SEO strategies.',
+    'emoji'      => '🏥',
+    'badge'      => 'HEALTHCARE CALLS',
+    'color'      => '#06b6d4',
+    'glow'       => 'rgba(6,182,212,0.35)',
+    'desc'       => 'Generate healthcare patient acquisition calls using Black Hat SEO. Target medical, dental, rehab, and telehealth keywords for high-value inbound inquiries.',
+    'meta_title' => 'Black Hat SEO for Healthcare Call Generation | BlackHat SEO Course Delhi',
+    'stats'      => [['$50-300','Per Patient Call'],['Dental','Top Call Category'],['Rehab Calls','$200+ Each'],['Telehealth','Fastest Growing']],
+    'keywords'   => ['Dental Implants Near Me','Drug Rehab Centers','Alcohol Treatment Programs','Weight Loss Surgery','Knee Replacement Cost','LASIK Eye Surgery Cost','Hair Transplant Call','Testosterone Therapy','Mental Health Therapist','Addiction Treatment Help','Plastic Surgery Consultation','Physical Therapy Near Me'],
+    'steps'      => [
+        ['🔍','Target High-Value Procedures','Focus on expensive elective procedures — dental implants ($3,000-$5,000), LASIK ($2,000/eye), weight loss surgery ($15,000-$25,000) — where a single caller is worth hundreds of dollars.'],
+        ['🗺️','Local Pack Domination','Use GMB manipulation, local citation building, and proximity-based parasite pages to dominate the Local Pack (the 3 Google map results) which drives 60% of all local healthcare calls.'],
+        ['📞','Patient Intent Scoring','Filter and score inbound healthcare callers by procedure interest, insurance type, and urgency level before routing to the highest-value healthcare buyer or your own clinic.'],
+    ],
+    'calls'      => [
+        ['🦷','Dental Procedures','Implants, veneers, Invisalign, root canals, and cosmetic dentistry'],
+        ['🧠','Mental Health & Rehab','Addiction treatment, alcohol rehab, therapy, and psychiatric care'],
+        ['⚖️','Weight Loss Programs','Bariatric surgery, medical weight loss, and nutrition programs'],
+        ['👁️','Vision & LASIK','LASIK, cataract surgery, and prescription eyewear consultation'],
+        ['💊','Telehealth Services','Online doctor consultations, prescription renewals, and chronic care'],
+        ['💇','Cosmetic & Aesthetic','Botox, fillers, hair transplant, and body contouring consultations'],
+    ],
+    'modules'    => [
+        ['MODULE 01','Medical YMYL Bypass','Master the techniques to rank medical and health content despite Google\'s Your Money Your Life (YMYL) restrictions — including parasite pages, citation networks, and entity authority building.'],
+        ['MODULE 02','Local Healthcare Map Pack','Dominate the Google Local Pack for your target medical specialties using GMB optimization, review velocity, and proximity-based link building — capturing 60% of all local healthcare searches.'],
+        ['MODULE 03','Procedure-Specific Funnels','Build high-converting patient inquiry funnels for each procedure type — dental, rehab, cosmetic — with insurance verification integrations and appointment booking systems.'],
+        ['MODULE 04','HIPAA-Compliant Tracking','Implement patient call tracking within HIPAA compliance boundaries while still capturing full attribution data for every keyword, campaign, and source driving inbound patient calls.'],
+    ],
+]);

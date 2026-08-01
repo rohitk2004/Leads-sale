@@ -681,17 +681,21 @@ $cart_count = count(get_cart_items($pdo));
         <p class="section-p">Vertical-specific ranking blueprints that route real inbound calls to your center daily.</p>
     </div>
 
-    <div class="industry-grid">
+    <div class="industry-grid" style="grid-template-columns:repeat(4,1fr);">
         <?php
         $industries = [
-            ["industries/tech-support.php","🎧","Tech Support","Printer, Router, Antivirus Calls"],
-            ["industries/airlines.php","✈️","Airlines & Travel","Flight Changes & Reservations"],
-            ["industries/accounting.php","📊","QuickBooks & Acct","Financial Software Inbound Leads"],
-            ["industries/finance.php","💰","Finance & Loans","Debt Settlement & Mortgage Calls"],
-            ["industries/crypto.php","🪙","Cryptocurrency","Wallet Recovery & Exchange Leads"],
-            ["industries/saas.php","💻","SaaS & B2B","Enterprise Demo & Renewal Calls"],
-            ["industries/insurance.php","🛡️","Insurance","Auto, Health & Medicare Leads"],
-            ["industries/real-estate.php","🏢","Real Estate","Buyer & Seller Property Inquiries"],
+            ["industries/tech-support.php","🎧","Tech Support","Printer, Router & Antivirus Calls","$12-80/call"],
+            ["industries/airlines.php","✈️","Airlines & Travel","Flight Booking, Cancellation & Rebooking","$30-120/call"],
+            ["industries/finance.php","💰","Finance & Loans","Debt Settlement & Mortgage Calls","$80-400/call"],
+            ["industries/insurance.php","🛡️","Insurance","Auto, Health & Medicare Leads","$40-200/call"],
+            ["industries/healthcare.php","🏥","Healthcare","Patient Acquisition & Clinic Calls","$50-300/call"],
+            ["industries/legal.php","⚖️","Legal & Law","Personal Injury & Attorney Referrals","$150-500/call"],
+            ["industries/crypto.php","🪙","Cryptocurrency","Wallet Recovery & Exchange Leads","$100-500/call"],
+            ["industries/saas.php","💻","SaaS & B2B","Enterprise Demo & Renewal Calls","$200-2K/deal"],
+            ["industries/education.php","🎓","Education","Enrollment & Admissions Calls","$30-150/call"],
+            ["industries/home-services.php","🔧","Home Services","HVAC, Plumbing & Roofing Calls","$50-200/call"],
+            ["industries/automotive.php","🚗","Automotive","Car Dealer & Warranty Calls","$30-200/call"],
+            ["industries/accounting.php","📊","QuickBooks & Acct","Financial Software Support Calls","$50-250/call"],
         ];
         foreach ($industries as $i => $ind):
         ?>
@@ -699,9 +703,15 @@ $cart_count = count(get_cart_items($pdo));
             <div class="ind-emoji"><?php echo $ind[1]; ?></div>
             <div class="ind-name"><?php echo $ind[2]; ?></div>
             <div class="ind-sub"><?php echo $ind[3]; ?></div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:rgba(255,107,53,0.7);letter-spacing:1px;margin-top:4px;"><?php echo $ind[4]; ?></div>
             <div class="ind-arrow">Learn more →</div>
         </a>
         <?php endforeach; ?>
+    </div>
+    <div style="text-align:center;margin-top:32px;">
+        <a href="industries/index.php" style="display:inline-flex;align-items:center;gap:8px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:rgba(255,255,255,0.5);text-decoration:none;border:1px solid rgba(255,255,255,0.1);padding:11px 24px;border-radius:100px;transition:all .25s ease;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.color='rgba(255,255,255,0.5)';this.style.borderColor='rgba(255,255,255,0.1)'">
+            View All 12 Industries →
+        </a>
     </div>
 </div>
 

@@ -1,45 +1,32 @@
-<?php
-require_once '../db.php';
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black Hat SEO Courses for Automotive Lead Generation | BlackHat SEO</title>
-    <meta name="description" content="Master Automotive Lead Generation SEO. Rank car sales, auto repair, towing, and vehicle transport keywords.">
-    <link rel="stylesheet" href="../style.css">
-</head>
-
-<body>
-
-    <?php include '../header.php'; ?>
-
-    <section style="padding: 80px 0 40px; background: rgba(13, 15, 23, 0.8); border-bottom: 1px solid var(--line);">
-        <div class="container" style="text-align: center;">
-            <span class="section-tag">AUTOMOTIVE & TRANSPORT</span>
-            <h1 style="font-size: 42px; font-weight: 800; margin-bottom: 16px;">Automotive & Car Repair Lead Gen SEO</h1>
-            <p style="color: var(--ink-muted); max-width: 760px; margin: 0 auto; font-size: 18px;">
-                Generate high-volume inbound calls for auto repair, car shipping/transport, towing, and dealership sales.
-            </p>
-        </div>
-    </section>
-
-    <section style="padding: 80px 0;">
-        <div class="container">
-            <div class="glass-card" style="padding: 40px; border-color: var(--teal-glow);">
-                <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 16px; color: var(--teal);">Automotive Search Engine</h2>
-                <p style="color: var(--ink-muted); margin-bottom: 24px; font-size: 16px;">
-                    Rank local car repair error codes, towing dispatch queries, and vehicle shipping calculators across national search results.
-                </p>
-                <a href="../available_leads.php" class="btn-primary">Enroll in Automotive Course &rarr;</a>
-            </div>
-        </div>
-    </section>
-
-    <?php include '../footer.php'; ?>
-
-</body>
-
-</html>
+<?php require_once '../db.php'; require_once '_page_builder.php';
+render_industry_page([
+    'title'      => 'Automotive',
+    'tagline'    => 'Generate <strong>car dealer, auto repair, warranty, and insurance</strong> inbound calls from high-intent vehicle owners using advanced local SEO and automotive parasite strategies.',
+    'emoji'      => '🚗',
+    'badge'      => 'AUTOMOTIVE LEADS',
+    'color'      => '#64748b',
+    'glow'       => 'rgba(100,116,139,0.4)',
+    'desc'       => 'Generate automotive inbound calls using Black Hat SEO. Target car dealerships, auto repair, extended warranty, and auto insurance keywords for high-value leads.',
+    'meta_title' => 'Black Hat SEO for Automotive Call Generation | BlackHat SEO Course Delhi',
+    'stats'      => [['$30-200','Per Auto Call'],['Warranty Calls','Highest Converting'],['Dealer Leads','$500+ Per Sale'],['Extended Warranty','Mass Call Volume']],
+    'keywords'   => ['Extended Auto Warranty Call','Car Dealer Near Me Financing','Auto Loan Bad Credit','Check Engine Light Diagnosis','Transmission Repair Cost','Car Insurance Quote Low','Used Car Valuation','Cash for Cars Near Me','Tire Replacement Near Me','Oil Change Near Me Today','Auto Body Repair Quote','Engine Replacement Cost'],
+    'steps'      => [
+        ['🎯','Target Extended Warranty Panic Queries','"My car warranty expired", "extended auto warranty scam or legit", "best extended warranty 2025" — millions of car owners search these monthly and convert at high rates when called.'],
+        ['⚡','Dealership Zone Targeting','Build hyper-local pages for every car dealership zone, targeting buyers in the research-and-comparison phase: "[Make] dealer [City]", "best [brand] deal near me".'],
+        ['📞','VIN-Based Lead Qualification','Capture caller vehicle information (make, model, year, mileage) via IVR pre-screening before routing to the highest-bidding warranty or repair buyer.'],
+    ],
+    'calls'      => [
+        ['🛡️','Extended Auto Warranty','Warranty expiry alerts, extended coverage, and protection plans'],
+        ['🔧','Auto Repair & Diagnostics','Check engine light, transmission, brakes, and engine repair calls'],
+        ['🏦','Auto Loan & Financing','Car loans, refinancing, and bad credit auto financing inquiries'],
+        ['💰','Cash for Cars & Trade-In','Vehicle valuation, trade-in offers, and junk car removal calls'],
+        ['🚘','Car Dealer Leads','New and used car buying, test drive scheduling, and financing'],
+        ['🔌','EV & Hybrid Support','Electric vehicle charging, battery issues, and EV conversion calls'],
+    ],
+    'modules'    => [
+        ['MODULE 01','Extended Warranty Call Machine','Build a high-volume extended auto warranty call generation system — targeting vehicle age and mileage-based keywords to reach car owners right as their factory warranty expires.'],
+        ['MODULE 02','Dealership Local SEO Domination','Master the techniques to rank above local car dealerships in Google Search and Maps for every vehicle make and model in your target city — generating warm buyer leads at zero ad cost.'],
+        ['MODULE 03','Auto Finance Distress Keywords','Rank for bad credit auto loan terms, repo prevention searches, and vehicle financing keywords that attract financially motivated car buyers who need help immediately.'],
+        ['MODULE 04','Automotive PPCall Monetization','Connect your auto call flow to top automotive pay-per-call networks (ReachLocal, Dealer.com, Cars.com) and negotiate premium per-call rates using quality scoring and call duration data.'],
+    ],
+]);
