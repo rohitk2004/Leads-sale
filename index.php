@@ -24,73 +24,58 @@ $cart_count = count(get_cart_items($pdo));
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body style="background-color: #080914; color: #ffffff; margin: 0; font-family: 'Inter', sans-serif;">
 
     <?php include 'header.php'; ?>
 
-    <!-- HERO SECTION (EXACTLY MATCHING SCREENSHOT DESIGN) -->
-    <section class="hero">
-        <div class="hero-glow-amber"></div>
+    <!-- HERO SECTION (100% MATCHING USER SCREENSHOT) -->
+    <section style="position: relative; padding: 100px 0 110px; background: #080914; overflow: hidden; text-align: center;">
+        <!-- Ambient Radial Glow Backdrop from Screenshot -->
+        <div style="position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%); width: 900px; height: 600px; background: radial-gradient(circle, rgba(255, 69, 0, 0.22) 0%, rgba(88, 28, 135, 0.12) 45%, transparent 70%); filter: blur(100px); pointer-events: none;"></div>
 
-        <div class="container">
-            <!-- Small Wakeup Badge -->
-            <div class="hero-wake-badge">
-                <span>🚨 FINAL WAKE-UP CALL</span>
+        <div class="container" style="position: relative; z-index: 10; max-width: 1100px; margin: 0 auto; padding: 0 20px;">
+            
+            <!-- Top Pill Badge -->
+            <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 69, 0, 0.12); border: 1px solid rgba(255, 69, 0, 0.4); padding: 6px 22px; border-radius: 30px; margin-bottom: 36px;">
+                <span style="font-size: 13px;">🚨</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 800; color: #ff6b35; letter-spacing: 1.2px; text-transform: uppercase;">FINAL WAKE-UP CALL</span>
             </div>
 
             <!-- NEON GLOWING BOX FROM SCREENSHOT -->
-            <div class="hero-glowing-box">
-                <span class="hero-box-title-orange">Black Hat SEO Course</span>
-                <span class="hero-box-title-white">in Delhi, India</span>
+            <div style="background: rgba(12, 14, 24, 0.85); border: 2px solid #ff4500; border-radius: 28px; padding: 56px 30px 44px; max-width: 940px; margin: 0 auto 44px; box-shadow: 0 0 60px rgba(255, 69, 0, 0.65), inset 0 0 35px rgba(255, 69, 0, 0.3); backdrop-filter: blur(16px);">
+                <h1 style="font-family: 'Outfit', sans-serif; font-size: 72px; font-weight: 900; color: #ff5500; text-shadow: 0 0 45px rgba(255, 85, 0, 0.95), 0 0 12px #ff5500; line-height: 1.05; margin: 0 0 8px; letter-spacing: -1.5px;">
+                    Black Hat SEO Course
+                </h1>
+                <h2 style="font-family: 'Outfit', sans-serif; font-size: 72px; font-weight: 900; color: #ffffff; text-shadow: 0 0 30px rgba(255, 255, 255, 0.75); line-height: 1.05; margin: 0 0 32px; letter-spacing: -1.5px;">
+                    in Delhi, India
+                </h2>
+                <!-- Glowing Orange Line Divider -->
+                <div style="width: 260px; height: 2px; background: linear-gradient(90deg, transparent 0%, #ff5500 50%, transparent 100%); margin: 0 auto; box-shadow: 0 0 12px #ff5500;"></div>
             </div>
 
             <!-- Subtitle Below Box -->
-            <h2 class="hero-headline-sub">
+            <h3 style="font-family: 'Inter', sans-serif; font-size: 22px; font-weight: 500; color: #f1f5f9; max-width: 860px; margin: 0 auto 28px; line-height: 1.45;">
                 Learn Advanced Call-Generation & Survival SEO in 30 Days — Before Your Business Dies
-            </h2>
+            </h3>
 
             <!-- Paragraph -->
-            <p class="hero-description-main">
+            <p style="font-family: 'Inter', sans-serif; font-size: 15px; color: #94a3b8; max-width: 760px; margin: 0 auto 40px; line-height: 1.75;">
                 Google Ads bans, silent account throttling, and rising PPC costs are destroying call-driven businesses. This intensive program teaches you to generate calls, dominate SERPs, and protect your revenue when traditional marketing fails.
             </p>
 
-            <div class="hero-ctas" style="justify-content: center; display: flex; gap: 16px; margin-bottom: 50px;">
-                <a href="#pricing" class="btn-primary" style="padding: 14px 36px; font-size: 16px;">
-                    <span>Enroll in 30-Day Program</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                </a>
-                <a href="#expert" class="btn-outline" style="padding: 14px 28px; font-size: 16px;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-                    <span>Meet 25+ Yrs Expert</span>
-                </a>
-            </div>
-
-            <!-- Stats Grid -->
-            <div class="hero-stats-grid">
-                <div class="stat-item">
-                    <div class="stat-value" style="color: var(--teal);">18,640+</div>
-                    <div class="stat-label">Students Trained</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" style="color: #ff6b35;">₹50Cr+</div>
-                    <div class="stat-label">Call Value Generated</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" style="color: var(--purple);">25+ Yrs</div>
-                    <div class="stat-label">Industry Expertise</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" style="color: var(--emerald);">99.4%</div>
-                    <div class="stat-label">SERP Domination Rate</div>
-                </div>
-            </div>
         </div>
     </section>
 
-    <!-- Floating WhatsApp CTA (From Screenshot) -->
-    <a href="https://wa.me/919811002233?text=Hi,%20I%20am%20interested%20in%20BlackHat%20SEO%20Course" target="_blank" class="whatsapp-float-btn">
-        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
-        <span>WhatsApp Now</span>
+    <!-- FLOATING WHATSAPP WIDGET (MATCHING SCREENSHOT BOTTOM-RIGHT) -->
+    <a href="https://wa.me/918920624649?text=Hi,%20I%20am%20interested%20in%20BlackHat%20SEO%20Course" target="_blank" style="position: fixed; bottom: 28px; right: 28px; z-index: 9999; display: flex; align-items: center; gap: 12px; text-decoration: none;">
+        <div style="background: #10b981; color: #ffffff; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 13px; padding: 10px 20px; border-radius: 24px; box-shadow: 0 0 25px rgba(16, 185, 129, 0.6); display: flex; align-items: center; gap: 8px;">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+            <span>WhatsApp Now</span>
+        </div>
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #10b981; color: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 30px rgba(16, 185, 129, 0.8), 0 0 0 8px rgba(16, 185, 129, 0.25); position: relative;">
+            <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+            <div style="position: absolute; top: 4px; right: 4px; width: 11px; height: 11px; border-radius: 50%; background: #ef4444; border: 2px solid #ffffff;"></div>
+        </div>
     </a>
 
     <!-- INDUSTRY VERTICALS SECTION -->
@@ -369,16 +354,6 @@ $cart_count = count(get_cart_items($pdo));
                     </button>
                     <div class="faq-answer">
                         The course is led by Suresh Das, an industry expert with over 25 years of hands-on experience in SEO, SERP manipulation, and call center lead generation.
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question">
-                        <span>Is prior SEO experience required?</span>
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-                    </button>
-                    <div class="faq-answer">
-                        Basic familiarity with digital marketing is recommended, but dedicated beginners can easily follow along as step-by-step practical setups are demonstrated from scratch.
                     </div>
                 </div>
             </div>
