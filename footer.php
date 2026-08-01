@@ -1,12 +1,13 @@
 <?php
 // Footer reusable component for BlackHat SEO Course
+$base_path = (strpos($_SERVER['SCRIPT_NAME'], '/industries/') !== false || strpos($_SERVER['SCRIPT_NAME'], '/services/') !== false || strpos($_SERVER['SCRIPT_NAME'], '/tools/') !== false || strpos($_SERVER['SCRIPT_NAME'], '/forum/') !== false) ? '../' : '';
 ?>
 <footer class="site-footer">
     <div class="container">
         <div class="footer-grid">
             <!-- Brand Info -->
             <div class="footer-brand">
-                <a href="index" class="brand-logo">
+                <a href="<?php echo $base_path; ?>index" class="brand-logo">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--amber);">
                         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                     </svg>
@@ -18,15 +19,15 @@
                 </div>
             </div>
 
-            <!-- Quick Links -->
+            <!-- Services -->
             <div>
-                <h4 class="footer-col-title">Courses & Modules</h4>
+                <h4 class="footer-col-title">SEO Services</h4>
                 <ul class="footer-links">
-                    <li><a href="available_leads">Tech Support Call Gen</a></li>
-                    <li><a href="available_leads">High-Velocity Indexing</a></li>
-                    <li><a href="available_leads">CTR & SERP Manipulation</a></li>
-                    <li><a href="available_leads">PBN & Expired Domains</a></li>
-                    <li><a href="available_leads">Technical Cloaking</a></li>
+                    <li><a href="<?php echo $base_path; ?>services/high-velocity-indexing">High-Velocity Indexing</a></li>
+                    <li><a href="<?php echo $base_path; ?>services/ctr-manipulation">CTR & SERP Manipulation</a></li>
+                    <li><a href="<?php echo $base_path; ?>services/pbn-network-setup">PBN Network Setup</a></li>
+                    <li><a href="<?php echo $base_path; ?>services/cloaking">Technical Cloaking</a></li>
+                    <li><a href="<?php echo $base_path; ?>services/negative-seo-protection">Negative SEO Defense</a></li>
                 </ul>
             </div>
 
@@ -34,23 +35,23 @@
             <div>
                 <h4 class="footer-col-title">Industry Solutions</h4>
                 <ul class="footer-links">
-                    <li><a href="available_leads?category=tech_support">Tech Support Leads</a></li>
-                    <li><a href="available_leads?category=airlines">Airlines Call Generation</a></li>
-                    <li><a href="available_leads?category=quickbooks">QuickBooks Accounting</a></li>
-                    <li><a href="available_leads?category=crypto">Crypto Traffic SEO</a></li>
-                    <li><a href="available_leads?category=saas">SaaS Lead Generation</a></li>
+                    <li><a href="<?php echo $base_path; ?>industries/tech-support">Tech Support Leads</a></li>
+                    <li><a href="<?php echo $base_path; ?>industries/airlines">Airlines Call Generation</a></li>
+                    <li><a href="<?php echo $base_path; ?>industries/accounting">QuickBooks Accounting</a></li>
+                    <li><a href="<?php echo $base_path; ?>industries/crypto">Crypto Traffic SEO</a></li>
+                    <li><a href="<?php echo $base_path; ?>industries/ecommerce">E-Commerce SEO</a></li>
                 </ul>
             </div>
 
             <!-- Account & Support -->
             <div>
-                <h4 class="footer-col-title">Support & Legal</h4>
+                <h4 class="footer-col-title">Support & Community</h4>
                 <ul class="footer-links">
-                    <li><a href="about">About Trainer</a></li>
-                    <li><a href="contact">Contact Advisory</a></li>
-                    <li><a href="terms">Terms of Service</a></li>
-                    <li><a href="privacy">Privacy Policy</a></li>
-                    <li><a href="refund">Refund Policy</a></li>
+                    <li><a href="<?php echo $base_path; ?>tools/index">Interactive Tools</a></li>
+                    <li><a href="<?php echo $base_path; ?>forum/index">Community Forum</a></li>
+                    <li><a href="<?php echo $base_path; ?>about">About Expert</a></li>
+                    <li><a href="<?php echo $base_path; ?>contact">Contact Advisory</a></li>
+                    <li><a href="<?php echo $base_path; ?>terms">Terms of Service</a></li>
                 </ul>
             </div>
         </div>
@@ -72,7 +73,6 @@
 <!-- Global JavaScript for Accordion & Interactivity -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // FAQ Accordion
     const faqItems = document.querySelectorAll('.faq-item');
     faqItems.forEach(item => {
         const question = item.querySelector('.faq-question');
