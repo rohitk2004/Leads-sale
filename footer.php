@@ -7,7 +7,7 @@ $base_path = (strpos($_SERVER['SCRIPT_NAME'], '/industries/') !== false || strpo
         <div class="footer-grid">
             <!-- Brand Info -->
             <div class="footer-brand">
-                <a href="<?php echo $base_path; ?>index" class="brand-logo">
+                <a href="<?php echo $base_path; ?>index.php" class="brand-logo">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--amber);">
                         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                     </svg>
@@ -23,11 +23,14 @@ $base_path = (strpos($_SERVER['SCRIPT_NAME'], '/industries/') !== false || strpo
             <div>
                 <h4 class="footer-col-title">SEO Services</h4>
                 <ul class="footer-links">
-                    <li><a href="<?php echo $base_path; ?>services/high-velocity-indexing">High-Velocity Indexing</a></li>
-                    <li><a href="<?php echo $base_path; ?>services/ctr-manipulation">CTR & SERP Manipulation</a></li>
-                    <li><a href="<?php echo $base_path; ?>services/pbn-network-setup">PBN Network Setup</a></li>
-                    <li><a href="<?php echo $base_path; ?>services/cloaking">Technical Cloaking</a></li>
-                    <li><a href="<?php echo $base_path; ?>services/negative-seo-protection">Negative SEO Defense</a></li>
+                    <li><a href="<?php echo $base_path; ?>services/black-hat-seo.php">Black Hat SEO</a></li>
+                    <li><a href="<?php echo $base_path; ?>services/grey-hat-seo.php">Grey Hat SEO</a></li>
+                    <li><a href="<?php echo $base_path; ?>services/high-velocity-indexing.php">High-Velocity Indexing</a></li>
+                    <li><a href="<?php echo $base_path; ?>services/ctr-manipulation.php">CTR SERP Bot</a></li>
+                    <li><a href="<?php echo $base_path; ?>services/pbn-network-setup.php">PBN Network Setup</a></li>
+                    <li><a href="<?php echo $base_path; ?>services/parasite-seo.php">Parasite SEO</a></li>
+                    <li><a href="<?php echo $base_path; ?>services/cloaking.php">Technical Cloaking</a></li>
+                    <li><a href="<?php echo $base_path; ?>services/negative-seo-protection.php">Negative SEO Defense</a></li>
                 </ul>
             </div>
 
@@ -35,11 +38,14 @@ $base_path = (strpos($_SERVER['SCRIPT_NAME'], '/industries/') !== false || strpo
             <div>
                 <h4 class="footer-col-title">Industry Solutions</h4>
                 <ul class="footer-links">
-                    <li><a href="<?php echo $base_path; ?>industries/tech-support">Tech Support Leads</a></li>
-                    <li><a href="<?php echo $base_path; ?>industries/airlines">Airlines Call Generation</a></li>
-                    <li><a href="<?php echo $base_path; ?>industries/accounting">QuickBooks Accounting</a></li>
-                    <li><a href="<?php echo $base_path; ?>industries/crypto">Crypto Traffic SEO</a></li>
-                    <li><a href="<?php echo $base_path; ?>industries/ecommerce">E-Commerce SEO</a></li>
+                    <li><a href="<?php echo $base_path; ?>industries/tech-support.php">Tech Support Leads</a></li>
+                    <li><a href="<?php echo $base_path; ?>industries/airlines.php">Airlines Call Generation</a></li>
+                    <li><a href="<?php echo $base_path; ?>industries/accounting.php">QuickBooks Accounting</a></li>
+                    <li><a href="<?php echo $base_path; ?>industries/crypto.php">Crypto Traffic SEO</a></li>
+                    <li><a href="<?php echo $base_path; ?>industries/saas.php">SaaS Lead Gen</a></li>
+                    <li><a href="<?php echo $base_path; ?>industries/ecommerce.php">E-Commerce SEO</a></li>
+                    <li><a href="<?php echo $base_path; ?>industries/finance.php">Finance & Loans</a></li>
+                    <li><a href="<?php echo $base_path; ?>industries/real-estate.php">Real Estate</a></li>
                 </ul>
             </div>
 
@@ -47,11 +53,11 @@ $base_path = (strpos($_SERVER['SCRIPT_NAME'], '/industries/') !== false || strpo
             <div>
                 <h4 class="footer-col-title">Support & Community</h4>
                 <ul class="footer-links">
-                    <li><a href="<?php echo $base_path; ?>tools/index">Interactive Tools</a></li>
-                    <li><a href="<?php echo $base_path; ?>forum/index">Community Forum</a></li>
-                    <li><a href="<?php echo $base_path; ?>about">About Expert</a></li>
-                    <li><a href="<?php echo $base_path; ?>contact">Contact Advisory</a></li>
-                    <li><a href="<?php echo $base_path; ?>terms">Terms of Service</a></li>
+                    <li><a href="<?php echo $base_path; ?>tools/index.php">Interactive Tools</a></li>
+                    <li><a href="<?php echo $base_path; ?>forum/index.php">Community Forum</a></li>
+                    <li><a href="<?php echo $base_path; ?>available_leads.php">Courses Catalog</a></li>
+                    <li><a href="<?php echo $base_path; ?>about.php">About Expert</a></li>
+                    <li><a href="<?php echo $base_path; ?>contact.php">Contact Advisory</a></li>
                 </ul>
             </div>
         </div>
