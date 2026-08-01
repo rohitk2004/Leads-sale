@@ -20,7 +20,7 @@ $total_leads = count($available_leads);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Available SEO Courses & Call Gen Leads - BlackHat SEO</title>
+    <title>Black Hat SEO Courses & Blueprints Catalogue | BlackHat SEO</title>
     <meta name="description" content="Browse available BlackHat SEO training modules, call generation blueprints, PBN databases, and SERP automation scripts.">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -34,12 +34,12 @@ $total_leads = count($available_leads);
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
                 <div>
-                    <span class="section-tag">CATALOGUE & TRAINING PACKAGES</span>
-                    <h1 style="font-size: 38px; font-weight: 800;">Available Courses & Call Gen Leads</h1>
-                    <p style="color: var(--ink-muted); font-size: 16px; margin-top: 6px;">Instant access to SEO blueprints, PBN networks, and live training batches.</p>
+                    <span class="section-tag">COURSE CATALOGUE & BLUEPRINTS</span>
+                    <h1 style="font-size: 38px; font-weight: 800;">Black Hat SEO Training & Lead Blueprints</h1>
+                    <p style="color: var(--ink-muted); font-size: 16px; margin-top: 6px;">Instant access to SEO modules, PBN network setups, and call center blueprints.</p>
                 </div>
                 <div style="background: rgba(0, 242, 254, 0.1); border: 1px solid var(--teal); padding: 8px 20px; border-radius: 30px; color: var(--teal); font-family: var(--font-mono); font-size: 13px; font-weight: 700;">
-                    ● <?php echo $total_leads; ?> Active Packages Available
+                    ● <?php echo $total_leads; ?> Active Training Packages Available
                 </div>
             </div>
         </div>
@@ -85,7 +85,7 @@ $total_leads = count($available_leads);
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <p style="text-align: center; grid-column: 1 / -1; color: var(--ink-muted);">No active courses found. Run <a href="seed" style="color: var(--teal);">seed.php</a> to populate demo packages.</p>
+                    <p style="text-align: center; grid-column: 1 / -1; color: var(--ink-muted);">No courses found. Please run <a href="seed" style="color: var(--teal);">seed.php</a> to populate live courses.</p>
                 <?php endif; ?>
             </div>
         </div>
