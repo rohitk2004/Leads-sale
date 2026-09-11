@@ -7,7 +7,7 @@
       <p class="eyebrow">Hi, I'm</p>
       <h1><?= htmlspecialchars($site_name) ?></h1>
       <p class="tagline"><?= htmlspecialchars($site_tagline) ?></p>
-      <p class="hero-desc">Placeholder intro paragraph — write a couple of sentences about what you do, who you help, and what makes your work stand out.</p>
+      <p class="hero-desc">Result-driven Digital Marketing &amp; SEO Specialist with 3+ years scaling organic search visibility, running high-performing Meta/Google Ad campaigns, and staying ahead of the AI-search shift through AEO, GEO &amp; AI Overview Optimization. I also build custom automation tools that power SEO workflows and lead generation.</p>
       <div class="hero-actions">
         <a href="projects.php" class="btn btn-primary">View Projects</a>
         <a href="assets/resume.pdf" class="btn btn-outline" download>Download Resume</a>
@@ -24,12 +24,14 @@
 <section class="skills container reveal">
   <h2>Skills</h2>
   <div class="skills-grid">
-    <div class="skill-card tilt">HTML / CSS</div>
-    <div class="skill-card tilt">JavaScript</div>
-    <div class="skill-card tilt">PHP</div>
-    <div class="skill-card tilt">MySQL</div>
-    <div class="skill-card tilt">Git</div>
-    <div class="skill-card tilt">UI Design</div>
+    <div class="skill-card tilt">Technical &amp; On-Page SEO</div>
+    <div class="skill-card tilt">Meta &amp; Google Ads</div>
+    <div class="skill-card tilt">AEO / GEO / AIO</div>
+    <div class="skill-card tilt">Local SEO &amp; CRO</div>
+    <div class="skill-card tilt">PHP &amp; WordPress</div>
+    <div class="skill-card tilt">Python Automation</div>
+    <div class="skill-card tilt">GA4 &amp; Search Console</div>
+    <div class="skill-card tilt">Ahrefs &amp; SEMrush</div>
   </div>
 </section>
 
@@ -40,19 +42,19 @@
   </div>
   <div class="project-grid">
     <div class="project-card tilt">
-      <div class="project-thumb">Project 1</div>
-      <h3>Project Title One</h3>
-      <p>Short placeholder description of what this project does and the problem it solves.</p>
+      <div class="project-thumb">Lead Routing</div>
+      <h3>Automated Lead Routing Platform</h3>
+      <p>Custom web tool that filters, stores, and automatically routes incoming inquiries directly to spreadsheets and CRM destinations in real time.</p>
     </div>
     <div class="project-card tilt">
-      <div class="project-thumb">Project 2</div>
-      <h3>Project Title Two</h3>
-      <p>Short placeholder description of what this project does and the problem it solves.</p>
+      <div class="project-thumb">Automation</div>
+      <h3>Web Automation &amp; Scraping Tools</h3>
+      <p>Python scripts (Selenium/Playwright) for bulk data extraction and task automation, cutting manual labor by 80%.</p>
     </div>
     <div class="project-card tilt">
-      <div class="project-thumb">Project 3</div>
-      <h3>Project Title Three</h3>
-      <p>Short placeholder description of what this project does and the problem it solves.</p>
+      <div class="project-thumb">SEO Tools</div>
+      <h3>SEO Automation Tools</h3>
+      <p>An auto backlinks creator and content publisher built to distribute posts across high DA/PA websites.</p>
     </div>
   </div>
 </section>

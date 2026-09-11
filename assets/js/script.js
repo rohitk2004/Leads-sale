@@ -78,8 +78,8 @@ function initHeroScene() {
     });
     const mesh = new THREE.Mesh(geo, material);
     mesh.position.set(
-      (i - geometries.length / 2) * 6 + 3,
-      Math.sin(i) * 3,
+      9 + i * 4,
+      Math.sin(i + 1) * 3,
       -i * 2
     );
     group.add(mesh);
