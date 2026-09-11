@@ -28,10 +28,49 @@ $projects = [
     ['title' => '45+ Freelance Websites', 'desc' => 'Delivered 45+ WordPress and PHP websites for independent clients across varied industries, applying advanced technical SEO across competitive niches like Airlines and Tech Products.', 'tags' => ['WordPress', 'PHP', 'SEO']],
 ];
 
-$results = [
-    ['client' => 'Ele Jungle Elephant Safari', 'sector' => 'Travel / Tourism', 'keywords' => 'Elephant Ride In Amer (#1), Amer Fort Elephant Ride (#1), elephant ride in amer fort (#1), Amer fort elephant ride price (#1), amer fort elephant ride cost (#1), Rajasthan Heritage Tour Packages (#1)'],
-    ['client' => 'Gully Baba', 'sector' => 'Education', 'keywords' => 'IGNOU Solved Assignments (#1), Buy IGNOU BA Projects Online (#1), Buy IGNOU Solved Assignments Online (#1), Buy IGNOU Help Books Online (#1), Buy IGNOU Handwritten Assignments Online (#1)'],
-    ['client' => 'The Wall Street School', 'sector' => 'Finance Education', 'keywords' => 'Frm Online Classes (#1), Acca Coaching Near Me (#2), Cpa Certification Classes (#2), Frm Coaching Classes (#1), Stock Market Wizard Course (#1), Cima Courses Near Me (#1), Accounting Cpa Classes (#1)'],
+$seo_clients = [
+    ['name' => 'Culture Circle', 'keywords' => [
+        ['Best sneakers under 10000', 2], ['sneakers under 10000', 5], ['Buy cheap sneakers', 2], ['buy nike sneakers', 2], ['yzy sneakers', 2],
+    ]],
+    ['name' => 'Bakersoven.in', 'keywords' => [
+        ['1st birthday cakes', 2], ['Lotus Biscoff Theme Cake', 2], ['Roasted Almond Cake', 1], ['Phone Cake', 2], ['Little Singham Cake', 3], ['Blackpink Cake', 2], ['brothers day 2026', 3],
+    ]],
+    ['name' => 'fns.co.in', 'keywords' => [
+        ['Cutlery set with stand', 2], ['18 Piece Cutlery Set', 1], ['Cutlery Set 24 Piece', 2], ['Fruit Fork Set', 2], ['Serving Spoon', 2], ['Bar Tools Set Silver', 1], ['Water Pitcher', 2],
+    ]],
+    ['name' => 'Ele Jungle Elephant Safari', 'keywords' => [
+        ['Elephant Ride In Amer', 1], ['Amer Fort Elephant Ride', 1], ['elephant ride in amer fort', 1], ['Amer fort elephant ride price', 1], ['amer fort elephant ride cost', 1], ['Rajasthan Heritage Tour Packages', 1],
+    ]],
+    ['name' => 'Gully Baba', 'keywords' => [
+        ['IGNOU Solved Assignments', 1], ['Buy IGNOU BA Projects Online', 1], ['Buy IGNOU Solved Assignments Online', 1], ['Buy IGNOU Help Books Online', 1], ['Buy IGNOU Handwritten Assignments Online', 1],
+    ]],
+    ['name' => 'The WallStreet School', 'keywords' => [
+        ['Frm Online Classes', 1], ['Acca Coaching Near Me', 2], ['Cpa Certification Classes', 2], ['Frm Coaching Classes', 1], ['Stock Market Wizard Course', 1], ['Cima Courses Near Me', 1], ['Accounting Cpa Classes', 1],
+    ]],
+    ['name' => 'Crystal India Holidays', 'keywords' => [
+        ['Golden Triangle Tour India', 3], ['Best Golden Triangle Tour Operator', 3], ['Golden Triangle Tour 5 Nights 6 Days', 3], ['4 Days Golden Triangle Tour from Delhi', 3],
+    ]],
+    ['name' => 'KidsCity.com', 'keywords' => [
+        ['Buy baby milk formula advanced', 2], ['baby milk formula infant formula', 2], ['Buy goat milk formula', 1], ['Buy enfamil milk formula', 1], ['Buy Aptamil Infant Formula Online', 1], ['buy Hipp Organic Baby Milk Online', 1],
+    ]],
+    ['name' => 'Garg Water Proofing', 'keywords' => [
+        ['waterproofing consultant service in Delhi', 1], ['Waterproofing Agency India', 2], ['Waterproofing Services In India', 2], ['Waterproofing Services In Westend Colony', 1], ['Waterproofing Contractors', 2],
+    ]],
+    ['name' => '3D Paradise', 'keywords' => [
+        ['3D printing service in Delhi', 1], ['3D Printing in Delhi', 1], ['3D Printing Service Delhi', 1], ['Best 3D printing in Delhi', 1], ['Best 3D printing service', 1],
+    ]],
+    ['name' => 'Kookee.in', 'keywords' => [
+        ['Best Bathroom Accessories Set', 2], ['Buy Acrylic Bathroom Sets', 3], ['Buy Best Acrylic Bathroom Sets Online', 1], ['Buy Ceramic Bathroom Sets', 1], ['Buy Toilet Brush Holder For Bathroom', 1], ['Buy Glass Bathroom Sets Online', 1],
+    ]],
+    ['name' => 'INIFT.com', 'keywords' => [
+        ['Fashion Designing Institute In Kolkata', 1], ['Fashion Designing Course In Kolkata', 1], ['Fashion Design Institute In Kolkata', 1], ['Interior Design Course In Kolkata', 2], ['Interior Design Institute In Kolkata', 2], ['Interior Designer Courses In Kolkata', 2],
+    ]],
+    ['name' => 'Charbhuja', 'keywords' => [
+        ['Marble Dealers In Delhi', 3], ['Marble Suppliers In Delhi', 4], ['Imported Marble In Delhi', 4], ['Italian Marble Delhi', 4], ['Black Italian Marble in Delhi', 3],
+    ]],
+    ['name' => 'Anupam Sink', 'keywords' => [
+        ['Buy Steel Sink For Kitchen', 2], ['Single Bowl Stainless Steel Sink', 2], ['Best Single Bowl Kitchen Sink', 2], ['Single Bowl Kitchen Sink', 2], ['Stainless Steel Double Sink', 2],
+    ]],
 ];
 ?>
 
@@ -185,12 +224,24 @@ $results = [
 
 <section class="results container reveal">
   <h2>Client SEO Results</h2>
-  <p class="section-sub">Google search ranking positions achieved for top-performing clients, tracked keyword by keyword.</p>
-  <div class="results-list">
-    <?php foreach ($results as $r): ?>
-    <div class="result-card">
-      <h3><?= htmlspecialchars($r['client']) ?> <span class="sector"><?= htmlspecialchars($r['sector']) ?></span></h3>
-      <p><?= htmlspecialchars($r['keywords']) ?></p>
+  <p class="section-sub">Real Google search ranking positions achieved for clients, tracked keyword by keyword.</p>
+  <div class="seo-grid">
+    <?php foreach ($seo_clients as $c): ?>
+    <div class="seo-card">
+      <h3>Client: <?= htmlspecialchars($c['name']) ?></h3>
+      <table class="seo-table">
+        <thead>
+          <tr><th>Keyword Search</th><th>Ranking</th></tr>
+        </thead>
+        <tbody>
+          <?php foreach ($c['keywords'] as $k): ?>
+          <tr>
+            <td><?= htmlspecialchars($k[0]) ?></td>
+            <td class="rank<?= $k[1] === 1 ? ' rank-1' : '' ?>">#<?= (int) $k[1] ?></td>
+          </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
     </div>
     <?php endforeach; ?>
   </div>
