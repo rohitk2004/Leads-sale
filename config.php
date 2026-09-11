@@ -2,7 +2,7 @@
 $site_name    = "Rohit Gupta";
 $site_tagline = "Digital Marketing & SEO Specialist";
 $site_email   = "rohitkumargupta585@gmail.com";
-$site_phone   = "+91 9210939350";
+$site_phone   = "+91 7065019857";
 $site_location = "Delhi-NCR, India";
 
 $social_links = [
