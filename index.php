@@ -1,6 +1,41 @@
-<?php require_once __DIR__ . '/header.php'; ?>
+<?php
+require_once __DIR__ . '/config.php';
 
-<section class="hero">
+$sent = false;
+$error = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $message = trim($_POST['message'] ?? '');
+
+    if ($name === '' || $email === '' || $message === '') {
+        $error = 'Please fill in all fields.';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = 'Please enter a valid email address.';
+    } else {
+        // Placeholder: wire this up to mail() or an API later.
+        $sent = true;
+    }
+}
+
+require_once __DIR__ . '/header.php';
+
+$projects = [
+    ['title' => 'Automated Lead Routing Platform', 'desc' => 'Custom web tool that filters, stores, and automatically routes incoming inquiries directly to spreadsheets and CRM destinations in real time.', 'tags' => ['PHP', 'API Integration']],
+    ['title' => 'Web Automation & Scraping Tools', 'desc' => 'Python scripts using Selenium/Playwright for bulk data extraction and task automation, reducing manual labor by 80%.', 'tags' => ['Python', 'Selenium', 'Playwright']],
+    ['title' => 'SEO Automation Tools', 'desc' => 'An auto backlinks creator and content publisher built to distribute posts across high DA/PA websites.', 'tags' => ['Python', 'SEO']],
+    ['title' => '45+ Freelance Websites', 'desc' => 'Delivered 45+ WordPress and PHP websites for independent clients across varied industries, applying advanced technical SEO across competitive niches like Airlines and Tech Products.', 'tags' => ['WordPress', 'PHP', 'SEO']],
+];
+
+$results = [
+    ['client' => 'Ele Jungle Elephant Safari', 'sector' => 'Travel / Tourism', 'keywords' => 'Elephant Ride In Amer (#1), Amer Fort Elephant Ride (#1), elephant ride in amer fort (#1), Amer fort elephant ride price (#1), amer fort elephant ride cost (#1), Rajasthan Heritage Tour Packages (#1)'],
+    ['client' => 'Gully Baba', 'sector' => 'Education', 'keywords' => 'IGNOU Solved Assignments (#1), Buy IGNOU BA Projects Online (#1), Buy IGNOU Solved Assignments Online (#1), Buy IGNOU Help Books Online (#1), Buy IGNOU Handwritten Assignments Online (#1)'],
+    ['client' => 'The Wall Street School', 'sector' => 'Finance Education', 'keywords' => 'Frm Online Classes (#1), Acca Coaching Near Me (#2), Cpa Certification Classes (#2), Frm Coaching Classes (#1), Stock Market Wizard Course (#1), Cima Courses Near Me (#1), Accounting Cpa Classes (#1)'],
+];
+?>
+
+<section id="home" class="hero">
   <canvas id="hero-canvas"></canvas>
   <div class="container hero-inner">
     <div class="hero-text reveal">
@@ -9,7 +44,7 @@
       <p class="tagline"><?= htmlspecialchars($site_tagline) ?></p>
       <p class="hero-desc">Result-driven Digital Marketing &amp; SEO Specialist with 3+ years scaling organic search visibility, running high-performing Meta/Google Ad campaigns, and staying ahead of the AI-search shift through AEO, GEO &amp; AI Overview Optimization. I also build custom automation tools that power SEO workflows and lead generation.</p>
       <div class="hero-actions">
-        <a href="projects.php" class="btn btn-primary">View Projects</a>
+        <a href="#projects" class="btn btn-primary">View Projects</a>
         <a href="assets/resume.pdf" class="btn btn-outline" download>Download Resume &rarr;</a>
       </div>
       <div class="mini-stats">
@@ -60,7 +95,7 @@
   <div class="stat-tile"><strong>80%</strong><span>Manual Work Automated</span></div>
 </section>
 
-<section class="services container reveal">
+<section id="services" class="services container reveal">
   <h2>How I Bring Results</h2>
   <div class="services-list">
     <div class="service-item active">
@@ -128,27 +163,36 @@
   </div>
 </div>
 
-<section class="featured container reveal">
+<section id="projects" class="featured container reveal">
   <div class="section-heading">
-    <h2>Featured Projects</h2>
-    <a href="projects.php" class="see-all">See all &rarr;</a>
+    <h2>Projects</h2>
   </div>
   <div class="project-grid">
+    <?php foreach ($projects as $p): ?>
     <div class="project-card">
-      <div class="project-thumb">Lead Routing</div>
-      <h3>Automated Lead Routing Platform</h3>
-      <p>Custom web tool that filters, stores, and automatically routes incoming inquiries directly to spreadsheets and CRM destinations in real time.</p>
+      <div class="project-thumb"><?= htmlspecialchars($p['title']) ?></div>
+      <h3><?= htmlspecialchars($p['title']) ?></h3>
+      <p><?= htmlspecialchars($p['desc']) ?></p>
+      <div class="tags">
+        <?php foreach ($p['tags'] as $tag): ?>
+          <span class="tag"><?= htmlspecialchars($tag) ?></span>
+        <?php endforeach; ?>
+      </div>
     </div>
-    <div class="project-card">
-      <div class="project-thumb">Automation</div>
-      <h3>Web Automation &amp; Scraping Tools</h3>
-      <p>Python scripts (Selenium/Playwright) for bulk data extraction and task automation, cutting manual labor by 80%.</p>
+    <?php endforeach; ?>
+  </div>
+</section>
+
+<section class="results container reveal">
+  <h2>Client SEO Results</h2>
+  <p class="section-sub">Google search ranking positions achieved for top-performing clients, tracked keyword by keyword.</p>
+  <div class="results-list">
+    <?php foreach ($results as $r): ?>
+    <div class="result-card">
+      <h3><?= htmlspecialchars($r['client']) ?> <span class="sector"><?= htmlspecialchars($r['sector']) ?></span></h3>
+      <p><?= htmlspecialchars($r['keywords']) ?></p>
     </div>
-    <div class="project-card">
-      <div class="project-thumb">SEO Tools</div>
-      <h3>SEO Automation Tools</h3>
-      <p>An auto backlinks creator and content publisher built to distribute posts across high DA/PA websites.</p>
-    </div>
+    <?php endforeach; ?>
   </div>
 </section>
 
@@ -183,6 +227,53 @@
   </div>
 </section>
 
+<section id="about" class="about-content container reveal">
+  <div class="section-heading">
+    <h2>About Me</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-image">
+      <div class="avatar-placeholder">Photo</div>
+    </div>
+    <div class="about-text">
+      <p>Result-driven Digital Marketing &amp; SEO Specialist with 3+ years of experience scaling organic search visibility, running high-performing Meta/Google Ad campaigns, and staying ahead of the AI-search shift through Answer Engine Optimization (AEO), Generative Engine Optimization (GEO), and AI Overview Optimization (AIO).</p>
+      <p>Skilled in building custom automation tools to support SEO workflows and lead generation, with a consistent track record of driving clients to top Google rankings and measurable ROI.</p>
+
+      <h2>Experience</h2>
+      <ul class="timeline">
+        <li>
+          <strong>SEO Specialist &amp; AI Developer — Razor Infotech</strong>
+          <span class="timeline-date">July 2024 — Present</span>
+          <p>Designed and deployed responsive WordPress and PHP sites optimized for high speed and seamless user experience. Formulated local SEO strategies across target regions to capture high-intent leads. Tracked and analyzed user journeys using GA4 and Google Tag Manager to continuously optimize campaign landing pages.</p>
+        </li>
+        <li>
+          <strong>Digital Marketing &amp; Web Development Specialist — Traffic Tail</strong>
+          <span class="timeline-date">Feb 2023 — June 2024 · Delhi-SAKET</span>
+          <p>Engineered custom lead generation funnels and web platforms, boosting lead capture rates by 35%. Managed high-budget Meta &amp; Google Ad campaigns while maintaining optimal Cost Per Lead (CPL). Developed automated Python scripts to streamline workflow efficiency, data collection, and reporting. Conducted comprehensive SEO audits, resulting in a 50%+ increase in organic traffic.</p>
+        </li>
+      </ul>
+
+      <h2>Education</h2>
+      <ul class="timeline">
+        <li>
+          <strong>Bachelor of Computer Applications — Jamia Hamdard University</strong>
+          <span class="timeline-date">Sept 2024 — Pursuing</span>
+        </li>
+        <li>
+          <strong>BA (Hons) — Delhi University</strong>
+          <span class="timeline-date">Sept 2021 — 2023</span>
+        </li>
+      </ul>
+
+      <h2>Certifications</h2>
+      <ul class="timeline">
+        <li><strong>Google Search Certification</strong></li>
+        <li><strong>Meta Certified Digital Marketing Associate</strong></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <section class="testimonials container reveal">
   <h2>What Clients Say</h2>
   <p class="section-sub">Placeholder quotes — swap these for real client testimonials.</p>
@@ -203,6 +294,37 @@
   <div class="testimonial-nav">
     <button type="button" class="t-prev" aria-label="Previous">&larr;</button>
     <button type="button" class="t-next" aria-label="Next">&rarr;</button>
+  </div>
+</section>
+
+<section id="contact" class="contact-content container reveal">
+  <div class="section-heading">
+    <h2>Contact</h2>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <p><strong>Email:</strong> <?= htmlspecialchars($site_email) ?></p>
+      <p><strong>Phone:</strong> <?= htmlspecialchars($site_phone) ?></p>
+      <p><strong>Location:</strong> <?= htmlspecialchars($site_location) ?></p>
+    </div>
+    <form class="contact-form" method="post" action="#contact">
+      <?php if ($sent): ?>
+        <div class="alert alert-success">Thanks! Your message has been received (placeholder — not actually emailed yet).</div>
+      <?php elseif ($error): ?>
+        <div class="alert alert-error"><?= htmlspecialchars($error) ?></div>
+      <?php endif; ?>
+
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" value="<?= htmlspecialchars($_POST['name'] ?? '') ?>" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
+
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="6" required><?= htmlspecialchars($_POST['message'] ?? '') ?></textarea>
+
+      <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
   </div>
 </section>
 

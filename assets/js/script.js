@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const navWrap = document.querySelector('.nav-wrap');
   if (toggle && navWrap) {
     toggle.addEventListener('click', () => navWrap.classList.toggle('open'));
+    navWrap.querySelectorAll('.nav a').forEach((link) => {
+      link.addEventListener('click', () => navWrap.classList.remove('open'));
+    });
   }
 
   const revealEls = document.querySelectorAll('.reveal');
