@@ -7,9 +7,7 @@
 <section class="about-content container reveal">
   <div class="about-grid">
     <div class="about-image">
-      <div class="avatar-ring">
-        <div class="avatar-placeholder">Photo</div>
-      </div>
+      <div class="avatar-placeholder">Photo</div>
     </div>
     <div class="about-text">
       <p>Result-driven Digital Marketing &amp; SEO Specialist with 3+ years of experience scaling organic search visibility, running high-performing Meta/Google Ad campaigns, and staying ahead of the AI-search shift through Answer Engine Optimization (AEO), Generative Engine Optimization (GEO), and AI Overview Optimization (AIO).</p>

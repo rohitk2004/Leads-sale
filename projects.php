@@ -21,7 +21,7 @@ $results = [
 
 <section class="project-grid container reveal">
   <?php foreach ($projects as $p): ?>
-  <div class="project-card tilt">
+  <div class="project-card">
     <div class="project-thumb"><?= htmlspecialchars($p['title']) ?></div>
     <h3><?= htmlspecialchars($p['title']) ?></h3>
     <p><?= htmlspecialchars($p['desc']) ?></p>
@@ -39,7 +39,7 @@ $results = [
   <p class="section-sub">Google search ranking positions achieved for top-performing clients, tracked keyword by keyword.</p>
   <div class="results-list">
     <?php foreach ($results as $r): ?>
-    <div class="result-card tilt">
+    <div class="result-card">
       <h3><?= htmlspecialchars($r['client']) ?> <span class="sector"><?= htmlspecialchars($r['sector']) ?></span></h3>
       <p><?= htmlspecialchars($r['keywords']) ?></p>
     </div>
