@@ -1,6 +1,12 @@
 <?php
-define('RAZORPAY_KEY_ID', 'rzp_test_SGmZLCAWsgymUM');
-define('RAZORPAY_KEY_SECRET', 'NmoGixvGlhwO9ZxbJ2m8TI6f');
-define('CASHFREE_APP_ID', '12383538eea9aad3fb48f48273b3538321');
-define('CASHFREE_SECRET_KEY', 'cfsk_ma_prod_8ebda0943bf597bb9ebd03d19d33ebc7_4aba2119');
-?>
+$site_name    = "Rohit Gupta";
+$site_tagline = "Digital Marketing & SEO Specialist";
+$site_email   = "rohitkumargupta585@gmail.com";
+$site_phone   = "+91 9210939350";
+$site_location = "Delhi-NCR, India";
+
+$social_links = [
+    "github"   => "https://github.com/rohitk2004",
+    "linkedin" => "https://linkedin.com/in/yourusername",
+    "twitter"  => "https://twitter.com/yourusername",
+];
