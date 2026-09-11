@@ -555,14 +555,15 @@ section.reveal { padding: 0; }
   flex-wrap: wrap;
 }
 
-.about-image { flex: 0 0 200px; }
+.about-image { flex: 0 0 220px; }
 
 .avatar-placeholder {
-  width: 200px;
-  height: 200px;
+  width: 220px;
+  height: 280px;
   border: 1px solid var(--border);
   display: block;
   object-fit: cover;
+  object-position: center 20%;
   color: var(--text-muted);
   font-size: 0.9rem;
 }
