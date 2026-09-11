@@ -20,6 +20,24 @@ document.addEventListener('DOMContentLoaded', () => {
     revealEls.forEach((el) => el.classList.add('in-view'));
   }
 
+  document.querySelectorAll('.service-head').forEach((head) => {
+    head.addEventListener('click', () => {
+      const item = head.closest('.service-item');
+      const wasActive = item.classList.contains('active');
+      item.parentElement.querySelectorAll('.service-item').forEach((el) => el.classList.remove('active'));
+      if (!wasActive) item.classList.add('active');
+    });
+  });
+
+  const track = document.querySelector('.testimonial-track');
+  const prevBtn = document.querySelector('.t-prev');
+  const nextBtn = document.querySelector('.t-next');
+  if (track && prevBtn && nextBtn) {
+    const scrollAmount = () => track.querySelector('.testimonial-card').offsetWidth + 24;
+    prevBtn.addEventListener('click', () => track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }));
+    nextBtn.addEventListener('click', () => track.scrollBy({ left: scrollAmount(), behavior: 'smooth' }));
+  }
+
   initHeroScene();
 });
 
