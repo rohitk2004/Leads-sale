@@ -284,7 +284,7 @@ $seo_clients = [
   </div>
   <div class="about-grid">
     <div class="about-image">
-      <div class="avatar-placeholder">Photo</div>
+      <img class="avatar-placeholder" src="assets/img/profile.jpg" alt="<?= htmlspecialchars($site_name) ?>">
     </div>
     <div class="about-text">
       <p>Result-driven Digital Marketing &amp; SEO Specialist with 3+ years of experience scaling organic search visibility, running high-performing Meta/Google Ad campaigns, and staying ahead of the AI-search shift through Answer Engine Optimization (AEO), Generative Engine Optimization (GEO), and AI Overview Optimization (AIO).</p>

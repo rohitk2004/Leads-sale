@@ -561,9 +561,8 @@ section.reveal { padding: 0; }
   width: 200px;
   height: 200px;
   border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  object-fit: cover;
   color: var(--text-muted);
   font-size: 0.9rem;
 }
