@@ -87,8 +87,8 @@ $seo_clients = [
         <a href="assets/resume.pdf" class="btn btn-outline" download>Download Resume &rarr;</a>
       </div>
       <div class="mini-stats">
-        <div><strong>3+</strong><span>Years Experience</span></div>
-        <div><strong>45+</strong><span>Sites Delivered</span></div>
+        <div><strong class="counter" data-count="3" data-suffix="+">0+</strong><span>Years Experience</span></div>
+        <div><strong class="counter" data-count="45" data-suffix="+">0+</strong><span>Sites Delivered</span></div>
         <div><strong>#1</strong><span>Google Rankings</span></div>
       </div>
     </div>
@@ -128,16 +128,16 @@ $seo_clients = [
 </div>
 
 <section class="stats-bar container reveal">
-  <div class="stat-tile"><strong>3+</strong><span>Years of Experience</span></div>
-  <div class="stat-tile"><strong>45+</strong><span>Websites Delivered</span></div>
-  <div class="stat-tile"><strong>50%+</strong><span>Organic Traffic Growth</span></div>
-  <div class="stat-tile"><strong>80%</strong><span>Manual Work Automated</span></div>
+  <div class="stat-tile"><strong class="counter" data-count="3" data-suffix="+">0+</strong><span>Years of Experience</span></div>
+  <div class="stat-tile"><strong class="counter" data-count="45" data-suffix="+">0+</strong><span>Websites Delivered</span></div>
+  <div class="stat-tile"><strong class="counter" data-count="50" data-suffix="%+">0%+</strong><span>Organic Traffic Growth</span></div>
+  <div class="stat-tile"><strong class="counter" data-count="80" data-suffix="%">0%</strong><span>Manual Work Automated</span></div>
 </section>
 
 <section id="services" class="services container reveal">
   <h2>How I Bring Results</h2>
   <div class="services-list">
-    <div class="service-item active">
+    <div class="service-item stagger-item active">
       <div class="service-head">
         <span class="service-num">01</span>
         <h3>Technical &amp; On-Page SEO</h3>
@@ -147,7 +147,7 @@ $seo_clients = [
         <p>Full-site audits, speed &amp; crawlability fixes, schema markup, and on-page structure that gets pages ranking and staying there.</p>
       </div>
     </div>
-    <div class="service-item">
+    <div class="service-item stagger-item">
       <div class="service-head">
         <span class="service-num">02</span>
         <h3>AI Search Optimization</h3>
@@ -157,7 +157,7 @@ $seo_clients = [
         <p>AEO, GEO &amp; AI Overview Optimization — structuring content and schema for visibility across ChatGPT, Perplexity, and Google AI Overviews.</p>
       </div>
     </div>
-    <div class="service-item">
+    <div class="service-item stagger-item">
       <div class="service-head">
         <span class="service-num">03</span>
         <h3>Paid Media Management</h3>
@@ -167,7 +167,7 @@ $seo_clients = [
         <p>Meta &amp; Google Ads campaign strategy focused on Cost Per Lead efficiency and measurable ROI.</p>
       </div>
     </div>
-    <div class="service-item">
+    <div class="service-item stagger-item">
       <div class="service-head">
         <span class="service-num">04</span>
         <h3>Web Development &amp; Automation</h3>
@@ -177,7 +177,7 @@ $seo_clients = [
         <p>Responsive PHP &amp; WordPress builds paired with Python automation for scraping, reporting, and workflow efficiency.</p>
       </div>
     </div>
-    <div class="service-item">
+    <div class="service-item stagger-item">
       <div class="service-head">
         <span class="service-num">05</span>
         <h3>Lead Generation Systems</h3>
@@ -208,7 +208,7 @@ $seo_clients = [
   </div>
   <div class="project-grid">
     <?php foreach ($projects as $p): ?>
-    <div class="project-card">
+    <div class="project-card tilt-card stagger-item">
       <div class="project-thumb"><?= htmlspecialchars($p['title']) ?></div>
       <h3><?= htmlspecialchars($p['title']) ?></h3>
       <p><?= htmlspecialchars($p['desc']) ?></p>
@@ -227,7 +227,7 @@ $seo_clients = [
   <p class="section-sub">Real Google search ranking positions achieved for clients, tracked keyword by keyword.</p>
   <div class="seo-grid">
     <?php foreach ($seo_clients as $c): ?>
-    <div class="seo-card">
+    <div class="seo-card stagger-item">
       <h3>Client: <?= htmlspecialchars($c['name']) ?></h3>
       <table class="seo-table">
         <thead>
@@ -250,27 +250,27 @@ $seo_clients = [
 <section class="process container reveal">
   <h2>How I Work</h2>
   <div class="process-steps">
-    <div class="process-step">
+    <div class="process-step stagger-item">
       <span class="process-num">01</span>
       <h3>Audit &amp; Research</h3>
       <p>Deep technical &amp; keyword audit to find what's holding rankings back.</p>
     </div>
-    <div class="process-step">
+    <div class="process-step stagger-item">
       <span class="process-num">02</span>
       <h3>Strategy</h3>
       <p>A roadmap combining SEO, AI search visibility, and paid acquisition.</p>
     </div>
-    <div class="process-step">
+    <div class="process-step stagger-item">
       <span class="process-num">03</span>
       <h3>Fix &amp; Build</h3>
       <p>Ship technical fixes, content, and automation tooling.</p>
     </div>
-    <div class="process-step">
+    <div class="process-step stagger-item">
       <span class="process-num">04</span>
       <h3>Optimize for AI</h3>
       <p>Structure content for AEO/GEO so you show up in AI-driven search.</p>
     </div>
-    <div class="process-step">
+    <div class="process-step stagger-item">
       <span class="process-num">05</span>
       <h3>Track &amp; Scale</h3>
       <p>Measure with GA4 &amp; Search Console, then double down on what works.</p>
@@ -329,15 +329,15 @@ $seo_clients = [
   <h2>What Clients Say</h2>
   <p class="section-sub">Placeholder quotes — swap these for real client testimonials.</p>
   <div class="testimonial-track">
-    <div class="testimonial-card">
+    <div class="testimonial-card tilt-card">
       <p>&ldquo;Placeholder testimonial — replace with a real quote about the results delivered on this project.&rdquo;</p>
       <span class="testimonial-author">Client Name — Company</span>
     </div>
-    <div class="testimonial-card">
+    <div class="testimonial-card tilt-card">
       <p>&ldquo;Placeholder testimonial — replace with a real quote about turnaround time or communication.&rdquo;</p>
       <span class="testimonial-author">Client Name — Company</span>
     </div>
-    <div class="testimonial-card">
+    <div class="testimonial-card tilt-card">
       <p>&ldquo;Placeholder testimonial — replace with a real quote about measurable ranking or revenue impact.&rdquo;</p>
       <span class="testimonial-author">Client Name — Company</span>
     </div>

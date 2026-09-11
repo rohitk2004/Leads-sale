@@ -9,6 +9,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 </head>
 <body>
+<div class="scroll-progress"></div>
 <header class="site-header">
   <div class="container nav-wrap">
     <a href="#home" class="logo"><?= htmlspecialchars($site_name) ?></a>
